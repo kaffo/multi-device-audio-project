@@ -1,4 +1,4 @@
 multi-device-audio-project
 ==========================
 
-Third year project to take input from multipl devices.
+Third year project to take input from multiple devices.
