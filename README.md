@@ -1,7 +1,7 @@
 multi-device-audio-project
 ==========================
 
-Third year University of Glasgow Computer Science project
+Third year University of Glasgow Computer Science project\n
 Project Supervisor:Dr John H. Williamson - JohnH.Williamson@glasgow.ac.uk
 
 Project will allow for multiple users on Android devices to capture audio and then upload recordings to a server.
