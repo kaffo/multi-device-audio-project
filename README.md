@@ -8,8 +8,8 @@ Project will allow for multiple users on Android devices to capture audio and th
 
 Contributors:
 
-Keir 'Kaffo' Smith
-Ally J Weir
-Peter Yordanov
-Georgi Dimitrov
-Gordon Adam
+Keir 'Kaffo' Smith,
+Ally Weir,
+Peter Yordanov,
+Georgi Dimitrov,
+and Gordon Adam
