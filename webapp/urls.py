@@ -3,4 +3,5 @@ from webapp import views
 
 urlpatterns = patterns ('',
     url(r'^$', views.index, name='index'),
+    url(r'^$', views.submit, name='submit'),
     )
