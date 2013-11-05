@@ -9,7 +9,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
+    ('P. Yordanov', 'ppyordanov@yahoo.com'),
     ('Keir Smith', 'kaffse@gmail.com'),
     ('Ally Weir', 'ally.pcgf@gmail.com'),
 )
@@ -134,9 +134,12 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'webapp',
+    'mdrs'
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
+
+LOGIN_URL = '/webapp/index/'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
