@@ -1,9 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <html>
-	<head>
-		<title>mdrs</title>
-	</head>
-
-	<body>
-		<h1>So, errr. Hello World!</h2>
-	</body>
+    <head>
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+        <style type="text/css">
+            html { height: 100% }
+            body { height: 100%; margin: 0; padding: 0 }
+            #map-canvas { height: 100% }
+        </style>
+        <script type="text/javascript"
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAcCsb4_1FhEOP4bYPwm10FV_bGhjHBBH0&sensor=true">
+        </script>
+        <script type="text/javascript">
+            var myLatLng = new google.maps.LatLng(55.873657, -4.292474);
+            var myLatLng2 = new google.maps.LatLng(55.88024, -4.30982);
+            var contentString = '<div id="content">'+
+            '<h1>Glasgow University</h1>'+
+            '</div>'+
+            '<p>Audio File by Gordon Adam</p>'+
+            '</div>'+
+            '</div>';
+            var directionsService = new google.maps.DirectionsService();
+            var directionsDisplay;
+            var map;
+            function initialize() {
+                directionsDisplay = new google.maps.DirectionsRenderer();
+                var mapOptions = {
+                    center: myLatLng2,
+                    zoom: 12,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                };
+                map = new google.maps.Map(document.getElementById("map-canvas"),
+                    mapOptions);
+                var infowindow = new google.maps.InfoWindow({
+                    content: contentString
+                });
+                var marker = new google.maps.Marker({
+                    position: myLatLng,
+                    map: map,
+                    title:"Glasgow University"
+                });
+                google.maps.event.addListener(marker, 'click', function() {
+                    infowindow.open(map,marker);
+                    calcRoute();
+                });
+                directionsDisplay.setMap(map);
+            }
+            
+            function calcRoute() {
+                var request = {
+                    origin: myLatLng,
+                    destination: myLatLng2,
+                    travelMode: google.maps.TravelMode.WALKING
+                };
+                directionsService.route(request, function(result, status) {
+                    if(status == google.maps.DirectionsStatus.OK) {
+                        directionsDisplay.setDirections(result);
+                    }
+                });
+            }
+            google.maps.event.addDomListener(window, 'load', initialize);
+        </script>
+    </head>
+    <body>
+        <div id="map-canvas"/>
+    </body>
 </html>
+
