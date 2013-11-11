@@ -17,7 +17,7 @@ class Recording(models.Model):
 		return self.file_ID
 
         file_name = models.CharField(max_length=50) #file name
-        file_ID = models.UUIDField(primary_key=True) #file id
+        file_ID = UUIDField(primary_key=True) #file id
         description = models.CharField(max_length=2000)
         length = models.DecimalField(max_digits=10, decimal_places=2) #based on recording start & end time - in hrs or minutes
         start_time = models.DateTimeField() #recording start time
@@ -25,14 +25,14 @@ class Recording(models.Model):
         rec_file = models.FileField(upload_to='/audio/%Y/%m/%d') #.ogg file uploaded in a directory according to the current date
         event_assoc = models.ManyToManyField(Event, related_name='event+') #event name and recording association /1 event can have mult recordings, 1 rec. of many events       
         image_assoc = models.OneToMany(Image, related_name = 'IMG_+') #event and images relationship
-        locations = models.JSONField(load_kwargs={'object_pairs_hook': collections.OrderedDict})
+        locations = JSONField(load_kwargs={'object_pairs_hook': collections.OrderedDict})
 
 class User(models.Model):
 	
 	def __unicode__(self):
 		return self.user_name
 
-        user_ID =  models.UUIDField(primary_key=True) #user id, can be combined with $
+        user_ID =  UUIDField(primary_key=True) #user id, can be combined with $
         user_name = models.CharField('Username', max_length=10) #user name
         user_ID =  models.CharField(max_length=100, blank=True, unique=True, default=uuid.uuid4) #user id, can be combined with user name, valid for the other models as well
         password = models.CharField('Password', max_length=32) # will encrypt later
