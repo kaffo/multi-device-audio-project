@@ -3,7 +3,7 @@
 from django.db import models
 from django.forms import CharField, Form, PasswordInput
 from jsonfield import JSONField
-from uuid import uuid4
+from django_extensions.db.fields import UUIDField
 
 class Event(models.Model):
 
@@ -17,7 +17,7 @@ class Recording(models.Model):
 		return self.file_ID
 
         file_name = models.CharField(max_length=50) #file name
-        file_ID = models.CharField(max_length=100, blank=True, unique=True, default=uuid.uuid4) #file id
+        file_ID = UUIDField(primary_key=True) #file id
         description = models.CharField(max_length=2000)
         length = models.DecimalField(max_digits=10, decimal_places=2) #based on recording start & end time - in hrs or minutes
         start_time = models.DateTimeField() #recording start time
@@ -32,6 +32,7 @@ class User(models.Model):
 	def __unicode__(self):
 		return self.user_name
 
+        user_ID =  UUIDField(primary_key=True) #user id, can be combined with $
         user_name = models.CharField('Username', max_length=10) #user name
         user_ID =  models.CharField(max_length=100, blank=True, unique=True, default=uuid.uuid4) #user id, can be combined with user name, valid for the other models as well
         password = models.CharField('Password', max_length=32) # will encrypt later
