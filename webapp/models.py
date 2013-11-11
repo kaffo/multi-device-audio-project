@@ -3,6 +3,7 @@
 from django.db import models
 from django.forms import CharField, Form, PasswordInput
 from jsonfield import JSONField
+from uuid import UUID
 
 class Event(models.Model):
 
