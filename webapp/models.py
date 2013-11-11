@@ -4,12 +4,12 @@ from django.db import models
 from django.forms import CharField, Form, PasswordInput
 from jsonfield import JSONField
 from django_extensions.db.fields import UUIDField
+from collections import *
 
 class Event(models.Model):
 
         event_name =  models.CharField(max_length=50)
         event_ID = models.IntegerField()
-
 
 class Recording(models.Model):
 
@@ -24,9 +24,8 @@ class Recording(models.Model):
         end_time = models.DateTimeField() #recording time
         rec_file = models.FileField(upload_to='/audio/%Y/%m/%d') #.ogg file uploaded in a directory according to the current date
         event_assoc = models.ManyToManyField(Event, related_name='event+') #event name and recording association /1 event can have mult recordings, 1 rec. of many events       
-        image_assoc = models.OneToMany(Image, related_name = 'IMG_+') #event and images relationship
-        locations = JSONField(load_kwargs={'object_pairs_hook': collections.OrderedDict})
-
+#        image_assoc = models.OneToMany(Image, related_name = 'IMG_+') #event and images relationship
+        locations = JSONField()
 class User(models.Model):
 	
 	def __unicode__(self):
@@ -53,5 +52,6 @@ class Image(models.Model):
         time_taken = models.DateTimeField() #time stamp
         event_assoc = models.ForeignKey(Event)
         recording_assoc = models.ForeignKey(Recording)
-        #event_assoc = models.OneToMany(Event, related_name='event+') #event name and image association/ 1 event mult images
+         
+       #event_assoc = models.OneToMany(Event, related_name='event+') #event name and image association/ 1 event mult images
         #location = models. location_field /open src on github project>> https://github.com/codasus/django-location-field
