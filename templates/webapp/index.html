@@ -19,7 +19,7 @@
 	position: relative;
 	bottom: 1%;
 	top: 0px;
-	float: left;
+	float: none;
 }
         #logo {
 	position: relative;
@@ -96,7 +96,7 @@
       <table cellpadding="0px" cellspacing="0px">
         <tr>
           <td width="600" height="50" style="border-style:solid none solid solid;border-color:#4B7B9F;border-width:1px;">
-          <input name="zoom_query" type="text" style="width:600px; height:50px; position:relative; overflow: scroll; font-size: 35px" value="Search" size="50" /></td>
+          <input name="zoom_query" type="text" style="width:600px; height:50px; position:relative; overflow: scroll; font-size: 35px; color: #999;" value="Search..." onFocus="if (value == 'Search...') {value=''}" onBlur="if (value== '') {value='Search...'}" size="50" /></td>
           <td style="border-style:solid;border-color:#4B7B9F;">
             <input type="submit" value="" style="border-style: none; background: url('images/go.png') no-repeat; width: 24px; height: 55px;" />
           </span></td>
