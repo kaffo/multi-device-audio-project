@@ -1,10 +1,9 @@
-#This is an initial version of models /pyordanov/
-
 from django.db import models
 from django.forms import CharField, Form, PasswordInput
 from jsonfield import JSONField
 from django_extensions.db.fields import UUIDField
 from collections import *
+import uuid
 
 class Event(models.Model):
 
@@ -22,10 +21,12 @@ class Recording(models.Model):
         length = models.DecimalField(max_digits=10, decimal_places=2) #based on recording start & end time - in hrs or minutes
         start_time = models.DateTimeField() #recording start time
         end_time = models.DateTimeField() #recording time
-        rec_file = models.FileField(upload_to='/audio/%Y/%m/%d') #.ogg file uploaded in a directory according to the current date
+        rec_file = models.FileField(upload_to='media/audio/%Y/%m/%d') #.ogg file uploaded in a directory according to the current date
         event_assoc = models.ManyToManyField(Event, related_name='event+') #event name and recording association /1 event can have mult recordings, 1 rec. of many events       
-#        image_assoc = models.OneToMany(Image, related_name = 'IMG_+') #event and images relationship
+#       image_assoc = models.OneToMany(Image, related_name = 'IMG_+') #event and images relationship
         locations = JSONField()
+
+
 class User(models.Model):
 	
 	def __unicode__(self):
@@ -38,7 +39,7 @@ class User(models.Model):
         email_address = models.EmailField('Email', max_length=50)
         first_name = models.CharField('First', max_length=10)
         last_name = models.CharField('Surname', max_length=10)
-        avatar = models.ImageField(upload_to='/audio/%Y/%m/%d') #profile picture
+        avatar = models.ImageField(upload_to='/audio/%Y/%m/%d') #THIS IS WRONG profile picture
         date_registered = models.DateTimeField() #Date registered
         rec_assoc = models.ManyToManyField(Recording, related_name = 'u+') #user - recording rel. m->m
 
@@ -53,5 +54,5 @@ class Image(models.Model):
         event_assoc = models.ForeignKey(Event)
         recording_assoc = models.ForeignKey(Recording)
          
-       #event_assoc = models.OneToMany(Event, related_name='event+') #event name and image association/ 1 event mult images
+        #event_assoc = models.OneToMany(Event, related_name='event+') #event name and image association/ 1 event mult images
         #location = models. location_field /open src on github project>> https://github.com/codasus/django-location-field
