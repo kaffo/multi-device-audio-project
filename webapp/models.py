@@ -34,7 +34,6 @@ class User(models.Model):
 
         user_ID =  UUIDField(primary_key=True) #user id, can be combined with $
         user_name = models.CharField('Username', max_length=10) #user name
-        user_ID =  models.CharField(max_length=100, blank=True, unique=True, default=uuid.uuid4) #user id, can be combined with user name, valid for the other models as well
         password = models.CharField('Password', max_length=32) # will encrypt later
         email_address = models.EmailField('Email', max_length=50)
         first_name = models.CharField('First', max_length=10)
