@@ -15,7 +15,7 @@ class Recording(models.Model):
 		return self.file_ID
 
         file_name = models.CharField(max_length=50) #file name
-        file_ID = models.IntegerField() #file id
+        file_ID = models.CharField(max_length=100, blank=True, unique=True, default=uuid.uuid4) #file id
         description = models.CharField(max_length=2000)
         length = models.DecimalField(max_digits=2, decimal_places=2) #based on recording start & end time - in hrs or minutes
         start_time = models.DateTimeField() #recording start time
@@ -31,7 +31,7 @@ class User(models.Model):
 		return self.user_name
 
         user_name = models.CharField('Username', max_length=10) #user name
-        user_ID =  models.IntegerField() #user id, can be combined with user name, valid for the other models as well
+        user_ID =  models.CharField(max_length=100, blank=True, unique=True, default=uuid.uuid4) #user id, can be combined with user name, valid for the other models as well
         password = models.CharField('Password', max_length=32) # will encrypt later
         email_address = models.EmailField('Email', max_length=50)
         first_name = models.CharField('First', max_length=10)
