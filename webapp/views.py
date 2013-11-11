@@ -1,7 +1,7 @@
-from django.http import HttpResponse
-from django.http import HttpRequest
+from django.http import HttpResponse, HttpRequest
 from django.template import RequestContext
 from django.shortcuts import render_to_response
+from .forms import UploadFileForm
 
 def index(request):
     context = RequestContext(request)
@@ -13,7 +13,10 @@ def about(request):
 
 def submit(request):
     if request.method == 'GET':
-	return HttpResponse("Invalid page request")
+        form = UploadFileForm()
     if request.method == 'POST':
-	return HttpResponse("Submit test message")
-        return request.FILES
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            return HttpResponse("<h1>Upload Success!</h1>")
+    return render_tp_response('submit.html', {'form': form})
+
