@@ -11,9 +11,12 @@ class Event(models.Model):
 
 class Recording(models.Model):
 
+	def __unicode__(self):
+		return self.file_ID
+
         file_name = models.CharField(max_length=50) #file name
         file_ID = models.IntegerField() #file id
-        description = models.CharField(max_length=500)
+        description = models.CharField(max_length=2000)
         length = models.DecimalField(max_digits=2, decimal_places=2) #based on recording start & end time - in hrs or minutes
         start_time = models.DateTimeField() #recording start time
         end_time = models.DateTimeField() #recording time
@@ -23,11 +26,14 @@ class Recording(models.Model):
         #location = models. location_field /open src on github project>> https://github.com/codasus/django-location-field
 
 class User(models.Model):
+	
+	def __unicode__(self):
+		return self.user_name
 
         user_name = models.CharField('Username', max_length=10) #user name
         user_ID =  models.IntegerField() #user id, can be combined with user name, valid for the other models as well
         password = models.CharField('Password', max_length=32) # will encrypt later
-        email_addres = models.EmailField('Email', max_length=50)
+        email_address = models.EmailField('Email', max_length=50)
         first_name = models.CharField('First', max_length=10)
         last_name = models.CharField('Surname', max_length=10)
         avatar = models.ImageField(upload_to='/audio/%Y/%m/%d') #profile picture
@@ -46,5 +52,3 @@ class Image(models.Model):
         recording_assoc = models.ForeignKey(Recording)
         #event_assoc = models.OneToMany(Event, related_name='event+') #event name and image association/ 1 event mult images
         #location = models. location_field /open src on github project>> https://github.com/codasus/django-location-field
-
-
