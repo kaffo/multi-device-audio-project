@@ -2,6 +2,7 @@ from django.http import HttpResponse, HttpRequest
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from .form import UploadFileForm
+from .process_data import process
 
 def index(request):
     context = RequestContext(request)
@@ -16,12 +17,9 @@ def submit(request):
     if request.method == 'GET':
         form = UploadFileForm()
     if request.method == 'POST':
-        form = UploadFileForm(request.POST, request.FILES)
-        print("Recieved File")
-        print(request.POST)
-        print(request.FILES)
+        form = UploadFileForm(request.POST,request.FILES)
         if form.is_valid():
-            print("Valid File")
+            process(request.FILES['data_file'], request.POST)
             return HttpResponse("<h1>Upload Success!</h1>")
     return render_to_response('webapp/submit.html', {'form': form}, context)
 
