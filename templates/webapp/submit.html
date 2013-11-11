@@ -1,7 +1,11 @@
 <h1>Submit</h1>
-<form action="." method="post">
+<form action="." method="post" enctype="multipart/form-data">
   {% csrf_token %}
   First name: <input type="text" name="fname"><br>
   Last name: <input type="text" name="lname"><br>
+  <p>
+  Please specify a file, or a set of files:<br>
+  <input type="file" name="datafile" size="100">
+  </p>
   <input type="submit" value="Submit">
 </form> 

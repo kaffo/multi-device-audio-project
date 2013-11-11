@@ -18,7 +18,10 @@ def submit(request):
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         print("Recieved File")
+        print(request.POST)
+        print(request.FILES)
         if form.is_valid():
+            print("Valid File")
             return HttpResponse("<h1>Upload Success!</h1>")
     return render_to_response('webapp/submit.html', {'form': form}, context)
 
