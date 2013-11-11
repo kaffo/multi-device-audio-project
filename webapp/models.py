@@ -2,6 +2,7 @@
 
 from django.db import models
 from django.forms import CharField, Form, PasswordInput
+from jsonfield import JSONField
 
 class Event(models.Model):
 
@@ -17,13 +18,13 @@ class Recording(models.Model):
         file_name = models.CharField(max_length=50) #file name
         file_ID = models.CharField(max_length=100, blank=True, unique=True, default=uuid.uuid4) #file id
         description = models.CharField(max_length=2000)
-        length = models.DecimalField(max_digits=2, decimal_places=2) #based on recording start & end time - in hrs or minutes
+        length = models.DecimalField(max_digits=10, decimal_places=2) #based on recording start & end time - in hrs or minutes
         start_time = models.DateTimeField() #recording start time
         end_time = models.DateTimeField() #recording time
         rec_file = models.FileField(upload_to='/audio/%Y/%m/%d') #.ogg file uploaded in a directory according to the current date
         event_assoc = models.ManyToManyField(Event, related_name='event+') #event name and recording association /1 event can have mult recordings, 1 rec. of many events       
-        #image_assoc = models.OneToMany(Image, related_name = 'IMG_+') #event and images relationship
-        #location = models. location_field /open src on github project>> https://github.com/codasus/django-location-field
+        image_assoc = models.OneToMany(Image, related_name = 'IMG_+') #event and images relationship
+        locations = JSONField(load_kwargs={'object_pairs_hook': collections.OrderedDict})
 
 class User(models.Model):
 	
