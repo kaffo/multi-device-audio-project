@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Buzz Demo 1</title>
+		<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+		<script src="js/buzz.min.js"></script>	</head>
+	<body>
+
+	<h1>HELLOWORLD</h1>
+	<script type="text/javascript">
+		if (!buzz.isSupported()) {
+    		alert("Your browser is too old, time to update!");
+		}
+		if (!buzz.isOGGSupported()) {
+   			alert("Your browser doesn't support OGG Format.");
+		}
+		alert("This script is working");
+
+		var myGroup = new buzz.group([
+			new buzz.sound("sounds/sound2.ogg"),
+			new buzz.sound("sounds/sound3.ogg")
+			]);
+
+		buzz.all().play();
+		alert("This script is working 2");
+
+	</script>
+</body>
+</html>
