@@ -1,0 +1,11 @@
+<h1>Submit</h1>
+<form action="." method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  Title: <input type="text" name="title"><br>
+  Description: <input type="text" name="disc" size="150"><br>
+  <p>
+  Please specify a file, or a set of files:<br>
+  <input type="file" name="data_file" size="150" max="150">
+  </p>
+  <input type="submit" value="Submit">
+</form> 
