@@ -1,12 +1,5 @@
-<!doctype html>
-<html><!-- InstanceBegin template="../../../../www.mdap.org/_MDRS/Templates/template.dwt" codeOutsideHTMLIsLocked="false" -->
-<head>
-<!-- InstanceBeginEditable name="doctitle" -->
-<title>MDRS - Home</title>
-<!-- InstanceEndEditable -->
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <!-- InstanceBeginEditable name="styles_scripts" -->
-        <style type="text/css" media="screen">
+@charset "utf-8";
+<style type="text/css" media="screen">
 
 html, body{
 	margin: 0 auto;
@@ -22,19 +15,12 @@ html, body{
 	background-image: -webkit-linear-gradient(270deg,rgba(5,18,255,1.00) 0%,rgba(5,18,255,1.00) 47.14%,rgba(136,151,255,1.00) 100%);
 	background-image: linear-gradient(180deg,rgba(5,18,255,1.00) 0%,rgba(5,18,255,1.00) 47.14%,rgba(136,151,255,1.00) 100%);
 }
-
-#page_links {
-	margin-top: 0.7%;
-	float: left;
-	margin-left: 25%;
-}
-
 .search { 
 	float: left;
-	margin-left: 10%;
+	margin-left: 7%;
 	margin-top: 0.4%;
 	padding:6px 15px 6px 30px;
-	background: url('images/search.png') no-repeat 8px 6px; 
+	background: url('./images/search.png') no-repeat 8px 6px; 
 }
 
 .rounded { 
@@ -69,7 +55,7 @@ input[type=button], input[type=button]:hover {
 	padding-right: 25px;
 }
 .dark {
-	background: url('images/dark_grey.jpg');
+	background: url('./images/dark_grey.jpg');
 }
 .dark input[type=text] {
 	border:1px solid #2a2e31;
@@ -97,7 +83,6 @@ input[type=button], input[type=button]:hover {
 	height: 100%;
 	min-height: 100%;
 	margin-top: 2.5%;
-	margin-left:10%
 }
 #footer {
 	position: fixed;
@@ -108,28 +93,5 @@ input[type=button], input[type=button]:hover {
 	background-image: -webkit-linear-gradient(270deg,rgba(136,151,255,1.00) 0%,rgba(0,13,255,1.00) 71.51%,rgba(0,13,255,1.00) 97.93%);
 	background-image: linear-gradient(180deg,rgba(136,151,255,1.00) 0%,rgba(0,13,255,1.00) 71.51%,rgba(0,13,255,1.00) 97.93%);
 }
-        </style>
-        <script type="text/javascript"
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAcCsb4_1FhEOP4bYPwm10FV_bGhjHBBH0&sensor=true">
-		</script>
-        <script src="scripts/map-canvas.js"></script>
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-        <!-- InstanceEndEditable -->
-</head>
-    <body>
-        <div id="navbar"><!-- InstanceBeginEditable name="navbar_region" -->editable_navbar_region<!-- InstanceEndEditable --> </div>
-        
-        <!-- InstanceBeginEditable name="content_region" --><div id="content">editable_content_region</div><!-- InstanceEndEditable -->
-        
-        <div id="header">
-        <div id="icon">
-        <a href="index.html"><img src="images/icon.png" alt="mdrs_ico"></a>
-        </div> 
-        <div>
-        <form><input type="text" class="dark search rounded" placeholder="Search..."></form>
-        </div>
-        <div id='page_links'> <b><a href="index.html" style="text-decoration: none; color: #999999;">Home</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="user.html" style="color: #999999; text-decoration: none;">User</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="settings.html" style="color: #999999; text-decoration: none;">Settings</a></b></div>
-        </div>
-        <div id="footer"><!-- InstanceBeginEditable name="Footer_Region" -->editable_footer_region<!-- InstanceEndEditable --></div>
-    </body>
-<!-- InstanceEnd --></html>
+</style>
+
