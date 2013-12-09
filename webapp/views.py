@@ -15,6 +15,9 @@ def settings(request):
 def about(request):
    return HttpResponse("<h3>This is MDRS' about page.</h3>")
 
+def user(request):
+    return HttpResponse("<h3>This is a user's account page.</h3>")
+
 def submit(request):
     context = RequestContext(request)
     if request.method == 'GET':
