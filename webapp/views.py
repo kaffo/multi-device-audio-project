@@ -9,6 +9,9 @@ def index(request):
     context_dict = {'boldmessage': "I am from context"}
     return render_to_response('webapp/index.html', context_dict, context)
 
+def settings(request):
+    return HttpResponse("<h3>This is MDRS' settings page.</h3>")
+    
 def about(request):
    return HttpResponse("<h3>This is MDRS' about page.</h3>")
 
