@@ -1,8 +1,11 @@
+import datetime, json
+from django.core import serializers
 from django.http import HttpResponse, HttpRequest
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from .form import UploadFileForm
 from .process_data import process
+from webapp.models import Recording
 
 def index(request):
     context = RequestContext(request)
@@ -11,7 +14,7 @@ def index(request):
 
 def settings(request):
     return HttpResponse("<h3>This is MDRS' settings page.</h3>")
-    
+
 def about(request):
    return HttpResponse("<h3>This is MDRS' about page.</h3>")
 
@@ -29,3 +32,8 @@ def submit(request):
             return HttpResponse("<h1>Upload Success!</h1>")
     return render_to_response('webapp/submit.html', {'form': form}, context)
 
+def getdata(request):
+    context = RequestContext(request)
+    if request.method == 'GET':
+        data = serializers.serialize("json", Recording.objects.all())
+        return HttpResponse(data, "application/json")
