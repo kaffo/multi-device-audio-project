@@ -1,3 +1,4 @@
+import datetime
 from django.http import HttpResponse, HttpRequest
 from django.template import RequestContext
 from django.shortcuts import render_to_response
@@ -33,4 +34,7 @@ def submit(request):
 def getdata(request):
     context = RequestContext(request)
     if request.method == 'GET':
-        return HttpResponse("<h1>HOLYJESUSBATMAN</h1>");
+        rec = Recording(file_name = "test.ogg", length = 0.01, start_time = datetime.datetime.today(), end_time = datetime.datetime.today(), description = "Hello", rec_file = "file/path")
+        rec.save()
+        record = Recording(file_name = "test.ogg")
+        return HttpResponse("<h1>" + record.file_name + "</h1>")

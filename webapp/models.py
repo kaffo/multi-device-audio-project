@@ -17,7 +17,7 @@ class Recording(models.Model):
     file_name = models.CharField(max_length=50) #file name
     file_ID = models.AutoField(primary_key=True) #file id
     description = models.CharField(max_length=500)
-    length = models.DecimalField(max_digits=2, decimal_places=2) #based on recording start & end time - in hrs or minutes
+    length = models.DecimalField(max_digits=4, decimal_places=2) #based on recording start & end time - in hrs or minutes
     start_time = models.DateTimeField() #recording start time
     end_time = models.DateTimeField() #recording time
     rec_file = models.FileField(upload_to='/audio/%Y/%m/%d') #.ogg file uploaded in a directory according to the current date
