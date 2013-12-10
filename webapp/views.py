@@ -32,8 +32,9 @@ def submit(request):
             return HttpResponse("<h1>Upload Success!</h1>")
     return render_to_response('webapp/submit.html', {'form': form}, context)
 
-def getdata(request):
+def getdata(request, lon, lat, rad):
     context = RequestContext(request)
     if request.method == 'GET':
         data = serializers.serialize("json", Recording.objects.all())
-        return HttpResponse(data, "application/json")
+        return HttpResponse("<p>"+ lon + ", " + lat + ", " + rad  +"</p>")
+        #return HttpResponse(data, "application/json")
