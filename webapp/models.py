@@ -28,21 +28,21 @@ class Recording(models.Model):
     def __unicode__(self): # return a sensible unicode value
         return self.file_name
 
-class UserAcc(models.Model):
-
-    user = models.OneToOneField(User)
-
-    website = models.URLField(blank=True)
-    user_ID =  models.AutoField(primary_key=True) #user id, can be combined with user name, valid for the other models as well
-    avatar = models.ImageField(blank=True,upload_to='/images/avatars/%Y/%m/%d') #profile picture
-    date_registered = models.DateTimeField(auto_now_add=True, blank=True) #Date registered
-    rec_assoc = models.ManyToManyField(Recording, related_name = 'u+') #user - recording rel. m->m
-
-    #social attributes - to be implemented later
-
-    def __unicode__(self):
-        return self.user_name
-
+#class UserAcc(models.Model):
+#
+#    user = models.OneToOneField(User)
+#
+#    website = models.URLField(blank=True)
+#    user_ID =  models.AutoField(primary_key=True) #user id, can be combined with user name, valid for the other models as well
+#    avatar = models.ImageField(blank=True,upload_to='/images/avatars/%Y/%m/%d') #profile picture
+#    date_registered = models.DateTimeField(auto_now_add=True, blank=True) #Date registered
+#    rec_assoc = models.ManyToManyField(Recording, related_name = 'u+') #user - recording rel. m->m
+#
+#    #social attributes - to be implemented later
+#
+#    def __unicode__(self):
+#        return self.user_name
+#
 class Image(models.Model):
 
     file_name = models.CharField(max_length=50) #f. name
