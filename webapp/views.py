@@ -7,6 +7,14 @@ from .form import UploadFileForm
 from .process_data import process
 from webapp.models import Recording
 
+def getRecording(lat1, lon1, lat2, lon2):
+    data = Recording.objects
+    data = data.filter(lat__gte=lat1)
+    data = data.filter(lon__gte=lon1)
+    data = data.filter(lat__lte=lat2)
+    data = data.filter(lon__lt2=lon2)
+    return data
+
 def index(request):
     context = RequestContext(request)
     context_dict = {'boldmessage': "I am from context"}
@@ -32,9 +40,10 @@ def submit(request):
             return HttpResponse("<h1>Upload Success!</h1>")
     return render_to_response('webapp/submit.html', {'form': form}, context)
 
-def getdata(request, lon, lat, rad):
+def getdata(request, lat1, lon1, lat2, lon2):
     context = RequestContext(request)
     if request.method == 'GET':
+        data = getRecordings(lat1, lon1, lat2, lon2)
         data = serializers.serialize("json", Recording.objects.all())
-        return HttpResponse("<p>"+ lon + ", " + lat + ", " + rad  +"</p>")
-        #return HttpResponse(data, "application/json")
+        #return HttpResponse("<p>"+ lat1 + ", " + lon1 + ", " + lat2 + ", " + lon2  +"</p>")
+        return HttpResponse(data, "application/json")

@@ -22,6 +22,8 @@ class Recording(models.Model):
     end_time = models.DateTimeField() #recording time
     rec_file = models.FileField(upload_to='/audio/%Y/%m/%d') #.ogg file uploaded in a directory according to the current date
     event_assoc = models.ManyToManyField(Event, related_name='event+') #event name and recording association /1 event can have mult recordings, 1 rec. of many events
+    lon = models.DecimalField(max_digits=100, decimal_places=50)
+    lat = models.DecimalField(max_digits=100, decimal_places=50)
     #image_assoc = models.OneToMany(Image, related_name = 'IMG_+') #event and images relationship
     #location = models. location_field /open src on github project>> https://github.com/codasus/django-location-field
 
