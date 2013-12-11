@@ -7,14 +7,6 @@ from .form import UploadFileForm
 from .process_data import process
 from webapp.models import Recording
 
-def getRecording(lat1, lon1, lat2, lon2):
-    data = Recording.objects
-    data = data.filter(lat__gte=lat1)
-    data = data.filter(lon__gte=lon1)
-    data = data.filter(lat__lte=lat2)
-    data = data.filter(lon__lt2=lon2)
-    return data
-
 def index(request):
     context = RequestContext(request)
     context_dict = {'boldmessage': "I am from context"}
@@ -27,6 +19,9 @@ def about(request):
    return HttpResponse("<h3>This is MDRS' about page.</h3>")
 
 def user(request):
+    rec = Recording(file_name = "test.ogg", length = 0.01, start_time = datetime.datetime.today(), end_time = datetime.datetime.today(), description = "Hello", rec_file = "file/path", lon = 5.0, lat = 5.0)
+
+    rec.save()
     return HttpResponse("<h3>This is a user's account page.</h3>")
 
 def submit(request):
@@ -40,10 +35,8 @@ def submit(request):
             return HttpResponse("<h1>Upload Success!</h1>")
     return render_to_response('webapp/submit.html', {'form': form}, context)
 
-def getdata(request, lat1, lon1, lat2, lon2):
+def getdata(request):
     context = RequestContext(request)
     if request.method == 'GET':
-        data = getRecordings(lat1, lon1, lat2, lon2)
         data = serializers.serialize("json", Recording.objects.all())
-        #return HttpResponse("<p>"+ lat1 + ", " + lon1 + ", " + lat2 + ", " + lon2  +"</p>")
         return HttpResponse(data, "application/json")
