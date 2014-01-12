@@ -7,8 +7,6 @@ from .form import UploadFileForm
 from .process_data import process
 from webapp.models import Recording
 
-<<<<<<< HEAD
-=======
 def getRecording(lat1, lon1, lat2, lon2):
     data = Recording.objects
     data = data.filter(lat__gte=lat1)
@@ -17,7 +15,6 @@ def getRecording(lat1, lon1, lat2, lon2):
     data = data.filter(lon__lte=lon2)
     return data
 
->>>>>>> 0a7b6b5c7fe90346be44f13622b6ac872c0d0926
 def index(request):
     context = RequestContext(request)
     context_dict = {'boldmessage': "I am from context"}
@@ -31,10 +28,6 @@ def about(request):
 
 def user(request):
     rec = Recording(file_name = "test.ogg", length = 0.01, start_time = datetime.datetime.today(), end_time = datetime.datetime.today(), description = "Hello", rec_file = "file/path", lon = 5.0, lat = 5.0)
-<<<<<<< HEAD
-
-=======
->>>>>>> 0a7b6b5c7fe90346be44f13622b6ac872c0d0926
     rec.save()
     return HttpResponse("<h3>This is a user's account page.</h3>")
 
@@ -49,12 +42,9 @@ def submit(request):
             return HttpResponse("<h1>Upload Success!</h1>")
     return render_to_response('webapp/submit.html', {'form': form}, context)
 
-def getdata(request):
+def getdata(request, lat1, lon1, lat2, lon2):
     context = RequestContext(request)
     if request.method == 'GET':
-<<<<<<< HEAD
-=======
         data = getRecording(lat1, lon1, lat2, lon2)
->>>>>>> 0a7b6b5c7fe90346be44f13622b6ac872c0d0926
         data = serializers.serialize("json", Recording.objects.all())
         return HttpResponse(data, "application/json")
