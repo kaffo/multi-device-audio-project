@@ -27,8 +27,10 @@ def about(request):
    return HttpResponse("<h3>This is MDRS' about page.</h3>")
 
 def user(request):
-    rec = Recording(file_name = "test.ogg", length = 0.01, start_time = datetime.datetime.today(), end_time = datetime.datetime.today(), description = "Hello", rec_file = "file/path", lon = 5.0, lat = 5.0)
-    rec.save()
+#Hilarious code for deleteing stuff from the database since it's hard yo
+    #data = Recording.objects
+    #data = data.filter(file_name__exact="Basstest")
+    #data.delete()
     return HttpResponse("<h3>This is a user's account page.</h3>")
 
 def submit(request):
@@ -38,7 +40,7 @@ def submit(request):
     if request.method == 'POST':
         form = UploadFileForm(request.POST,request.FILES)
         if form.is_valid():
-            process(request.FILES['data_file'], request.POST)
+            process(request.FILES['rec_file'], request.POST)
             return HttpResponse("<h1>Upload Success!</h1>")
     return render_to_response('webapp/submit.html', {'form': form}, context)
 

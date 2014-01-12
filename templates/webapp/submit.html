@@ -1,11 +1,13 @@
 <h1>Submit</h1>
 <form action="." method="post" enctype="multipart/form-data">
   {% csrf_token %}
-  Title: <input type="text" name="title"><br>
-  Description: <input type="text" name="disc" size="150"><br>
+  Title: <input type="text" name="file_name"><br>
+  Description: <input type="text" name="description" size="500"><br>
+  Longitude: <input type="text" name="lon"><br>
+  Latitude: <input type="text" name="lat"><br>
   <p>
   Please specify a file, or a set of files:<br>
-  <input type="file" name="data_file" size="150" max="150">
+  <input type="file" name="rec_file" size="150" max="150">
   </p>
   <input type="submit" value="Submit">
 </form> 
