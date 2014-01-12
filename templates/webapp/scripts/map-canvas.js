@@ -1,43 +1,58 @@
-// JavaScript Document
+// MDRS - JavaScript for Map
+// Author - Gordon Adam
+
+// Variables 
 var myLatLng = new google.maps.LatLng(55.873657, -4.292474);
 var myLatLng2 = new google.maps.LatLng(55.88024, -4.30982);
-var contentString = '<div id="content">'+
-'<h1>Glasgow University</h1>'+
-'</div>'+
-'<p>Audio File by Gordon Adam</p>'+
-'</div>'+
-'</div>';
-var directionsService = new google.maps.DirectionsService();
-var directionsDisplay;
 var map;
+var pins = new Array();
+
+// Funuction to start map
 function initialize() {
-    var pins = new Array();
-    directionsDisplay = new google.maps.DirectionsRenderer();
+
+    // Sets the options on the map
     var mapOptions = {
 	center: myLatLng2,
 	zoom: 12,
 	mapTypeId: google.maps.MapTypeId.ROADMAP
     };
-    map = new google.maps.Map(document.getElementById("content"),
-			      mapOptions);
-    var infowindow = new google.maps.InfoWindow;
-    var marker = new google.maps.Marker({
-	    position: myLatLng,
-	    map: map,
-	    title:"Glasgow University"
-	});
-    var infowindow2 = new google.maps.InfoWindow({
-	    content: 'Change the zoom level',
-	    position: myLatLng2
-	});
+    // Calls the div on the webpage and binds the map to that div
+    map = new google.maps.Map(document.getElementById("map-content"), mapOptions);
+
+    boundsTest();
+    markerArrayTest();
+}
+
+
+// Loads the Map
+google.maps.event.addDomListener(window, 'load', initialize);
+
+// Function to receive the data
+function retrieveData() {
     $.get(
 	  "/webapp/getdata:" + swLat + ":" + swLng + ":" + neLat + ":" + neLng,
 	  function(data) {
 	      alert('page content: ' + data);
 	  }
-	  );
+    );
+}
 
+// Function to calculate the route
+function calcRoute() {
+    var request = {
+	origin: myLatLng,
+	destination: myLatLng2,
+	travelMode: google.maps.TravelMode.WALKING
+    };
+    directionsService.route(request, function(result, status) {
+	if(status == google.maps.DirectionsStatus.OK) {
+	    directionsDisplay.setDirections(result);
+	}
+    });
+}
 
+// Test function to test the possibility of storing markers in an array
+function markerArrayTest() {
     var ll;
     var pin;
     for (var i=0; i<100; i++) {
@@ -57,9 +72,16 @@ function initialize() {
 		})(pin, i));
 	pins[i] = pin;
     }
+}
+
+// Test function to test the possibility of retrieving the bounds of the map
+function boundsTest() {
+    var infowindow2 = new google.maps.InfoWindow({
+	    content: 'Change the zoom level',
+	    position: myLatLng2
+	});
     infowindow2.open(map);
-    //for (var i = 0; i<100; i++) {
-    //    pins[i].
+
     google.maps.event.addListener(map, 'bounds_changed', function() {
 	    var bounds = map.getBounds();
 	    var sw = bounds.getSouthWest();
@@ -74,19 +96,4 @@ function initialize() {
 				   "]<p>neLt[" + neLat +
 				   "]<p>neLg[" + neLng + "]");
 	});
-    directionsDisplay.setMap(map);
 }
-function calcRoute() {
-    var request = {
-	origin: myLatLng,
-	destination: myLatLng2,
-	travelMode: google.maps.TravelMode.WALKING
-    };
-    directionsService.route(request, function(result, status) {
-	if(status == google.maps.DirectionsStatus.OK) {
-	    directionsDisplay.setDirections(result);
-	}
-    });
-}
-
-google.maps.event.addDomListener(window, 'load', initialize);
