@@ -1,0 +1,13 @@
+@charset "utf-8";
+/* CSS Document */
+.content {
+    margin: 0 auto;
+    padding: 0 2em;
+    max-width: 2000px;
+    line-height: 1.6em;
+}
+#layout {
+	padding-top: 1px;
+    padding-left: 119px; /* left col width "#menu" */
+    left: 0;
+}

@@ -18,10 +18,12 @@ def getRecording(lat1, lon1, lat2, lon2):
 def index(request):
     context = RequestContext(request)
     context_dict = {'boldmessage': "I am from context"}
-    return render_to_response('webapp/index.html', context_dict, context)
+    return render_to_response('webapp/index.html')
 
 def settings(request):
-    return HttpResponse("<h3>This is MDRS' settings page.</h3>")
+    context = RequestContext(request)
+    context_dict = {'boldmessage': "I am from context"}
+    return render_to_response('webapp/settings.html')
 
 def about(request):
    return HttpResponse("<h3>This is MDRS' about page.</h3>")
@@ -31,7 +33,9 @@ def user(request):
     #data = Recording.objects
     #data = data.filter(file_name__exact="Basstest")
     #data.delete()
-    return HttpResponse("<h3>This is a user's account page.</h3>")
+    context = RequestContext(request)
+    context_dict = {'boldmessage': "I am from context"}
+    return render_to_response('webapp/user.html', context_dict, context)
 
 def submit(request):
     context = RequestContext(request)
