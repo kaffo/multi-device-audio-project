@@ -1,4 +1,4 @@
-`<!doctype html>
+<!doctype html>
 <html lang="en">
 	<head>
     	<meta charset="utf-8">
@@ -29,28 +29,36 @@
                 		<li><a href="{% url 'index' %}">Home</a></li>
                 		<li><a href="{% url 'user' %}">User</a></li>
 
-                		<li class="menu-item-divided pure-menu-selected">
+                		<li class="menu-item-divided">
                     		<a href="{% url 'settings' %}">Settings</a>
                 		</li>
-				<li><a href="{% url 'submit' %}">Submit</a></li>
+				<li class="pure-menu-selected">
+				  <a href="{% url 'submit' %}">Submit</a>
+				</li>
             		</ul>
         		</div>
     		</div>
 
     		<div id="main"> 
             <div class="header">
-            <h1>Settings</h1>
+            <h1>Submit</h1>
         </div>
     			<div class="content">
-        			<h2 class="content-subhead">First Settings Section</h2>
-            <p>
-               There will be lots of useful things inserted in here 
-            </p>
-            
-            <h2 class="content-subhead">Second Settings Section</h2>
-            <p>
-            	less useful stuff will be put here
-            </p>
+<form class="pure-form pure-form-stacked" action="." method="post" enctype="multipart/form-data">
+<br>
+<legend>Details</legend>
+  {% csrf_token %}
+  Title: <input type="text" name="file_name"><br>
+  Description: <input type="text" name="description" size="50"><br>
+  Longitude: <input type="text" name="lon"><br>
+  Latitude: <input type="text" name="lat"><br>
+  <br>
+  <legend>Please specify a file, or a set of files:</legend>
+  <br>
+  <input type="file" name="rec_file" class="pure-button" size="150" max="150">
+  </p>
+  <input type="submit" class="pure-button pure-input-1-2 pure-button-primary" value="Submit">
+</form>
         			</div>
          		</div>     
     		</div>
