@@ -45,8 +45,8 @@ def submit(request):
         form = UploadFileForm(request.POST,request.FILES)
         if form.is_valid():
             process(request.FILES['rec_file'], request.POST)
-            return HttpResponse("<h1>Upload Success!</h1>")
-    return render_to_response('webapp/submit_temp.html', {'form': form}, context)
+            return HttpResponse("<h1>UPLOAD SUCCESS, BUT MAKE ME A DAMN HTML PAGE PLEASE</h1>")
+    return render_to_response('webapp/submit.html', {'form': form}, context)
 
 def getdata(request, lat1, lon1, lat2, lon2):
     context = RequestContext(request)

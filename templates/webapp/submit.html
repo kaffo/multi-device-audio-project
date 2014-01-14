@@ -1,13 +1,71 @@
-<h1>Submit</h1>
-<form action="." method="post" enctype="multipart/form-data">
+<!doctype html>
+<html lang="en">
+	<head>
+    	<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="A layout example with a side menu that hides on mobile, just like the Pure website.">
+
+    	<title>MDRS - Home</title>
+
+		<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
+		<link rel="stylesheet" href="/static/side-menu.css">
+    
+    </head>
+	<body>
+
+		<div id="layout">
+    		<!-- Menu toggle -->
+    		<a href="#menu" id="menuLink" class="menu-link">
+        		<!-- Hamburger icon -->
+        		<span></span>
+    		</a>
+
+    		<div id="menu">
+        		<div class="pure-menu pure-menu-open">
+            		<a class="pure-menu-heading" href="http://purecss.io/">MDRS</a>
+
+            		<ul>
+                		
+                		<li><a href="{% url 'index' %}">Home</a></li>
+                		<li><a href="{% url 'user' %}">User</a></li>
+
+                		<li class="menu-item-divided">
+                    		<a href="{% url 'settings' %}">Settings</a>
+                		</li>
+				<li class="pure-menu-selected">
+				  <a href="{% url 'submit' %}">Submit</a>
+				</li>
+            		</ul>
+        		</div>
+    		</div>
+
+    		<div id="main"> 
+            <div class="header">
+            <h1>Submit</h1>
+        </div>
+    			<div class="content">
+<form class="pure-form pure-form-stacked" action="." method="post" enctype="multipart/form-data">
+<br>
+<legend>Details</legend>
   {% csrf_token %}
   Title: <input type="text" name="file_name"><br>
-  Description: <input type="text" name="description" size="500"><br>
+  Description: <input type="text" name="description" size="50"><br>
   Longitude: <input type="text" name="lon"><br>
   Latitude: <input type="text" name="lat"><br>
-  <p>
-  Please specify a file, or a set of files:<br>
-  <input type="file" name="rec_file" size="150" max="150">
+  <br>
+  <legend>Please specify a file, or a set of files:</legend>
+  <br>
+  <input type="file" name="rec_file" class="pure-button" size="150" max="150">
   </p>
-  <input type="submit" value="Submit">
-</form> 
+  <input type="submit" class="pure-button pure-input-1-2 pure-button-primary" value="Submit">
+</form>
+        			</div>
+         		</div>     
+    		</div>
+		</div>
+
+		<script src="scripts/ui.js"></script>
+        
+	</body>
+    
+</html>
