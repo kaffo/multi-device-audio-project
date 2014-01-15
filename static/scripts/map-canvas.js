@@ -56,14 +56,16 @@ function boundsTest() {
 		var fileName;
 		var description;
 		var lngLat;
+		var filePath;
 
 		// iterator over each file
 		for (var i=0; i<jsonArraySize; i++) {
 		    
 		    // sets the attributes of each file 
-		    fileName = recordings[i].fields.file_name
-		    description = recordings[i].fields.description
+		    fileName = recordings[i].fields.file_name;
+		    description = recordings[i].fields.description;
 		    lngLat = new google.maps.LatLng(recordings[i].fields.lat, recordings[i].fields.lon);
+		    filePath = recordings[i].fields.rec_file;
 
 		    // places a pin on the map at the lat and lng specified
 		    pin = new google.maps.Marker({
@@ -71,15 +73,31 @@ function boundsTest() {
 			map: map
 		    });
 
+		    filePath = "/" + filePath;
+
+		    
+
+		    var mySound = new buzz.sound(filePath);
+
+		   
+
 		    // creates a listener for a click action on that pin
-		    google.maps.event.addListener(pin, 'click', (function(pin, fileName, description, infoWindow) {
+		    google.maps.event.addListener(pin, 'click', (function(pin, fileName, description, infoWindow, mySound, filePath) {
 			return function() {
 			    
 			    // opens an info window with the title and description of that file
 			    infoWindow.setContent('<div><h3>' + fileName + '</h3><p>' + description + '</p></div>');
 			    infoWindow.open(map, pin);
+
+			     mySound.play()
+				.fadeIn()
+				.loop()
+				.bind( "timeupdate", function() {
+				    var timer = buzz.toTimer( this.getTime() );
+				    document.getElementById( "timer" ).innerHTML = timer;
+				});
 			}
-		    })(pin, fileName, description, infoWindow));
+		    })(pin, fileName, description, infoWindow, mySound, filePath));
 		}
 	    }
 	    

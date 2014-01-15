@@ -5,7 +5,7 @@ from webapp.models import Recording
 def process(file, data):
     extn = file.name.split('.')[-1]
     title = data['file_name'] + '.' + extn
-    path = 'data/' + title
+    path = 'static/data/' + title # I modified this from "data/" because django was being a nuisance and not letting me link to things outside /static/ (gadam)
     with open(path, 'wb+') as destination:
         for chunk in file.chunks():
             destination.write(chunk)
