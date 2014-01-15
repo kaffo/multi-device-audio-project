@@ -21,6 +21,7 @@ function initialize() {
 
     boundsTest();
     markerArrayTest();
+    retrieveData();
 }
 
 
