@@ -66,29 +66,25 @@ function boundsTest() {
 		    description = recordings[i].fields.description;
 		    lngLat = new google.maps.LatLng(recordings[i].fields.lat, recordings[i].fields.lon);
 		    filePath = recordings[i].fields.rec_file;
+		    filePath = "../" + filePath;
 
 		    // places a pin on the map at the lat and lng specified
 		    pin = new google.maps.Marker({
 			position: lngLat,
 			map: map
 		    });
-
-		    filePath = "/" + filePath;
-
 		    
 
-		    var mySound = new buzz.sound(filePath);
-
-		   
-
+		    
 		    // creates a listener for a click action on that pin
-		    google.maps.event.addListener(pin, 'click', (function(pin, fileName, description, infoWindow, mySound, filePath) {
+		    google.maps.event.addListener(pin, 'click', (function(pin, fileName, description, infoWindow, filePath) {
 			return function() {
 			    
 			    // opens an info window with the title and description of that file
 			    infoWindow.setContent('<div><h3>' + fileName + '</h3><p>' + description + '</p></div>');
 			    infoWindow.open(map, pin);
-
+				
+			     var mySound = new buzz.sound(filePath);
 			     mySound.play()
 				.fadeIn()
 				.loop()
@@ -97,7 +93,7 @@ function boundsTest() {
 				    document.getElementById( "timer" ).innerHTML = timer;
 				});
 			}
-		    })(pin, fileName, description, infoWindow, mySound, filePath));
+		    })(pin, fileName, description, infoWindow, filePath));
 		}
 	    }
 	    
