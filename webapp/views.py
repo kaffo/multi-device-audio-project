@@ -9,10 +9,14 @@ from webapp.models import Recording
 
 def getRecording(lat1, lon1, lat2, lon2):
     data = Recording.objects
-    data = data.filter(lat__gte=lat1)
-    data = data.filter(lon__gte=lon1)
-    data = data.filter(lat__lte=lat2)
-    data = data.filter(lon__lte=lon2)
+    data = data.filter(
+                lat__gte=lat1
+            ).filter(
+                lon__gte=lon1
+            ).filter(
+                lat__lte=lat2
+            ).filter(lon__lte=lon2)
+
     return data
 
 def index(request):
@@ -52,5 +56,5 @@ def getdata(request, lat1, lon1, lat2, lon2):
     context = RequestContext(request)
     if request.method == 'GET':
         data = getRecording(lat1, lon1, lat2, lon2)
-        data = serializers.serialize("json", Recording.objects.all())
+        data = serializers.serialize("json", data)
         return HttpResponse(data, "application/json")
