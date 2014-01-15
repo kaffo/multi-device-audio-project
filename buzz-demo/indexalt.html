@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Buzz Demo 1</title>
+		<!--<script src="buzz.js"></script>-->
+		<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+		<script src="js/buzz.min.js"></script>
+	</head>
+	<body>
+
+	<h1>HELLOWORLD</h1>
+	<script type="text/javascript">
+		alert("This script is working");
+		var mySound = new buzz.sound( "sounds/sound1.ogg", {	preload: true,
+				autoplay: true
+			});
+		mySound.unmute();
+		mySound.setVolume(100);
+		mySound.load();
+		mySound.play();
+	</script>
+</body>
+</html>
