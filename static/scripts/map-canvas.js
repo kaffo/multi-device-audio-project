@@ -4,6 +4,7 @@
 // Variables 
 var myLatLng = new google.maps.LatLng(55.873657, -4.292474);
 var map;
+var mySound;
 
 // Funuction to start map
 function initialize() {
@@ -79,19 +80,24 @@ function boundsTest() {
 		    // creates a listener for a click action on that pin
 		    google.maps.event.addListener(pin, 'click', (function(pin, fileName, description, infoWindow, filePath) {
 			return function() {
+
+			    mySound = new buzz.sound(filePath);
 			    
 			    // opens an info window with the title and description of that file
-			    infoWindow.setContent('<div><h3>' + fileName + '</h3><p>' + description + '</p></div>');
+			    infoWindow.setContent('<div><h3>' + 
+						  fileName + 
+						  '</h3><p>' + 
+						  description + 
+						  '</p>' +
+						  '<input id="play" type="button" value="Play" class="pure-button pure-button-primary" onclick="playAudio();"/>' +
+						  '&nbsp' +
+						  '<input id="pause" type="button" value="Pause" class="pure-button pure-button-primary" onclick="pauseAudio();" />' +
+						  '&nbsp' +
+						  '<input id="stop" type="button" value="Stop" class="pure-button pure-button-primary" onclick="stopAudio();" />' +
+						  '</div>');
 			    infoWindow.open(map, pin);
-				
-			     var mySound = new buzz.sound(filePath);
-			     mySound.play()
-				.fadeIn()
-				.loop()
-				.bind( "timeupdate", function() {
-				    var timer = buzz.toTimer( this.getTime() );
-				    document.getElementById( "timer" ).innerHTML = timer;
-				});
+			     
+			     
 			}
 		    })(pin, fileName, description, infoWindow, filePath));
 		}
@@ -102,6 +108,22 @@ function boundsTest() {
     
 }
 
+function playAudio() {
+    mySound.play()
+	.bind( "timeupdate", function() {
+	    var timer = buzz.toTimer( this.getTime() );
+	    document.getElementById( "timer" ).innerHTML = timer;
+	});
+}
+
+function pauseAudio() {
+    mySound.pause();
+}
+
+function stopAudio() {
+    mySound.stop();
+}
+    
 
     
 
