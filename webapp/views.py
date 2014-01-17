@@ -58,3 +58,12 @@ def getdata(request, lat1, lon1, lat2, lon2):
         data = getRecording(lat1, lon1, lat2, lon2)
         data = serializers.serialize("json", data)
         return HttpResponse(data, "application/json")
+		
+#hurts
+
+def saveJSON():
+	#json_serializer = serializers.get_serializer("json")()
+	with open("../static/scripts/data.json", "w") as out:
+			json_serializer = serializers.get_serializer("json")()
+			json_serializer.serialize(Recording.objects.all(), stream=out)
+			#HttpResponse(simplejson.dumps(items_list),'application/json'))
