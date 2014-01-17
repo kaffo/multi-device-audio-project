@@ -63,7 +63,61 @@ def getdata(request, lat1, lon1, lat2, lon2):
 
 def saveJSON():
 	#json_serializer = serializers.get_serializer("json")()
+	json_serializer = serializers.get_serializer("json")()
 	with open("../static/scripts/data.json", "w") as out:
-			json_serializer = serializers.get_serializer("json")()
 			json_serializer.serialize(Recording.objects.all(), stream=out)
 			#HttpResponse(simplejson.dumps(items_list),'application/json'))
+			
+
+'''
+
+def saveJSON():
+	
+	
+	#template
+	
+	serialized = [{
+
+"timeline":
+
+{
+
+"date": [
+            {
+                "startDate":Recording.start_time,
+                "endDate":Recording.end_time,
+                "headline":Recording.file_name,
+                "text":Recording.description,
+                #"tag":"This is Optional",
+                #"classname":"optionaluniqueclassnamecanbeaddedhere",
+                "asset": {
+                    #"media":Recording.image_assoc,
+                    #"thumbnail":"optional-32x32px.jpg",
+                    #"credit":"Credit Name Goes Here",
+                    #"caption":"Caption text goes here"
+                }
+            }
+        ],
+		
+        "era": [
+            {
+                "startDate":Recording.start_time,
+                "endDate":Recording.end_time,
+                "headline":Recording.file_name,
+                "text":Recording.description, #+ html <img />
+                #"tag":"This is Optional",
+            }
+
+        ]
+
+}
+
+}]
+	
+	
+	json_serializer = serializers.get_serializer("json")()
+	with open("../static/scripts/data.json", "w") as out:
+			json_serializer.serialize(serialized, stream=out)
+			#HttpResponse(simplejson.dumps(items_list),'application/json'))
+			
+'''
