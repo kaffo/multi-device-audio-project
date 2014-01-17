@@ -69,6 +69,8 @@ def saveJSON():
 			#HttpResponse(simplejson.dumps(items_list),'application/json'))
 			
 
+#will add a function using an HTML template
+
 '''
 
 serialized = [{
