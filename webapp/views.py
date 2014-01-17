@@ -71,12 +71,7 @@ def saveJSON():
 
 '''
 
-def saveJSON():
-	
-	
-	#template
-	
-	serialized = [{
+serialized = [{
 
 "timeline":
 
@@ -88,13 +83,13 @@ def saveJSON():
                 "endDate":Recording.end_time,
                 "headline":Recording.file_name,
                 "text":Recording.description,
-                #"tag":"This is Optional",
-                #"classname":"optionaluniqueclassnamecanbeaddedhere",
+                "tag":"",
+                "classname":"",
                 "asset": {
                     #"media":Recording.image_assoc,
-                    #"thumbnail":"optional-32x32px.jpg",
-                    #"credit":"Credit Name Goes Here",
-                    #"caption":"Caption text goes here"
+                    "thumbnail":"",
+                    "credit":"",
+                    "caption":""
                 }
             }
         ],
@@ -105,7 +100,7 @@ def saveJSON():
                 "endDate":Recording.end_time,
                 "headline":Recording.file_name,
                 "text":Recording.description, #+ html <img />
-                #"tag":"This is Optional",
+                "tag":"",
             }
 
         ]
@@ -113,11 +108,5 @@ def saveJSON():
 }
 
 }]
-	
-	
-	json_serializer = serializers.get_serializer("json")()
-	with open("../static/scripts/data.json", "w") as out:
-			json_serializer.serialize(serialized, stream=out)
-			#HttpResponse(simplejson.dumps(items_list),'application/json'))
-			
+		
 '''
