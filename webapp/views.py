@@ -75,18 +75,18 @@ serialized = [{
 
 "timeline":
 
-{
+[{
 
 "date": [
             {
-                "startDate":Recording.start_time,
-                "endDate":Recording.end_time,
-                "headline":Recording.file_name,
-                "text":Recording.description,
+                "startDate":rec.start_time,
+                "endDate":rec.end_time,
+                "headline":rec.file_name,
+                "text":rec.description,
                 "tag":"",
                 "classname":"",
                 "asset": {
-                    #"media":Recording.image_assoc,
+                    #"media":rec.image_assoc,
                     "thumbnail":"",
                     "credit":"",
                     "caption":""
@@ -96,17 +96,19 @@ serialized = [{
 		
         "era": [
             {
-                "startDate":Recording.start_time,
-                "endDate":Recording.end_time,
-                "headline":Recording.file_name,
-                "text":Recording.description, #+ html <img />
+                "startDate":rec.start_time,
+                "endDate":rec.end_time,
+                "headline":rec.file_name,
+                "text":rec.description, #+ html <img />
                 "tag":"",
             }
 
         ]
 
-}
+}] for rec in Recording.all()
 
-}]
+}];
+
+	return simplejson.dumps(serialized);
 		
 '''
