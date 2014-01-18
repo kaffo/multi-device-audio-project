@@ -1,39 +1,24 @@
 {
     "timeline":
     {
-        "headline":"The Main Timeline Headline Goes here",
+        "headline":"MDAP timeline",
         "type":"default",
-        "text":"<p>Intro body text goes here, some HTML is ok</p>",
+        "text":"<p>Here is your personal MDAP timeline.</p>",
         "asset": {
-            "media":"http://yourdomain_or_socialmedialink_goes_here.jpg",
-            "credit":"Credit Name Goes Here",
-            "caption":"Caption text goes here"
+            "media":"http://mdap_logo.jpg",
+            "caption":"Multi Device Recording System"
         },
         "date": [
             {
                 "startDate":"2011,12,10",
                 "endDate":"2011,12,11",
-                "headline":"Headline Goes Here",
-                "text":"<p>Body text goes here, some HTML is OK</p>",
-                "tag":"This is Optional",
-                "classname":"optionaluniqueclassnamecanbeaddedhere",
+                "headline":"Recording Title",
+                "text":"<p>HTML + IMG rec. description</p>",
                 "asset": {
-                    "media":"http://twitter.com/ArjunaSoriano/status/164181156147900416",
-                    "thumbnail":"optional-32x32px.jpg",
-                    "credit":"Credit Name Goes Here",
+                    "media":"http://link_to_recording_file_music_player",
                     "caption":"Caption text goes here"
                 }
             }
-        ],
-        "era": [
-            {
-                "startDate":"2011,12,10",
-                "endDate":"2011,12,11",
-                "headline":"Headline Goes Here",
-                "text":"<p>Body text goes here, some HTML is OK</p>",
-                "tag":"This is Optional"
-            }
-
         ]
     }
 }
