@@ -77,17 +77,17 @@ def exportJSONtl():
 	for recording in Recording.all():
 		
 		rec_data = {
-					"startDate":recording.start_time,
-					"endDate":recording.end_time,
-					"headline":"Recording Title",
-					"text":"<p>Length: " recording.length + "\n" + "Event: " recording.event_assoc + "\n" + recording.description + "</p>", #HTML + IMG rec. description
-					"asset": {
-						"media":"http://site/" + recording.file_ID, #http://link_to_recording_file_music_player
-						"caption":"Caption text goes here"
-					}
-				}
+			"startDate":recording.start_time,
+			"endDate":recording.end_time,
+			"headline":"Recording Title",
+			"text":"<p>Length: " recording.length + "\n" + "Event: " recording.event_assoc + "\n" + recording.description + "</p>", #HTML + IMG rec. description
+			"asset": {
+				"media":"http://site/" + recording.file_ID, #http://link_to_recording_file_music_player
+				"caption":"Caption text goes here"
+			}
+		}
 		
-		recs.append(rec_data)
+	recs.append(rec_data)
 
 
 	serialized = {
