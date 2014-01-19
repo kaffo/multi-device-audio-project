@@ -80,7 +80,7 @@ def exportJSONtl():
 			"startDate":recording.start_time,
 			"endDate":recording.end_time,
 			"headline":"Recording Title",
-			"text":"<p>Length: " recording.length + "\n" + "Event: " recording.event_assoc + "\n" + recording.description + "</p>", #HTML + IMG rec. description
+			"text":"<p>Length: " + recording.length + "\n" + "Event: " + recording.event_assoc + "\n" + recording.description + "</p>", #HTML + IMG rec. description
 			"asset": {
 				"media":"http://site/" + recording.file_ID, #http://link_to_recording_file_music_player
 				"caption":"Caption text goes here"
