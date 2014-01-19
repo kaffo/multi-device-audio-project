@@ -61,56 +61,49 @@ def getdata(request, lat1, lon1, lat2, lon2):
 		
 #hurts
 
-def saveJSON():
+def test():
 	#json_serializer = serializers.get_serializer("json")()
 	json_serializer = serializers.get_serializer("json")()
 	with open("../static/scripts/data.json", "w") as out:
 			json_serializer.serialize(Recording.objects.all(), stream=out)
 			#HttpResponse(simplejson.dumps(items_list),'application/json'))
 			
-
-#will add a function using an HTML template
-
-'''
-
-serialized = [{
-
-"timeline":
-
-[{
-
-"date": [
-            {
-                "startDate":rec.start_time,
-                "endDate":rec.end_time,
-                "headline":rec.file_name,
-                "text":rec.description,
-                "tag":"",
-                "classname":"",
-                "asset": {
-                    #"media":rec.image_assoc,
-                    "thumbnail":"",
-                    "credit":"",
-                    "caption":""
-                }
-            }
-        ],
 		
-        "era": [
-            {
-                "startDate":rec.start_time,
-                "endDate":rec.end_time,
-                "headline":rec.file_name,
-                "text":rec.description, #+ html <img />
-                "tag":"",
-            }
+#JSON export for timeline
 
-        ]
+def exportJSONtl():
+	recs = []
 
-}] for rec in Recording.all()
-
-}];
-
-	return simplejson.dumps(serialized);
+	for recording in Recording.all():
 		
-'''
+		rec_data = {
+					"startDate":recording.start_time,
+					"endDate":recording.end_time,
+					"headline":"Recording Title",
+					"text":"<p>Length: " recording.length + "\n" + "Event: " recording.event_assoc + "\n" + recording.description + "</p>", #HTML + IMG rec. description
+					"asset": {
+						"media":"http://site/" + recording.file_ID, #http://link_to_recording_file_music_player
+						"caption":"Caption text goes here"
+					}
+				}
+		
+		recs.append(rec_data)
+
+
+	serialized = {
+		"timeline":
+		{
+			"headline":"MDAP timeline",
+			"type":"default",
+			"text":"<p>Here is your personal MDAP timeline.</p>",
+			"asset": {
+				"media":"http://mdap_logo.jpg",
+				"caption":"Multi Device Recording System"
+			},
+			"date": recs
+			
+		}
+	}
+
+	with open('scripts/data.json', 'w') as outp:
+		json.dump(serialized, outp)
