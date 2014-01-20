@@ -1,4 +1,5 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import patterns, url, include
+from django.contrib import admin
 from webapp import views
 #comment to show that this syncing stuff is working. work local. commit to server
 urlpatterns = patterns ('',
@@ -7,7 +8,8 @@ urlpatterns = patterns ('',
     url(r'^submit/$', views.submit, name='submit'),
     url(r'^getdata:(-?[0-9]+.-?[0-9]+):(-?[0-9]+.-?[0-9]+):(-?[0-9]+.-?[0-9])+:(-?[0-9]+.-?[0-9]+)/$', views.getdata, name='getdata'),
     url(r'^settings/$', views.settings, name='settings'),
-    url(r'^user/$', views.user, name='user'),                    
+    url(r'^user/$', views.user, name='user'),
+	url(r'^admin/', include(admin.site.urls)),	
     #commented out, so it is not lost in case i'm wrong (Gordon Adam)
     #url(r'^settings/$', views.settings, name='settings'),
     #url(r'^user/$', views.user, name='user'),

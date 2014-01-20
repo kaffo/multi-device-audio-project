@@ -6,11 +6,24 @@ Replace this with more appropriate tests for your application.
 """
 
 from django.test import TestCase
+import process_data
+import datetime, json
+from webapp.models import Event, Recording, Image
 
 
-class SimpleTest(TestCase):
-    def test_basic_addition(self):
-        """
-        Tests that 1 + 1 always equals 2.
-        """
-        self.assertEqual(1 + 1, 2)
+class RecordingTestCase(TestCase):
+	def setUp(self):
+		print "lala"
+		
+	def export(self):
+		self.exportJSONtl()
+		print "sss"
+		
+class RecTestCase(TestCase):
+	def setUp(self):
+		Rec1 = Recording(file_name="rec1")
+		Rec1.save()
+
+	def export(self):
+		self.exportJSONtl()
+		print "sss"
