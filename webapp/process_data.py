@@ -26,10 +26,10 @@ def test():
 		
 #JSON export for timeline
 
-def export():
+def export(data):
 	recs = []
 
-	for recording in Recording.objects.all():
+	for recording in data:
 		
 		rec_data = {
 			"startDate":recording.start_time.strftime("%Y,%m,%d %H,%M"),
@@ -60,7 +60,7 @@ def export():
 		}
 	}
 
-	with open('./templates/webapp/scripts/data.json', 'w') as outp:
+	with open('./static/scripts/data.json', 'w') as outp:
 		json.dump(serialized, outp)
 		
 		
