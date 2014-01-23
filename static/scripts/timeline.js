@@ -1,9 +1,5 @@
 var recording;
 
-function baab()
-{
-document.getElementById("demo").innerHTML="Hello World";
-}
 
 function playS(id){
 
