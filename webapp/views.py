@@ -19,6 +19,11 @@ def getRecording(lat1, lon1, lat2, lon2):
             ).filter(lon__lte=lon2)
 
     return data
+	
+def getRecId(id):
+    data = Recording.objects
+    r = data.filter(file_ID = id)
+    return r
 
 def index(request):
     context = RequestContext(request)
@@ -60,4 +65,11 @@ def getdata(request, lat1, lon1, lat2, lon2):
         export(data)
         data = serializers.serialize("json", data)
         return HttpResponse(data, "application/json")
+		
+def playSound(request, id):
+    context = RequestContext(request)
+    if request.method == 'GET':
+        rec = getRecId(id)
+        rec = serializers.serialize("json", rec)
+        return HttpResponse(rec, "application/json")
 		
