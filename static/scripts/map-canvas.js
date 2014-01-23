@@ -5,6 +5,8 @@
 var myLatLng = new google.maps.LatLng(55.873657, -4.292474);
 var map;
 var mySound;
+var syncSounds = [];
+
 
 // Funuction to start map
 function initialize() {
@@ -69,6 +71,7 @@ function boundsTest() {
 		    filePath = recordings[i].fields.rec_file;
 		    filePath = "../" + filePath;
 
+
 		    // places a pin on the map at the lat and lng specified
 		    pin = new google.maps.Marker({
 			position: lngLat,
@@ -82,7 +85,6 @@ function boundsTest() {
 			return function() {
 
 			    mySound = new buzz.sound(filePath);
-			    
 			    // opens an info window with the title and description of that file
 			    infoWindow.setContent('<div><h3>' + 
 						  fileName + 
@@ -123,7 +125,7 @@ function pauseAudio() {
 function stopAudio() {
     mySound.stop();
 }
-    
 
-    
-
+function playSync(){
+    mySound.play();
+}
