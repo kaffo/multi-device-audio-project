@@ -26,16 +26,16 @@ def test():
 		
 #JSON export for timeline
 
-def export():
+def export(data):
 	recs = []
 
-	for recording in Recording.objects.all():
+	for recording in data:
 		
 		rec_data = {
 			"startDate":recording.start_time.strftime("%Y,%m,%d %H,%M"),
 			"endDate":recording.end_time.strftime("%Y,%m,%d %H,%M"),
 			"headline":recording.file_name,
-			"text":"<p>Length: " + str(recording.length) + "\n" + "Event: " + str(recording.event_assoc) + "\n" + recording.description + "</p>", #HTML + IMG rec. description
+			"text":"<input id='play' type='button' value='Play' class='pure-button pure-button-primary' onclick='playSync();'/><p>Length: " + str(recording.length) + "\n" + "Event: " + str(recording.event_assoc) + "\n" + recording.description + "</p>", #HTML + IMG rec. description
 			"asset": {
 				"media":"https://maps.google.com/?q=" + str(recording.lat) + "," + str(recording.lon), #recording.rec_file.url, http://link_to_recording_file_music_player
 				"caption":"ID" + str(recording.file_ID)
@@ -60,7 +60,7 @@ def export():
 		}
 	}
 
-	with open('./templates/webapp/scripts/data.json', 'w') as outp:
+	with open('./static/scripts/data.json', 'w') as outp:
 		json.dump(serialized, outp)
 		
 		
