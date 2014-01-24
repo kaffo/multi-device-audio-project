@@ -3,6 +3,7 @@ import datetime, json
 from webapp.models import Event, Recording, Image
 from django.core.serializers.json import DjangoJSONEncoder
 
+
 def process(file, data):
     extn = file.name.split('.')[-1]
     if (extn != "ogg"):
@@ -75,5 +76,29 @@ def export(data):
 
 	with open('./static/scripts/data.json', 'w') as outp:
 		json.dump(serialized, outp)
+		
 
 
+
+def convertOGG(fileName)
+	import pymedia.audio acodec
+	import pymedia.muxer
+	from ogg.vorbis import *
+	sample_rate = 16000;
+	params = {
+ 		'id': acodec.getCodecID('ogg'), 
+		'bitrate': 16000, 
+		'sample_rate': sample_rate, 
+		'ext': 'ogg', 
+		'channels': 1
+	}
+
+	ENCODE = acodec.Encoder(params)
+	
+	D = ''
+	# fill D with encoded vorbis.ogg object
+	#D = OGG()
+	F= ENCODE.encode(D)
+	FILE = file('./static/data/'+fileName+'.ogg', 'rb') # read binary file under linux
+	for frame in F: FILE.write(frame)
+	FILE.close()
