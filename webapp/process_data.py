@@ -2,6 +2,9 @@ from django.http import HttpResponse, HttpRequest
 import datetime, json
 from webapp.models import Event, Recording, Image
 from django.core.serializers.json import DjangoJSONEncoder
+import pymedia.audio acodec
+import pymedia.muxer
+from ogg.vorbis import *
 
 
 def process(file, data):
@@ -81,9 +84,6 @@ def export(data):
 
 
 def convertOGG(fileName)
-	import pymedia.audio acodec
-	import pymedia.muxer
-	from ogg.vorbis import *
 	sample_rate = 16000;
 	params = {
  		'id': acodec.getCodecID('ogg'), 
