@@ -102,3 +102,4 @@ def convertOGG(fileName)
 	FILE = file('./static/data/'+fileName+'.ogg', 'rb') # read binary file under linux
 	for frame in F: FILE.write(frame)
 	FILE.close()
+
