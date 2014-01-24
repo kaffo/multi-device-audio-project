@@ -19,7 +19,7 @@ def getRecording(lat1, lon1, lat2, lon2):
             ).filter(lon__lte=lon2)
 
     return data
-	
+
 def getRecId(id):
     data = Recording.objects
     r = data.filter(file_ID = id)
@@ -54,8 +54,7 @@ def submit(request):
     if request.method == 'POST':
         form = UploadFileForm(request.POST,request.FILES)
         if form.is_valid():
-            process(request.FILES['rec_file'], request.POST)
-            return HttpResponse("<h1>UPLOAD SUCCESS, BUT MAKE ME A DAMN HTML PAGE PLEASE</h1>")
+            return process(request.FILES['rec_file'], request.POST)
     return render_to_response('webapp/submit.html', {'form': form}, context)
 
 def getdata(request, lat1, lon1, lat2, lon2):
@@ -65,11 +64,11 @@ def getdata(request, lat1, lon1, lat2, lon2):
         export(data)
         data = serializers.serialize("json", data)
         return HttpResponse(data, "application/json")
-		
+
 def playSound(request, id):
     context = RequestContext(request)
     if request.method == 'GET':
         rec = getRecId(id)
         rec = serializers.serialize("json", rec)
         return HttpResponse(rec, "application/json")
-		
+
