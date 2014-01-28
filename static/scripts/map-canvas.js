@@ -42,14 +42,6 @@ function boundsTest() {
 	var neLat = bounds.getNorthEast().lat();
 	var neLng = bounds.getNorthEast().lng();
 
-	var latLngs = [
-	    new google.maps.LatLng(37.772323, -122.214897),
-	    new google.maps.LatLng(21.291982, -157.821856),
-	    new google.maps.LatLng(-18.142599, 178.431),
-	    new google.maps.LatLng(-27.46758, 153.027892)
-	];
-
-
 	// attempts to get data from the backend
 	$.get(
 	    "/webapp/getdata:" + swLat + ":" + swLng + ":" + neLat + ":" + neLng,
@@ -63,6 +55,8 @@ function boundsTest() {
 		// json data variables
 		var jsonArraySize = data.length;
 		var recordings = eval("(" + data + ")");
+		var lat = new Array();
+		var lng = new Array();
 		
 		// individual file attributes
 		var fileName;
@@ -74,9 +68,11 @@ function boundsTest() {
 		for (var i=0; i<jsonArraySize; i++) {
 		    
 		    // sets the attributes of each file 
+		    lat = recordings[i].fields.lat;
+		    lng = recordings[i].fields.lon;
 		    fileName = recordings[i].fields.file_name;
 		    description = recordings[i].fields.description;
-		    lngLat = new google.maps.LatLng(recordings[i].fields.lat, recordings[i].fields.lon);
+		    lngLat = new google.maps.LatLng(lat,lng);
 		    filePath = recordings[i].fields.rec_file;
 		    filePath = "../" + filePath;
 
@@ -84,13 +80,14 @@ function boundsTest() {
 		    // places a pin on the map at the lat and lng specified
 		    pin = new google.maps.Marker({
 			position: lngLat,
+			icon: '/static/images/marker.png',
 			map: map
 		    });
 		    
 
 		    
 		    // creates a listener for a click action on that pin
-		    google.maps.event.addListener(pin, 'click', (function(pin, fileName, description, infoWindow, filePath) {
+		    google.maps.event.addListener(pin, 'click', (function(pin, fileName, description, infoWindow, filePath, lat, lng) {
 			return function() {
 
 			    mySound = new buzz.sound(filePath);
@@ -107,11 +104,11 @@ function boundsTest() {
 						  '<input id="stop" type="button" value="Stop" class="pure-button pure-button-primary" onclick="stopAudio();" />' +
 						  '</div>');
 			    infoWindow.open(map, pin);
-			    var route = drawRoute(latLngs);
+			    var route = drawRoute(lat, lng);
 			     
 			     
 			}
-		    })(pin, fileName, description, infoWindow, filePath));
+		    })(pin, fileName, description, infoWindow, filePath, lat, lng));
 		}
 	    }
 	    
@@ -140,9 +137,13 @@ function playSync(){
     mySound.play();
 }
 
-function drawRoute(lngLatArray) {
+function drawRoute(lat, lng) {
+    var latLngs = new Array();
+    for(var j=0; j<1; j++) {
+	latLngs[j] = new google.maps.LatLng(lat[j], lng[j]);
+    }
     var route = new google.maps.Polyline({
-	path: lngLatArray,
+	path: latLngs,
 	geodesic: true,
 	strokeColor: '#1F8DD6',
 	strokeOpacity: 0.6,
