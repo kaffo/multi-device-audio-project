@@ -1,5 +1,6 @@
 // MDRS - JavaScript for Map
 // Author - Gordon Adam
+// Please Make sure to do debugging if changes are made
 
 // Variables 
 var myLatLng = new google.maps.LatLng(55.873657, -4.292474);
@@ -15,7 +16,7 @@ function initialize() {
     var mapOptions = {
 	center: myLatLng,
 	zoom: 3,
-	mapTypeId: google.maps.MapTypeId.ROADMAP
+	mapTypeId: google.maps.MapTypeId.TERRAIN
     };
     // Calls the div on the webpage and binds the map to that div
     map = new google.maps.Map(document.getElementById("map-content"), mapOptions);
@@ -40,6 +41,14 @@ function boundsTest() {
 	var swLng = bounds.getSouthWest().lng();
 	var neLat = bounds.getNorthEast().lat();
 	var neLng = bounds.getNorthEast().lng();
+
+	var latLngs = [
+	    new google.maps.LatLng(37.772323, -122.214897),
+	    new google.maps.LatLng(21.291982, -157.821856),
+	    new google.maps.LatLng(-18.142599, 178.431),
+	    new google.maps.LatLng(-27.46758, 153.027892)
+	];
+
 
 	// attempts to get data from the backend
 	$.get(
@@ -98,6 +107,7 @@ function boundsTest() {
 						  '<input id="stop" type="button" value="Stop" class="pure-button pure-button-primary" onclick="stopAudio();" />' +
 						  '</div>');
 			    infoWindow.open(map, pin);
+			    var route = drawRoute(latLngs);
 			     
 			     
 			}
@@ -129,3 +139,20 @@ function stopAudio() {
 function playSync(){
     mySound.play();
 }
+
+function drawRoute(lngLatArray) {
+    var route = new google.maps.Polyline({
+	path: lngLatArray,
+	geodesic: true,
+	strokeColor: '#1F8DD6',
+	strokeOpacity: 0.6,
+	strokeWeight: 4
+    })
+    route.setMap(map);
+    return route;
+}
+
+function deleteRoute(route) {
+    route.setMap(null);
+}
+    
