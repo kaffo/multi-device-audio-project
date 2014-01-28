@@ -28,7 +28,7 @@ _Installation_
 5. mysql -u root -p
 6. CREATE DATABASE mdrsDatabase;
 7. CREATE USER 'mdrs'@'localhost' IDENTIFIED BY 't34mt34mt';
-8. GRANT ALL PRIVILIGES ON mdrsDatabase.* TO 'mdrs'@'localhost';
+8. GRANT ALL PRIVILEGES ON mdrsDatabase.* TO 'mdrs'@'localhost';
 9. quit
 10. python manage syncdb
 11. python manage migrate
