@@ -20,5 +20,4 @@ urlpatterns = patterns ('',
     #url(r'^$', views.user_login, name='login'),
     #url(r'^$', views.restricted, name='restricted'),
     #url(r'^$', views.user_logout, name='logout'),
-    url(r'^tester/$', views.tester, name='tester'),
     )
