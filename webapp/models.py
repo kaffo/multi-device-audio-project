@@ -22,13 +22,22 @@ class Recording(models.Model):
     end_time = models.DateTimeField() #recording time
     rec_file = models.FileField(upload_to='/audio/%Y/%m/%d') #.ogg file uploaded in a directory according to the current date
     event_assoc = models.ManyToManyField(Event, related_name='event+') #event name and recording association /1 event can have mult recordings, 1 rec. of many events
-    lon = models.DecimalField(max_digits=50, decimal_places=20)
-    lat = models.DecimalField(max_digits=50, decimal_places=20)
+    location_assoc = models.OneToMany(Location, related_name = 'loc+')
+    #lon = models.DecimalField(max_digits=50, decimal_places=20) # Commented this out so it is not lost in case I happen to be retarded 
+    #lat = models.DecimalField(max_digits=50, decimal_places=20) # and this
     #image_assoc = models.OneToMany(Image, related_name = 'IMG_+') #event and images relationship
     #location = models. location_field /open src on github project>> https://github.com/codasus/django-location-field
 
     def __unicode__(self): # return a sensible unicode value
         return self.file_name
+
+# class added to allow multiple locations for one recording
+class Location(models.Model):
+    loc_ID = models.AutoField(primary_Key=True) # I copied the idea for these ["loc_ID", "event_assoc" and "recording_assoc"] from the class Image, I hope they work for Location. 
+    event_assoc = models.ForeignKey(Event)
+    recording_assoc = models.ForeignKey(Recording)
+    lon = models.DecimalField(max_digits=50, decimal_places=20) # moved from recording
+    lat = models.DecimalField(max_digits=50, decimal_places=20) # moved from recording
 
 #class UserAcc(models.Model):
 #

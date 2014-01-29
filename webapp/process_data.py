@@ -23,7 +23,8 @@ def process(file, data):
             start_time = datetime.datetime.today(),
             end_time = datetime.datetime.today(),
             description = data["description"],
-            rec_file = path, lon = data['lon'],
+            rec_file = path, 
+            lon = data['lon'],
             lat = data['lat']
             )
     rec.save()
