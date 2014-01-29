@@ -2,9 +2,6 @@ from django.http import HttpResponse, HttpRequest
 import datetime, json
 from webapp.models import Event, Recording, Image
 from django.core.serializers.json import DjangoJSONEncoder
-from pymedia.audio import acodec
-import pymedia.muxer
-from ogg.vorbis import *
 
 FFMPEG_BIN = "ffmpeg"
 import subprocess as sp
@@ -87,7 +84,7 @@ def export(data):
 		json.dump(serialized, outp)
 
 	
-def convertOGG(fileName){
+def convertOGG(fileName):
 
 	path = "../static/data/"
 	fileName = path + fileName
@@ -120,8 +117,6 @@ def convertOGG(fileName){
         stdin=sp.PIPE,stdout=sp.PIPE, stderr=sp.PIPE)
 		
 	audio.astype("int16").tofile(self.proc.stdin)
-	
-}
 
 '''
 OLD PYMEDIA METHOD
