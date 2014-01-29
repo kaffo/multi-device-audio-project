@@ -11,13 +11,13 @@ from process_data import export
 def getRecording(lat1, lon1, lat2, lon2):
     data = Recording.objects
     data = data.filter(
-                location.lat__gte=lat1
+                lat__gte=lat1
             ).filter(
-                location.lon__gte=lon1
+                lon__gte=lon1
             ).filter(
-                location.lat__lte=lat2
+                lat__lte=lat2
             ).filter(
-                location.lon__lte=lon2
+                lon__lte=lon2
                 )
 
     return data
