@@ -6,6 +6,11 @@ from pymedia.audio import acodec
 import pymedia.muxer
 from ogg.vorbis import *
 
+FFMPEG_BIN = "ffmpeg"
+import subprocess as sp
+import numpy
+import os
+
 
 def process(file, data):
     extn = file.name.split('.')[-1]
@@ -81,8 +86,45 @@ def export(data):
 	with open('./static/scripts/data.json', 'w') as outp:
 		json.dump(serialized, outp)
 
+	
+def convertOGG(fileName){
 
+	path = "../static/data/"
+	fileName = path + fileName
+	fileNew = path + os.path.splitext(fileName)[0] + '.ogg'
+	
+	data = sp.Popen([ FFMPEG_BIN,
+        '-i', fileName,
+        '-f', 's16le',
+        '-acodec', 'libamr_nb',
+        '-ar', '44100', # o 44100 Hz
+        '-ac', '2', # channels
+        '-'],
+        stdin=sp.PIPE, stdout=sp.PIPE, stderr=sp.PIPE)
+	
+	raw = data.proc.stdout.read(88200*4) #save audio
+	audio = numpy.fromstring(raw, dtype="int16")
+	audio = audio.reshape((len(audio)/2,2)) #reorganize
+	
+	data = sp.Popen([ FFMPEG_BIN,
+       '-y', # overwrite if such name exists
+       "-f", 's16le', # 16bit
+       "-acodec", "libamr_nb", # raw
+       '-r', "44100", # 44100 Hz
+       '-ac','2', #2 channels
+       '-i', '-', # pipe input
+       '-vn', # no video
+       '-acodec', "libvorbis" # output audio codec
+       '-b', "3000k", # output bitrate (=quality). Here, 3000kb/second
+       fileNew ],
+        stdin=sp.PIPE,stdout=sp.PIPE, stderr=sp.PIPE)
+		
+	audio.astype("int16").tofile(self.proc.stdin)
+	
+}
 
+'''
+OLD PYMEDIA METHOD
 
 def convertOGG(fileName):
 	sample_rate = 16000;
@@ -104,3 +146,4 @@ def convertOGG(fileName):
 	for frame in F: FILE.write(frame)
 	FILE.close()
 
+'''
