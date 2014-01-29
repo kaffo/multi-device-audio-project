@@ -7,10 +7,12 @@ urlpatterns = patterns ('',
     url(r'^about/$', views.about, name='about'),
     url(r'^submit/$', views.submit, name='submit'),
     url(r'^getdata:(-?[0-9]+.-?[0-9]+):(-?[0-9]+.-?[0-9]+):(-?[0-9]+.-?[0-9])+:(-?[0-9]+.-?[0-9]+)/$', views.getdata, name='getdata'),
-	url(r'^playSound:(-?[0-9]+)/$', views.playSound, name='playSound'),
+    url(r'^playSound:(-?[0-9]+)/$', views.playSound, name='playSound'),
     url(r'^settings/$', views.settings, name='settings'),
     url(r'^user/$', views.user, name='user'),
-	url(r'^admin/', include(admin.site.urls)),	
+    url(r'^admin/', include(admin.site.urls)),
+    url(r'^getroute:([a-z|A-Z]+)/$', views.getroute, name='getroute'),
+    
     #commented out, so it is not lost in case i'm wrong (Gordon Adam)
     #url(r'^settings/$', views.settings, name='settings'),
     #url(r'^user/$', views.user, name='user'),
@@ -20,5 +22,5 @@ urlpatterns = patterns ('',
     #url(r'^$', views.user_login, name='login'),
     #url(r'^$', views.restricted, name='restricted'),
     #url(r'^$', views.user_logout, name='logout'),
-    url(r'^tester/$', views.tester, name='tester'),
+    url(r'^tester/$', views.tester, name='tester')
     )

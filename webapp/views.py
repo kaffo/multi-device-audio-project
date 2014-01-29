@@ -6,6 +6,7 @@ from django.shortcuts import render_to_response
 from .form import UploadFileForm
 from .process_data import process
 from webapp.models import Recording
+from webapp.models import Location
 from process_data import export
 
 def getRecording(lat1, lon1, lat2, lon2):
@@ -21,6 +22,11 @@ def getRecording(lat1, lon1, lat2, lon2):
                 )
 
     return data
+
+def getLocation(fn):
+    data = Location.objects
+    data = data.filter(recording_assoc__file_name=fn)
+    return data.order_by('loc_ID')
 
 def getRecId(id):
     data = Recording.objects
@@ -72,6 +78,13 @@ def getdata(request, lat1, lon1, lat2, lon2):
     if request.method == 'GET':
         data = getRecording(lat1, lon1, lat2, lon2)
         export(data)
+        data = serializers.serialize("json", data)
+        return HttpResponse(data, "application/json")
+
+def getroute(request, fn):
+    context = RequestContext(request)
+    if request.method == 'GET':
+        data = getLocation(fn)
         data = serializers.serialize("json", data)
         return HttpResponse(data, "application/json")
 

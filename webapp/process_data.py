@@ -1,6 +1,6 @@
 from django.http import HttpResponse, HttpRequest
 import datetime, json
-from webapp.models import Event, Recording, Image
+from webapp.models import Event, Recording, Image, Location
 from django.core.serializers.json import DjangoJSONEncoder
 from pymedia.audio import acodec
 import pymedia.muxer
@@ -8,9 +8,11 @@ from ogg.vorbis import *
 
 
 def process(file, data):
+    lon_array = data['lon'].split(',')
+    lat_array = data['lat'].split(',')
     extn = file.name.split('.')[-1]
     if (extn != "ogg"):
-            return  HttpResponse("<h1>Please upload an ogg file!</h1>")
+        return  HttpResponse("<h1>Please upload an ogg file!</h1>")
 
     title = data['file_name'] + '.' + extn
     path = 'static/data/' + title # I modified this from "data/" because django was being a nuisance and not letting me link to things outside /static/ (gadam)
@@ -18,16 +20,25 @@ def process(file, data):
         for chunk in file.chunks():
             destination.write(chunk)
     rec = Recording(
-            file_name = data["file_name"],
-            length = 0.01,
-            start_time = datetime.datetime.today(),
-            end_time = datetime.datetime.today(),
-            description = data["description"],
-            rec_file = path, 
-            lon = data['lon'],
-            lat = data['lat']
-            )
+        file_name = data["file_name"],
+        length = 0.01,
+        start_time = datetime.datetime.today(),
+        end_time = datetime.datetime.today(),
+        description = data["description"],
+        rec_file = path,
+        lon = lon_array[0],
+        lat = lat_array[0]
+    )
     rec.save()
+    lonlat_len = len(lon_array)
+    for i in range(1, lonlat_len):
+        loc = Location(
+            recording_assoc = rec,
+            lon = lon_array[i],
+            lat = lat_array[i],
+        )
+        loc.save()
+    
     return HttpResponse("<h1>UPLOAD SUCCESS, BUT MAKE ME A DAMN HTML PAGE PLEASE</h1>")
 
 
