@@ -3,7 +3,7 @@ from django.core import serializers
 from django.http import HttpResponse, HttpRequest
 from django.template import RequestContext
 from django.shortcuts import render_to_response
-from .form import UploadFileForm
+from .form import UploadFileForm, UserForm, UserProfileForm
 from .process_data import process
 from webapp.models import Recording
 from webapp.models import Location
@@ -37,7 +37,7 @@ def index(request):
     context = RequestContext(request)
     context_dict = {'boldmessage': "I am from context"}
     return render_to_response('webapp/index.html')
-    
+
 ###########################################################
 def tester(request):
 	context = RequestContext(request)
@@ -95,3 +95,29 @@ def playSound(request, id):
         rec = serializers.serialize("json", rec)
         return HttpResponse(rec, "application/json")
 
+def register(request):
+    context = RequestContext(request)
+
+    registered = False
+
+    if request.method == 'POST':
+        user_form = UserForm(data=request.POST)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user = user_form.save()
+
+            user.set_password(user.password)
+            user.save
+
+            registered = True
+
+        else:
+            print user+form.errors, profile_form.errors
+
+    else:
+        euser_form = UserForm()
+
+    return render_to_response(
+            'webapp/register.html',
+            {'user_form': user_form, 'registered': registered},
+            context)
