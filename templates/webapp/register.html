@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+	<head>
+    	<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="A layout example with a side menu that hides on mobile, just like the Pure website.">
+
+    	<title>MDRS - Registration</title>
+
+		<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
+		<link rel="stylesheet" href="/static/styles/side-menu.css">
+    
+    </head>
+	<body>
+
+		<div id="layout">
+    		<!-- Menu toggle -->
+    		<a href="#menu" id="menuLink" class="menu-link">
+        		<!-- Hamburger icon -->
+        		<span></span>
+    		</a>
+
+    		<div id="menu">
+        		<div class="pure-menu pure-menu-open">
+            		<a class="pure-menu-heading" href="{% url 'index' %}">MDRS</a>
+
+            		<ul>
+                		
+                		<li><a href="{% url 'index' %}">Home</a></li>
+                		<li><a href="{% url 'user' %}">User</a></li>
+
+                		<li class="menu-item-divided pure-menu-selected">
+                    		<a href="{% url 'settings' %}">Settings</a>
+                		</li>
+				<li><a href="{% url 'submit' %}">Submit</a></li>
+            		</ul>
+        		</div>
+    		</div>
+
+        <div id="main"> 
+            <div class="header">
+                <h1>Settings</h1>
+            </div>
+
+            <div class="content">
+                <h2 class="content-subhead">Registration</h2>
+                {% if registered %}
+                <h3>Thank you for Registering!</h3>
+                <a href="{% url 'index' %}">Return Home</a>
+                {% else %}
+                <h3>Please fill in the fields below:</h3>
+                <form id="user_form" method="post" action="/webapp/register/" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ user_form.as_p }}
+
+                    <input type="submit" name="submit" value="Register" />
+                </form>
+                {% endif %}
+            </div>     
+        </div>
+        </div>
+
+		<script src="/static/scripts/ui.js"></script>
+        
+	</body>
+    
+</html>

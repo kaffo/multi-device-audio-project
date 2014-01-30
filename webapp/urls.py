@@ -12,12 +12,13 @@ urlpatterns = patterns ('',
     url(r'^user/$', views.user, name='user'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^getroute:([a-z|A-Z]+)/$', views.getroute, name='getroute'),
-    
+    url(r'^register/$', views.register, name='register'),
+
     #commented out, so it is not lost in case i'm wrong (Gordon Adam)
     #url(r'^settings/$', views.settings, name='settings'),
     #url(r'^user/$', views.user, name='user'),
     #url(r'^submit/$', views.submit, name='submit'),
-                        
+
     #url(r'^$', views.register, name='register'),
     #url(r'^$', views.user_login, name='login'),
     #url(r'^$', views.restricted, name='restricted'),
