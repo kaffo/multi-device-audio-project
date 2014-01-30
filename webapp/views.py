@@ -99,9 +99,9 @@ def playSound(request, id):
 		
 def convert(request, fN):
     context = RequestContext(request)
-	ext = os.path.splitext(fN)[1]
-	if(fN == '3gp')
-		simplifiedConvert(fN)
+    ext = os.path.splitext(fN)[1]
+    if(fN == '3gp')
+        simplifiedConvert(fN)
 	
 
 def register(request):
