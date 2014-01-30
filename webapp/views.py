@@ -1,6 +1,7 @@
 import datetime, json
 from django.core import serializers
-from django.http import HttpResponse, HttpRequest
+from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
+from django.contrib.auth import authenticate, login
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from .form import UploadFileForm, UserForm
