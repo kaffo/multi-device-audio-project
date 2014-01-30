@@ -96,13 +96,13 @@ def playSound(request, id):
         rec = getRecId(id)
         rec = serializers.serialize("json", rec)
         return HttpResponse(rec, "application/json")
-		
+
 def convert(request, fN):
     context = RequestContext(request)
     ext = os.path.splitext(fN)[1]
-    if(fN == '3gp')
+    if(fN == '3gp'):
         simplifiedConvert(fN)
-	
+
 
 def register(request):
     context = RequestContext(request)
@@ -130,3 +130,25 @@ def register(request):
             'webapp/register.html',
             {'user_form': user_form, 'registered': registered},
             context)
+
+def user_login(request):
+    context = RequestContext(request)
+
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+
+        user = authenticate(username=username, password=password)
+
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                return HttpResponseRedirect('/webapp/')
+            else:
+                return HttpResponse("<center><h1>Your account has been disabled!</h1></center>")
+        else:
+            print "Invalide login details: {O}. {l}".format(username, password)
+            return HttpResponse("Invalid Login Details supplied.")
+
+    else:
+        return render_to_response('webapp/login.html', {}, context)
