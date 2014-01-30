@@ -8,10 +8,9 @@ var map;
 var mySound;
 var syncSounds = [];
 
-
 // Funuction to start map
 function initialize() {
-    
+ 
     // Sets the options on the map
     var mapOptions = {
 	center: myLatLng,
@@ -41,7 +40,7 @@ function boundsTest() {
 	var swLng = bounds.getSouthWest().lng();
 	var neLat = bounds.getNorthEast().lat();
 	var neLng = bounds.getNorthEast().lng();
-
+	
 	// attempts to get data from the backend
 	$.get(
 	    "/webapp/getdata:" + swLat + ":" + swLng + ":" + neLat + ":" + neLng,
@@ -53,10 +52,12 @@ function boundsTest() {
 		var pin;
 
 		// json data variables
-		var jsonArraySize = data.length;
+		
 		var recordings = eval("(" + data + ")");
-		var lat = new Array();
-		var lng = new Array();
+		var jsonArraySize = recordings.length;
+		var lat;
+		var lng;
+		var lat_lng_route = new Array();
 		
 		// individual file attributes
 		var fileName;
@@ -66,30 +67,29 @@ function boundsTest() {
 
 		// iterator over each file
 		for (var i=0; i<jsonArraySize; i++) {
-		    
+
 		    // sets the attributes of each file 
-		    lat = recordings[i].fields.lat;
-		    lng = recordings[i].fields.lon;
+		    lat = parseFloat(recordings[i].fields.lat);
+		    lng = parseFloat(recordings[i].fields.lon);
 		    fileName = recordings[i].fields.file_name;
 		    description = recordings[i].fields.description;
 		    lngLat = new google.maps.LatLng(lat,lng);
 		    filePath = recordings[i].fields.rec_file;
 		    filePath = "../" + filePath;
 
-
+		    
 		    // places a pin on the map at the lat and lng specified
 		    pin = new google.maps.Marker({
 			position: lngLat,
 			icon: '/static/images/marker.png',
 			map: map
 		    });
-		    
 
+		    
 		    
 		    // creates a listener for a click action on that pin
-		    google.maps.event.addListener(pin, 'click', (function(pin, fileName, description, infoWindow, filePath, lat, lng) {
+		    google.maps.event.addListener(pin, 'click', (function(pin, fileName, description, infoWindow, filePath, lngLat) {
 			return function() {
-
 			    mySound = new buzz.sound(filePath);
 			    // opens an info window with the title and description of that file
 			    infoWindow.setContent('<div><h3>' + 
@@ -104,11 +104,27 @@ function boundsTest() {
 						  '<input id="stop" type="button" value="Stop" class="pure-button pure-button-primary" onclick="stopAudio();" />' +
 						  '</div>');
 			    infoWindow.open(map, pin);
-			    var route = drawRoute(lat, lng);
-			     
-			     
+			    
+			    var lat_lng_route = new Array();
+			    lat_lng_route[0] = lngLat;
+
+			    $.get(
+				"/webapp/getroute:" + fileName,
+				
+				function(data) {
+				    
+				    
+				    var locations = eval("(" + data + ")");
+				    var locArraySize = locations.length;
+				    
+				    for(var i = 0; i<locArraySize; i++) {
+					lat_lng_route[i+1] = new google.maps.LatLng(parseFloat(locations[i].fields.lat), parseFloat(locations[i].fields.lon));
+				    }
+				    var route = drawRoute(lat_lng_route);
+				}		     
+			    );
 			}
-		    })(pin, fileName, description, infoWindow, filePath, lat, lng));
+		    })(pin, fileName, description, infoWindow, filePath, lngLat));
 		}
 	    }
 	    
@@ -137,13 +153,10 @@ function playSync(){
     mySound.play();
 }
 
-function drawRoute(lat, lng) {
-    var latLngs = new Array();
-    for(var j=0; j<1; j++) {
-	latLngs[j] = new google.maps.LatLng(lat[j], lng[j]);
-    }
+function drawRoute(lat_lng_route) {
+
     var route = new google.maps.Polyline({
-	path: latLngs,
+	path: lat_lng_route,
 	geodesic: true,
 	strokeColor: '#1F8DD6',
 	strokeOpacity: 0.6,
@@ -156,4 +169,4 @@ function drawRoute(lat, lng) {
 function deleteRoute(route) {
     route.setMap(null);
 }
-    
+
