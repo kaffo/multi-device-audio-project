@@ -8,6 +8,8 @@ from .process_data import process
 from webapp.models import Recording
 from webapp.models import Location
 from process_data import export
+from process_data import simplifiedConvert
+import os
 
 def getRecording(lat1, lon1, lat2, lon2):
     data = Recording.objects
@@ -94,6 +96,13 @@ def playSound(request, id):
         rec = getRecId(id)
         rec = serializers.serialize("json", rec)
         return HttpResponse(rec, "application/json")
+		
+def convert(request, fN):
+    context = RequestContext(request)
+	ext = os.path.splitext(fN)[1]
+	if(fN == '3gp')
+		simplifiedConvert(fN)
+	
 
 def register(request):
     context = RequestContext(request)
