@@ -93,8 +93,22 @@ def export(data):
 
 	with open('./static/scripts/data.json', 'w') as outp:
 		json.dump(serialized, outp)
+		
 
+#simplified convert
+# using ffmpeg default conversion settings
+def simplifiedConvert(fileName):
+	path = "../static/data/"
+	fileName = path + fileName
+	fileNew = path + os.path.splitext(fileName)[0] + '.ogg'
 	
+	p = sp.Popen([FFMPEG_BIN, "-i", fileName, "-acodec", "libvorbis", fileNew], stdout=subprocess.PIPE)
+
+
+
+#more complex function with parameters for configuring quality:
+#bitrate, audio channels, Hz, etc
+
 def convertOGG(fileName):
 
 	path = "../static/data/"
