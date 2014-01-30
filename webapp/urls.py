@@ -14,6 +14,7 @@ urlpatterns = patterns ('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^getroute:([a-z|A-Z]+)/$', views.getroute, name='getroute'),
     url(r'^register/$', views.register, name='register'),
+    url(r'^login/$', views.user_login, name='login'),
 
     #commented out, so it is not lost in case i'm wrong (Gordon Adam)
     #url(r'^settings/$', views.settings, name='settings'),
