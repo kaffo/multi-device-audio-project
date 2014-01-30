@@ -40,7 +40,7 @@ def process(file, data):
             lat = lat_array[i],
         )
         loc.save()
-
+    
     return HttpResponse("<h1>UPLOAD SUCCESS, BUT MAKE ME A DAMN HTML PAGE PLEASE</h1>")
 
 
@@ -94,13 +94,26 @@ def export(data):
 	with open('./static/scripts/data.json', 'w') as outp:
 		json.dump(serialized, outp)
 
+#simplified convert
+# using ffmpeg default conversion settings
+def simplifiedConvert(fileName):
+	path = "../static/data/"
+	fileName = path + fileName
+	fileNew = path + os.path.splitext(fileName)[0] + '.ogg'
+	
+	p = sp.Popen([FFMPEG_BIN, "-i", fileName, "-acodec", "libvorbis", fileNew], stdout=subprocess.PIPE)
+
+
+
+#more complex function with parameters for configuring quality:
+#bitrate, audio channels, Hz, etc
 
 def convertOGG(fileName):
 
 	path = "../static/data/"
 	fileName = path + fileName
 	fileNew = path + os.path.splitext(fileName)[0] + '.ogg'
-
+	
 	data = sp.Popen([ FFMPEG_BIN,
         '-i', fileName,
         '-f', 's16le',
@@ -109,11 +122,11 @@ def convertOGG(fileName):
         '-ac', '2', # channels
         '-'],
         stdin=sp.PIPE, stdout=sp.PIPE, stderr=sp.PIPE)
-
+	
 	raw = data.proc.stdout.read(88200*4) #save audio
 	audio = numpy.fromstring(raw, dtype="int16")
 	audio = audio.reshape((len(audio)/2,2)) #reorganize
-
+	
 	data = sp.Popen([ FFMPEG_BIN,
        '-y', # overwrite if such name exists
        "-f", 's16le', # 16bit
@@ -126,7 +139,7 @@ def convertOGG(fileName):
        '-b', "3000k", # output bitrate (=quality). Here, 3000kb/second
        fileNew ],
         stdin=sp.PIPE,stdout=sp.PIPE, stderr=sp.PIPE)
-
+		
 	audio.astype("int16").tofile(self.proc.stdin)
 
 '''
