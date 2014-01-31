@@ -1,5 +1,7 @@
-
 <!doctype html>
+
+{% load static %}
+
 <html lang="en">
 	<head>
     	<meta charset="utf-8">
@@ -9,7 +11,7 @@
     	<title>MDRS - Login</title>
 
 		<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
-		<link rel="stylesheet" href="/static/styles/side-menu.css">
+		<link rel="stylesheet" href="{% static "styles/side-menu.css" %}">
     
     </head>
 	<body>
@@ -57,7 +59,7 @@
         </div>
         </div>
 
-		<script src="/static/scripts/ui.js"></script>
+		<script src="{% static "scripts/ui.js" %}"></script>
         
 	</body>
     
