@@ -73,7 +73,7 @@ def submit(request):
     if request.method == 'POST':
         form = UploadFileForm(request.POST,request.FILES)
         if form.is_valid():
-            return process(request.FILES['rec_file'], request.POST)
+            return process(request.FILES['rec_file'], request.FILES['image_file'], request.POST)
     return render_to_response('webapp/submit.html', {'form': form}, context)
 
 def getdata(request, lat1, lon1, lat2, lon2):

@@ -50,6 +50,7 @@ function boundsTest() {
 		// map objects
 		var infoWindow = new google.maps.InfoWindow();
 		var pin;
+		var image_pin;
 
 		// json data variables
 		
@@ -113,12 +114,31 @@ function boundsTest() {
 				
 				function(data) {
 				    
-				    
 				    var locations = eval("(" + data + ")");
 				    var locArraySize = locations.length;
 				    
 				    for(var i = 0; i<locArraySize; i++) {
 					lat_lng_route[i+1] = new google.maps.LatLng(parseFloat(locations[i].fields.lat), parseFloat(locations[i].fields.lon));
+					var image_file = locations[i].fields.image;
+					
+					if((locations[i].fields.image) != "") {
+					    
+					    image_pin = new google.maps.Marker({
+						position: lat_lng_route[i+1],
+						map: map
+					    });
+					    
+					    google.maps.event.addListener(image_pin, 'click', (function(image_pin, image_file) {
+						return function() {
+						    infoWindow.setContent('<div>' +
+									  '<img src=' + '"/static/data/' + image_file + '" alt="Failed to load"></img>' +
+									  '</div>');
+						    infoWindow.open(map, image_pin);
+						}
+					    })(image_pin, image_file));
+					    
+					}
+					
 				    }
 				    var route = drawRoute(lat_lng_route);
 				}		     

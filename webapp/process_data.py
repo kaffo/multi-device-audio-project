@@ -9,17 +9,25 @@ import subprocess as sp
 import os
 
 
-def process(file, data):
+def process(recording_file, image_file, data):
     lon_array = data['lon'].split(',')
     lat_array = data['lat'].split(',')
-    extn = file.name.split('.')[-1]
-    if (extn != "ogg"):
+    img_array = data['image'].split(',')
+    recording_extn = recording_file.name.split('.')[-1]
+    image_extn = image_file.name.split('.')[-1]
+    if (recording_extn != "ogg"):
         return  HttpResponse("<h1>Please upload an ogg file!</h1>")
-
-    title = data['file_name'] + '.' + extn
-    path = 'static/data/' + title # I modified this from "data/" because django was being a nuisance and not letting me link to things outside /static/ (gadam)
+    if (image_extn != "jpg"):
+        return HttpResponse("<h1>Please upload a jpg file!</h1>")
+    image_title = data['file_name'] + '.' + image_extn
+    recording_title = data['file_name'] + '.' + recording_extn
+    path = 'static/data/' + recording_title # I modified this from "data/" because django was being a nuisance and not letting me link to things outside /static/ (gadam)
     with open(path, 'wb+') as destination:
-        for chunk in file.chunks():
+        for chunk in recording_file.chunks():
+            destination.write(chunk)
+    path = 'static/data/' + image_title
+    with open(path, 'wb+') as destination:
+        for chunk in image_file.chunks():
             destination.write(chunk)
     rec = Recording(
         file_name = data["file_name"],
@@ -38,6 +46,7 @@ def process(file, data):
             recording_assoc = rec,
             lon = lon_array[i],
             lat = lat_array[i],
+            image = img_array[i]
         )
         loc.save()
     

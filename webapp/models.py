@@ -37,6 +37,7 @@ class Location(models.Model):
     recording_assoc = models.ForeignKey(Recording)
     lon = models.DecimalField(max_digits=50, decimal_places=20) # moved from recording
     lat = models.DecimalField(max_digits=50, decimal_places=20) # moved from recording
+    image = models.CharField(max_length=50)
     def __unicode__(self):
             return self.loc_name
 
