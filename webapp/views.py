@@ -90,13 +90,21 @@ def getroute(request, fn):
         data = getLocation(fn)
         data = serializers.serialize("json", data)
         return HttpResponse(data, "application/json")
-
+		
+def getRecs(request):
+    context = RequestContext(request)
+    if request.method == 'GET':
+        data = Recording.all()
+        data = serializers.serialize("json", data)
+        return HttpResponse(data,"application/json")
+	
 def playSound(request, id):
     context = RequestContext(request)
     if request.method == 'GET':
         rec = getRecId(id)
         rec = serializers.serialize("json", rec)
         return HttpResponse(rec, "application/json")
+		
 
 def convert(request, fN):
     context = RequestContext(request)

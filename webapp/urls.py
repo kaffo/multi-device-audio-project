@@ -13,6 +13,7 @@ urlpatterns = patterns ('',
     url(r'^user/$', views.user, name='user'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^getroute:([a-z|A-Z]+)/$', views.getroute, name='getroute'),
+	url(r'^getRecs', views.getRecs, name='getRecs'),
     url(r'^register/$', views.register, name='register'),
     url(r'^login/$', views.user_login, name='login'),
 
