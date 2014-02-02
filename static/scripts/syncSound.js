@@ -54,8 +54,8 @@ function load_data(sync){
 	var last = sync[sync.length-1];
 
 	for(var j=0;j<sync.length-1;j++){
-	
 		s_obj = new buzz.sound(sync[i].fields.rec_file);
+		sync_group.push(s_obj);
 		diff = (last.fields.start_time.getTime() - sync[i].fields.start_time.getTime())/1000;
 		if(diff>=0){
 			s_obj.setTime(diff);
@@ -65,7 +65,6 @@ function load_data(sync){
 			alert("error");
 		}
 		
-		sync_group.push(s_obj);
 	}
 	
 	loaded = 1;
@@ -97,13 +96,15 @@ function synchronise(id){
 	
 	load_data(sync);
 
-
+	
 	var s1 = new buzz.sound( "../../static/data/second_audio.ogg");
 	s = new buzz.sound( "../../static/data/" + id +".ogg"); //curr_rec.fields.rec_file
 	
-	s.setTime(10);
+	/*
 	sync_group.push(s);
+	s.setTime(20.5);
 	sync_group.push(s1);
+	*/
 	
 	group = new buzz.group(sync_group);
 }
@@ -111,11 +112,7 @@ function synchronise(id){
 function playS(id){
 	if(loaded==0)
 		synchronise(id);
-	group.play();
-}
-
-function pauseS(){
-	group.pause();
+	group.togglePlay();
 }
 
 function stopS(){
