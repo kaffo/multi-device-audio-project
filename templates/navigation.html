@@ -28,6 +28,10 @@
         <a href={{ url }}{% if request.path == url %} class="pure-menu-selected"{% endif %}>Settings</a>
       </li>
 
+      <li>
+	{% url 'submit' as url %}
+        <a href={{ url }}{% if request.path == url %} class="pure-menu-selected"{% endif %}>Submit</a>
+      </li>
       {% if user.is_authenticated %}
       <li class="menu-item-divided">
 	{% url 'logout' as url %}
@@ -41,16 +45,11 @@
         <a href={{ url }}{% if request.path == url %} class="pure-menu-selected"{% endif %}>Register</a>
       </li>
 
-      <li class="menu-item-divided">
+      <li>
 	{% url 'login' as url %}
         <a href={{ url }}{% if request.path == url %} class="pure-menu-selected"{% endif %}>Login</a>
       </li>
-
       {% endif %}
-      <li>
-	{% url 'submit' as url %}
-        <a href={{ url }}{% if request.path == url %} class="pure-menu-selected"{% endif %}>Submit</a>
-      </li>
 
     </ul>
 

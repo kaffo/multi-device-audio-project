@@ -54,7 +54,11 @@
 
     		<div id="main"> 
             <div class="header">
+            {% if user.is_authenticated %}
+            <h1>{{ user.username }}</h1>
+            {% else %}
             <h1>User</h1>
+            {% endif %}
             {% if user.is_authenticated %}
 			<button id="play" onclick="playS(121);">play/pause</button>
 			<!-- <button id="stop" onclick="stopS();">stop</button> -->
