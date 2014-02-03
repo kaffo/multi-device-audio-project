@@ -24,7 +24,7 @@ class Recording(models.Model):
     event_assoc = models.ManyToManyField(Event, related_name='event+') #event name and recording association /1 event can have mult recordings, 1 rec. of many events
     lon = models.DecimalField(max_digits=50, decimal_places=20)
     lat = models.DecimalField(max_digits=50, decimal_places=20)
-    
+
     #image_assoc = models.OneToMany(Image, related_name = 'IMG_+') #event and images relationship
     #location = models. location_field /open src on github project>> https://github.com/codasus/django-location-field
 
@@ -35,16 +35,16 @@ class Recording(models.Model):
 class Location(models.Model):
     loc_ID = models.AutoField(primary_key = True)
     loc_name = models.CharField(max_length=30)
-    recording_assoc = models.ForeignKey(Recording.file_ID)
+    #recording_assoc = models.ForeignKey(Recording.file_ID)
     lon = models.DecimalField(max_digits=50, decimal_places=20) # moved from recording
     lat = models.DecimalField(max_digits=50, decimal_places=20) # moved from recording
     image = models.CharField(max_length=50)
-    
+
     alt = models.DecimalField(max_digits=4, decimal_places=2)
     bearing = models.FloatField(default=0.0)
     speed = models.FloatField(default=0.0)
     time = models.DateTimeField()
-    
+
     def __unicode__(self):
             return self.loc_name
 
@@ -63,7 +63,7 @@ class Image(models.Model):
     file_ID =  models.AutoField(primary_key=True) #file id
     file = models.FileField(upload_to='/images/%Y/%m/%d') #profile picture
     time_taken = models.DateTimeField() #time stamp
-    event_assoc = models.ForeignKey(Event.event_ID)
+    #event_assoc = models.ForeignKey(Event.event_ID)
     recording_assoc = models.ForeignKey(Recording)
     #event_assoc = models.OneToMany(Event, related_name='event+') #event name and image association/ 1 event mult images
     #location = models. location_field /open src on github project>> https://github.com/codasus/django-location-field

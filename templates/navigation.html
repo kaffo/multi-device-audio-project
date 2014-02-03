@@ -14,7 +14,13 @@
       
       <li>
 	{% url 'user' as url %}
-	<a href={{ url }}{% if request.path == url %} class="pure-menu-selected"{% endif %}>User</a>
+	<a href={{ url }}{% if request.path == url %} class="pure-menu-selected"{% endif %}>
+    {% if user.is_authenticated %}
+    {{ user.username }}
+    {% else %}
+    User
+    {% endif %}
+    </a>
       </li>
 				
       <li class="menu-item-divided">
