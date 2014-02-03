@@ -95,7 +95,7 @@ def getroute(request, fn):
 def getRecs(request):
     context = RequestContext(request)
     if request.method == 'GET':
-        data = Recording.all()
+        data = Recording.objects.all()
         data = serializers.serialize("json", data)
         return HttpResponse(data,"application/json")
 

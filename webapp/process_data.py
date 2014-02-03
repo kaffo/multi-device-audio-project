@@ -69,7 +69,7 @@ def test():
 def export(data):
 	recs = []
 
-	for recording in data:
+	for recording in Recording.objects.all():
 
 		rec_data = {
 			"startDate":recording.start_time.strftime("%Y,%m,%d %H,%M"),
