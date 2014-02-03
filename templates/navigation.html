@@ -2,34 +2,52 @@
 {% load base_extras %}
 
 <div id="menu">
-        		<div class="pure-menu pure-menu-open">
-            		<a class="pure-menu-heading" href="http://purecss.io/">MDRS</a>
+  <div class="pure-menu pure-menu-open">
+    <a class="pure-menu-heading" href={% url 'index' %}>MDRS</a>
+    
+    <ul>
+      
+      <li>
+	{% url 'index' as url %}
+	<a href={{ url }}{% if request.path == url %} class="pure-menu-selected"{% endif %}>Home</a>
+      </li>
+      
+      <li>
+	{% url 'user' as url %}
+	<a href={{ url }}{% if request.path == url %} class="pure-menu-selected"{% endif %}>User</a>
+      </li>
+				
+      <li class="menu-item-divided">
+	{% url 'settings' as url %}
+        <a href={{ url }}{% if request.path == url %} class="pure-menu-selected"{% endif %}>Settings</a>
+      </li>
 
-            		<ul>
-                		<li class="pure-menu-selected">
-                			<a href="{% url 'index' %}">Home</a>
-                		</li>
-                		<li><a href="{% url 'user' %}">User</a></li>
+      {% if user.is_authenticated %}
+      <li class="menu-item-divided">
+	{% url 'logout' as url %}
+        <a href={{ url }}{% if request.path == url %} class="pure-menu-selected"{% endif %}>Logout</a>
+      </li>
 
-                		<li class="menu-item-divided">
-                    		<a href="{% url 'settings' %}">Settings</a>
-                		</li>
-                        {% if user.is_authenticated %}
-                        <li class="menu-item-divided">
-                            <a href="{% url 'logout' %}">Logout</a>
-                        </li>
-                        {% else %}
-                        <li class="menu-item-divided">
-                            <a href="{% url 'register' %}">Register</a>
-                        </li>
-                        <li class="menu-item-divided">
-                            <a href="{% url 'login' %}">Login</a>
-                        </li>
-                        {% endif %}
-                        <li>
-                            <a href="{% url 'submit' %}">Submit</a>
-                        </li>
-            		</ul>
-        		</div>
+      {% else %}
+      
+      <li class="menu-item-divided">	
+	{% url 'register' as url %}
+        <a href={{ url }}{% if request.path == url %} class="pure-menu-selected"{% endif %}>Register</a>
+      </li>
 
+      <li class="menu-item-divided">
+	{% url 'login' as url %}
+        <a href={{ url }}{% if request.path == url %} class="pure-menu-selected"{% endif %}>Login</a>
+      </li>
+
+      {% endif %}
+      <li>
+	{% url 'submit' as url %}
+        <a href={{ url }}{% if request.path == url %} class="pure-menu-selected"{% endif %}>Submit</a>
+      </li>
+
+    </ul>
+
+  </div>
+  
 </div>
