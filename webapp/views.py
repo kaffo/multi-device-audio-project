@@ -1,7 +1,8 @@
 import datetime, json
 from django.core import serializers
 from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from .form import UploadFileForm, UserForm
@@ -90,21 +91,21 @@ def getroute(request, fn):
         data = getLocation(fn)
         data = serializers.serialize("json", data)
         return HttpResponse(data, "application/json")
-		
+
 def getRecs(request):
     context = RequestContext(request)
     if request.method == 'GET':
         data = Recording.all()
         data = serializers.serialize("json", data)
         return HttpResponse(data,"application/json")
-	
+
 def playSound(request, id):
     context = RequestContext(request)
     if request.method == 'GET':
         rec = getRecId(id)
         rec = serializers.serialize("json", rec)
         return HttpResponse(rec, "application/json")
-		
+
 
 def convert(request, fN):
     context = RequestContext(request)
@@ -125,7 +126,7 @@ def register(request):
             user = user_form.save()
 
             user.set_password(user.password)
-            user.save
+            user.save()
 
             registered = True
 
@@ -156,8 +157,13 @@ def user_login(request):
             else:
                 return HttpResponse("<center><h1>Your account has been disabled!</h1></center>")
         else:
-            print "Invalide login details: {0}. {1}".format(username, password)
+            print "Invalide login details: '{0}', '{1}'".format(username, password)
             return HttpResponse("Invalid Login Details supplied.")
 
     else:
         return render_to_response('webapp/login.html', {}, context)
+
+@login_required
+def user_logout(request):
+    logout(request)
+    return HttpResponseRedirect('/webapp/')

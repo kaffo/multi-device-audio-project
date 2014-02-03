@@ -80,6 +80,7 @@
     		<div id="main"> 
             <div class="header">
             <h1>User</h1>
+            {% if user.is_authenticated %}
 			<button id="play" onclick="playS(121);">play/pause</button>
 			<!-- <button id="stop" onclick="stopS();">stop</button> -->
         </div>
@@ -103,7 +104,9 @@
         		window.onresize = autoResizeDiv;
         		autoResizeDiv();
 		</script>
-	
+        {% else %}
+        <h3>Please <a href={% url 'register' %}>Register</a> or <a href={% url 'login' %}>Login</a> to proceed</h3>
+        {% endif %}	
 	</body>
     
 </html>
