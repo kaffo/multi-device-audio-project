@@ -17,8 +17,8 @@
 		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAcCsb4_1FhEOP4bYPwm10FV_bGhjHBBH0&sensor=true"></script>
 		<script src="{% static "scripts/map-canvas.js" %}"></script>
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-		<script type="text/javascript" src="{% static "build/js/storyjs-embed.js" %}"></script>
-		<script type="text/javascript" src="{% static "scripts/tl.js" %}"></script>
+		<!-- <script type="text/javascript" src="{% static "build/js/storyjs-embed.js" %}"></script>
+		<script type="text/javascript" src="{% static "scripts/tl.js" %}"></script> -->
 		<script src="{% static "scripts/buzz.min.js" %}"></script>
 
 
@@ -38,7 +38,7 @@
     			<div class="content">
         			<div id="map-content"></div>
 					<div align="right" style = "margin-right:-32px; float:right;">
-					<div id="my-timeline"></div>
+					<!-- <div id="my-timeline"></div> -->
 					</div>
          		</div>     
 				
@@ -50,7 +50,7 @@
 		<script language="javascript">
     		    function autoResizeDiv()
         		{
-					var mheight = (window.innerHeight-301) +'px';
+					var mheight = (window.innerHeight-1) +'px'; //-301
 					var mwidth = (window.innerWidth - 151) +'px';
 					var tlwidth = (window.innerWidth - 150) + 'px';
             		document.getElementById('map-content').style.height = mheight;
