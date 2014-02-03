@@ -106,12 +106,16 @@ def playSound(request, id):
         rec = serializers.serialize("json", rec)
         return HttpResponse(rec, "application/json")
 
-
 def convert(request, fN):
     context = RequestContext(request)
     ext = os.path.splitext(fN)[1]
-    if(fN == '3gp'):
+    response = HttpResponse()
+    if(fN == '3gp' and os.path.isfile("../static/data/" + fN)):
         simplifiedConvert(fN)
+        response.write("Success!")
+    else
+	    esponse.write("Error!")
+    return response
 
 
 def register(request):
