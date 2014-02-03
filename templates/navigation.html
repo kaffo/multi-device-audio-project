@@ -1,0 +1,35 @@
+
+{% load base_extras %}
+
+<div id="menu">
+        		<div class="pure-menu pure-menu-open">
+            		<a class="pure-menu-heading" href="http://purecss.io/">MDRS</a>
+
+            		<ul>
+                		<li class="pure-menu-selected">
+                			<a href="{% url 'index' %}">Home</a>
+                		</li>
+                		<li><a href="{% url 'user' %}">User</a></li>
+
+                		<li class="menu-item-divided">
+                    		<a href="{% url 'settings' %}">Settings</a>
+                		</li>
+                        {% if user.is_authenticated %}
+                        <li class="menu-item-divided">
+                            <a href="{% url 'logout' %}">Logout</a>
+                        </li>
+                        {% else %}
+                        <li class="menu-item-divided">
+                            <a href="{% url 'register' %}">Register</a>
+                        </li>
+                        <li class="menu-item-divided">
+                            <a href="{% url 'login' %}">Login</a>
+                        </li>
+                        {% endif %}
+                        <li>
+                            <a href="{% url 'submit' %}">Submit</a>
+                        </li>
+            		</ul>
+        		</div>
+
+</div>
