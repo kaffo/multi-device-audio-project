@@ -113,7 +113,7 @@ def convert(request, fN):
     if(fN == '3gp' and os.path.isfile("../static/data/" + fN)):
         simplifiedConvert(fN)
         response.write("Success!")
-    else
+    else:
 	    response.write("Error!")
     return response
 
