@@ -1,8 +1,12 @@
+//pyordanov
+
+jQuery.ajaxSetup({async:false});
+
 var s;
 var group;
 
 var curr_rec;
-var curr_start;
+var curr_start = 1;
 var curr_end;
 var curr_s_obj;
 
@@ -80,8 +84,9 @@ function synchronise(id){
 		curr_start = curr_rec.fields.start_time;
 		curr_end= curr_rec.fields.end_time;
 		curr_s_obj = new buzz.sound(curr_rec.fields.rec_file);
+		
 	});
-
+	//alert(curr_start);
 
 	$.get(
 		"/webapp/getRecs",
@@ -91,7 +96,7 @@ function synchronise(id){
 			process_data(recs);
 			
 		});
-
+	alert(curr_start);
 	sync = sync.sort(compare);
 	
 	load_data(sync);
@@ -100,11 +105,11 @@ function synchronise(id){
 	var s1 = new buzz.sound( "../../static/data/second_audio.ogg");
 	s = new buzz.sound( "../../static/data/" + id +".ogg"); //curr_rec.fields.rec_file
 	
-	/*
+	
 	sync_group.push(s);
 	s.setTime(20.5);
 	sync_group.push(s1);
-	*/
+	
 	
 	group = new buzz.group(sync_group);
 }
