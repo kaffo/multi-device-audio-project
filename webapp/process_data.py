@@ -46,7 +46,9 @@ def process(recording_file, image_file, data):
             recording_assoc = rec,
             lon = lon_array[i],
             lat = lat_array[i],
-            image = img_array[i]
+            image = img_array[i],
+            alt = 0.0, # This is just temporary until we can start uploading data from mobile device
+            time = "2000-01-01" # This is just temporary until we can start uploading data from mobile device
         )
         loc.save()
     
