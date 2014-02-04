@@ -3,89 +3,69 @@
 {% load static %}
 
 <html lang="en">
-	<head>
-	
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-		<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
-		<script src="{% static "static/scripts/buzz.min.js" %}"></script>
-		<script type="text/javascript" src="{% static "scripts/syncSound.js" %}"></script>
-        <script type="text/javascript" src="{% static "build/js/storyjs-embed.js" %}"></script>
-		<script>
-			$(document).ready(function() {
-				createStoryJS({
-					type:       'timeline',
-					width:      window.innerWidth - 150,
-					height:     window.innerHeight - 118,
-					source:     '/static/scripts/data.json',
-					embed_id:   'my-timeline'
-				});
-			});
-		</script>
-		
+<head>
 
-    	<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="description" content="A layout example with a side menu that hides on mobile, just like the Pure website.">
-		
-
-    	<title>MDRS - User</title>
-
-		<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
-		<link rel="stylesheet" href="{% static "styles/side-menu.css" %}">
-        <link rel="stylesheet" href="{% static "styles/map-styles.css" %}">
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+<script src="{% static "static/scripts/buzz.min.js" %}"></script>
+<script type="text/javascript" src="{% static "scripts/syncSound.js" %}"></script>
 
 
-		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAcCsb4_1FhEOP4bYPwm10FV_bGhjHBBH0&sensor=true"></script>
-		<script src="{% static "scripts/map-canvas.js" %}"></script>
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-		<script src="{% static "scripts/buzz.min.js" %}"></script>
-    
-    </head>
-	<body>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A layout example with a side menu that hides on mobile, just like the Pure website.">
 
-		<div id="layout">
-    		<!-- Menu toggle -->
-    		<a href="#menu" id="menuLink" class="menu-link">
-        		<!-- Hamburger icon -->
-        		<span></span>
-    		</a>
 
-    		{% include "navigation.html" %}
+<title>MDRS - User</title>
 
-    		<div id="main"> 
-            <div class="header">
+<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
+<link rel="stylesheet" href="{% static "styles/side-menu.css" %}">
+<link rel="stylesheet" href="{% static "styles/map-styles.css" %}">
+
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAcCsb4_1FhEOP4bYPwm10FV_bGhjHBBH0&sensor=true"></script>
+<script src="{% static "scripts/map-canvas.js" %}"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+<script src="{% static "scripts/buzz.min.js" %}"></script>
+
+</head>
+<body>
+
+<div id="layout">
+    <!-- Menu toggle -->
+    <a href="#menu" id="menuLink" class="menu-link">
+        <!-- Hamburger icon -->
+        <span></span>
+    </a>
+
+    {% include "navigation.html" %}
+
+    <div id="main"> 
+        <div class="header">
             {% if user.is_authenticated %}
             <h1>{{ user.username }}</h1>
             {% else %}
             <h1>User</h1>
             {% endif %}
             {% if user.is_authenticated %}
-			<button id="play" onclick="playS(121);">play/pause</button>
-			<!-- <button id="stop" onclick="stopS();">stop</button> -->
+            <button id="play" onclick="playS(121);">play/pause</button>
+            <!-- <button id="stop" onclick="stopS();">stop</button> -->
+            <p id="recordings"></p>
+            <script>
+            $.get(
+                    "/webapp/getUserRecs:{{ user.username }}",
+                    function(data) {
+                        //for (var i = 0; i < data.length; i++) {
+                            $('#recordings').text(data);
+                        //}
+                    }
+            )
+            </script>
+            <p>{{ useracc.recs }}</p>    				
+            {% else %}
+            <h3>Please <a href={% url 'register' %}>Register</a> or <a href={% url 'login' %}>Login</a> to proceed</h3>
+            {% endif %}	
         </div>
-    				
-		<div style = "float:right;">
-		<div id="my-timeline"></div>
-		</div>
-				
-         		</div>     
-    		</div>
-		</div>
-		
-		<script language="javascript">
-    		    function autoResizeDiv()
-        		{
-					var tlwidth = (window.innerWidth - 150) + 'px';
-					var tlheight = (window.innerHeight - 135) + 'px';
-					document.getElementById('my-timeline').style.width = tlwidth;
-					document.getElementById('my-timeline').style.height = tlheight;
-        		}
-        		window.onresize = autoResizeDiv;
-        		autoResizeDiv();
-		</script>
-        {% else %}
-        <h3>Please <a href={% url 'register' %}>Register</a> or <a href={% url 'login' %}>Login</a> to proceed</h3>
-        {% endif %}	
-	</body>
-    
-</html>
+        </body>
+
+        </html>
