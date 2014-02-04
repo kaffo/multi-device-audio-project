@@ -1,6 +1,6 @@
 from django.http import HttpResponse, HttpRequest
 import datetime, json
-from webapp.models import Event, Recording, Image, Location
+from webapp.models import Event, Recording, Image, Location, UserAcc
 from django.core.serializers.json import DjangoJSONEncoder
 
 FFMPEG_BIN = "ffmpeg"
@@ -9,7 +9,7 @@ import subprocess as sp
 import os
 
 
-def process(recording_file, image_file, data):
+def process(recording_file, image_file, data, user):
     lon_array = data['lon'].split(',')
     lat_array = data['lat'].split(',')
     img_array = data['image'].split(',')
@@ -31,7 +31,7 @@ def process(recording_file, image_file, data):
             destination.write(chunk)
     rec = Recording(
         file_name = data["file_name"],
-        length = 0.01,
+        length = 0.01, #we need to grab the time from the metadata, pretty easy.
         start_time = datetime.datetime.today(),
         end_time = datetime.datetime.today(),
         description = data["description"],
@@ -51,7 +51,11 @@ def process(recording_file, image_file, data):
             time = "2000-01-01" # This is just temporary until we can start uploading data from mobile device
         )
         loc.save()
-    
+
+    if user.is_authenticated():
+        useracc = UserAcc.objects.filter(user__exact=user)[0]
+        useracc.recs.add(rec)
+
     return HttpResponse("<h1>UPLOAD SUCCESS, BUT MAKE ME A DAMN HTML PAGE PLEASE</h1>")
 
 
@@ -111,7 +115,7 @@ def simplifiedConvert(fileName):
 	path = "../static/data/"
 	fileName = path + fileName
 	fileNew = path + os.path.splitext(fileName)[0] + '.ogg'
-	
+
 	p = sp.Popen([FFMPEG_BIN, "-i", fileName, "-acodec", "libvorbis", fileNew], stdout=subprocess.PIPE)
 
 
@@ -124,7 +128,7 @@ def convertOGG(fileName):
 	path = "../static/data/"
 	fileName = path + fileName
 	fileNew = path + os.path.splitext(fileName)[0] + '.ogg'
-	
+
 	data = sp.Popen([ FFMPEG_BIN,
         '-i', fileName,
         '-f', 's16le',
@@ -133,11 +137,11 @@ def convertOGG(fileName):
         '-ac', '2', # channels
         '-'],
         stdin=sp.PIPE, stdout=sp.PIPE, stderr=sp.PIPE)
-	
+
 	raw = data.proc.stdout.read(88200*4) #save audio
 	audio = numpy.fromstring(raw, dtype="int16")
 	audio = audio.reshape((len(audio)/2,2)) #reorganize
-	
+
 	data = sp.Popen([ FFMPEG_BIN,
        '-y', # overwrite if such name exists
        "-f", 's16le', # 16bit
@@ -150,7 +154,7 @@ def convertOGG(fileName):
        '-b', "3000k", # output bitrate (=quality). Here, 3000kb/second
        fileNew ],
         stdin=sp.PIPE,stdout=sp.PIPE, stderr=sp.PIPE)
-		
+
 	audio.astype("int16").tofile(self.proc.stdin)
 
 '''

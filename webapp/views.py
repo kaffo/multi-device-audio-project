@@ -7,8 +7,7 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response
 from .form import UploadFileForm, UserForm
 from .process_data import process
-from webapp.models import Recording
-from webapp.models import Location
+from webapp.models import Recording, Location, UserAcc
 from process_data import export
 from process_data import simplifiedConvert
 import os
@@ -60,8 +59,13 @@ def about(request):
 
 def user(request):
 #Hilarious code for deleteing stuff from the database since it's hard yo
-    #data = Recording.objects
-    #data = data.filter(file_name__exact="Basstest")
+#    data = Recording.objects
+#    data = data.filter(file_name__exact="Test")
+#    print data
+#    print UserAcc.objects
+#    user = UserAcc.objects.filter(user__exact=request.user)[0]
+#    print user
+#    user.recs.add(data[0])
     #data.delete()
     context = RequestContext(request)
     context_dict = {'boldmessage': "I am from context"}
@@ -74,7 +78,7 @@ def submit(request):
     if request.method == 'POST':
         form = UploadFileForm(request.POST,request.FILES)
         if form.is_valid():
-            return process(request.FILES['rec_file'], request.FILES['image_file'], request.POST)
+            return process(request.FILES['rec_file'], request.FILES['image_file'], request.POST, request.user)
     return render_to_response('webapp/submit.html', {'form': form}, context)
 
 def getdata(request, lat1, lon1, lat2, lon2):
@@ -131,6 +135,10 @@ def register(request):
 
             user.set_password(user.password)
             user.save()
+
+            useracc = UserAcc(user = user)
+
+            useracc.save()
 
             registered = True
 
