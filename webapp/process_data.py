@@ -25,10 +25,7 @@ def process(recording_file, image_file, data, user):
     with open(path, 'wb+') as destination:
         for chunk in recording_file.chunks():
             destination.write(chunk)
-    path = 'static/data/' + image_title
-    with open(path, 'wb+') as destination:
-        for chunk in image_file.chunks():
-            destination.write(chunk)
+    
     rec = Recording(
         file_name = data["file_name"],
         length = 0.01, #we need to grab the time from the metadata, pretty easy.
@@ -39,6 +36,10 @@ def process(recording_file, image_file, data, user):
         lon = lon_array[0],
         lat = lat_array[0]
     )
+    path = 'static/data/' + image_title
+    with open(path, 'wb+') as destination:
+        for chunk in image_file.chunks():
+            destination.write(chunk)
     rec.save()
     lonlat_len = len(lon_array)
     for i in range(1, lonlat_len):
