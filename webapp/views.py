@@ -2,6 +2,7 @@ import datetime, json
 from django.core import serializers
 from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.shortcuts import render_to_response
@@ -102,6 +103,18 @@ def getRecs(request):
         data = Recording.objects.all()
         data = serializers.serialize("json", data)
         return HttpResponse(data,"application/json")
+
+def getUserRecs(request, username):
+    context = RequestContext(request)
+    if request.method == 'GET':
+        user = User.objects.get(username = username)
+        useracc = UserAcc.objects.filter(user__exact=user)[0]
+        userrecs = useracc.recs.all()
+        data = []
+        for item in userrecs:
+            data = data + [item.file_name]
+        #data = serializers.serialize("json", data)
+        return HttpResponse(data)
 
 def playSound(request, id):
     context = RequestContext(request)
