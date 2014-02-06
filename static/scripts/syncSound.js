@@ -54,7 +54,7 @@ function process_data(recs){
 	//alert(sync[1].fields.rec_file + "tosync");
 	
 	sync = sync.sort(compare);
-	alert(sync.length);
+	//alert(sync.length);
 	return sync;
 	
 }
@@ -70,14 +70,15 @@ function load_data(sync){
 
 	for(var i=0;i<sync.length;i++){
 		s = new Date(sync[i].fields.start_time);
-		alert("../../" + sync[i].fields.rec_file);
+		//alert("../../" + sync[i].fields.rec_file);
 		s_obj = new buzz.sound("../../" + sync[i].fields.rec_file);
 		sync_group.push(s_obj);
 		diff = (l.getTime() - s.getTime())/1000;
+		//alert(l + " " + l.getTime() + " " + s + " " + sync[i].fields.end_time + " " + s.getTime());
 		//diff = 10;
 		if(diff>=0){
 			s_obj.setTime(diff);
-			alert(l.getTime() + " " + s.getTime());
+			//alert(l.getTime() + " " + s.getTime());
 		}
 		
 		else{
@@ -85,7 +86,7 @@ function load_data(sync){
 		}
 		
 	}
-	alert(sync_group.length);
+	//alert(sync_group.length);
 	loaded = 1;
 	
 }
@@ -111,10 +112,10 @@ function synchronise(id){
 			recs = eval("("+ data +")");
 			//alert(recs[0].fields.start_time);
 			var toSync = process_data(recs);
-			alert(toSync.length);
+			//alert(toSync.length);
 			load_data(toSync);
 			//sync_group.push(curr_s_obj);
-			alert("final" + sync_group.length);
+			//alert("final" + sync_group.length);
 	
 			group = new buzz.group(sync_group);
 			//group.togglePlay();
@@ -130,13 +131,13 @@ function synchronise(id){
 	//sync_group.push(s);
 }
 
-function playS(id){
-	alert("loaded" + loaded);
-	if(loaded==0)
+function load(id){
+	alert("Loaded: " + loaded);
+	if(loaded==0){
 		synchronise(id);
-	group.togglePlay();
+	}
 }
 
-function stopS(){
-	group.stop();
+function playS(){
+	group.togglePlay();
 }
