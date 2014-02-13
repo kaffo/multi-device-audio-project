@@ -1,15 +1,13 @@
 //hardcoded solution to the buzz problem
-alert("This script is working");
 
-var startTime = new Date().getTime();
+//alert("This script is working");
 var mySounds = new Array();
 var current = 0;//number of file currently playing
-
 var mySound1 = new buzz.sound( "../../static/data/test1.ogg", 
 	{	
 	preload: false,autoplay: false
 	});
-var mySound2 = new buzz.sound("../../static/data/second_audio.ogg",
+	var mySound2 = new buzz.sound("../../static/data/second_audio.ogg",
 	{
 	preload: false, autoplay:false
 	});
@@ -17,50 +15,57 @@ var mySound3 = new buzz.sound("../../static/data/Second Audio Test.ogg",
 	{
 	preload: false, autoplay:false
 	});
-	
-//populate an array with all sounds we want to play
+//populate the array with all sounds we want to play
 mySounds.push(mySound1);
 mySounds.push(mySound2);
 mySounds.push(mySound3);
 
-//load all sounds
-
-for (var i=0;i<mySounds.length;i++)
+function start()//button start is pressed 
 	{
-	mySounds[i].load();
+   //worker.postMessage({'cmd': 'start', 'msg': 'Hi'});
+	var startTime = new Date().getTime();
+	
+	
+	//load the first recording
+	mySounds[0].load();
+
+	//recursive function to call all the recordings and play them
+	function playSound()
+		{
+		console.log("now playing " + (current+1));
+		mySounds[current].play();
+		current++;
+		if (mySounds.length > current)
+			{
+			mySounds[current].load();
+			playSound();
+			}
+		}
+	playSound(0);
 	}
 	
-//load the first sound
-mySounds[0].load();
-
-//recursive function to call all the recordings and play them
-/*
-function playSound(current)
+	function stop() 
 	{
-	console.log("now playing " + (current+1));
-	mySounds[current].play();
-	current++;
-	if (mySounds.length > current)
+	//worker.terminate() from this script would also stop the worker.
+	//worker.postMessage({'cmd': 'stop', 'msg': 'Bye'});
+	for (var i=mySounds.length-1;i>=0;i--)
 		{
-		mySounds[current].load();
-		playSound(current);
+		mySounds[i].stop();
 		}
 	}
-playSound(0);
-*/
-
-function sayHI() {
-    worker.postMessage({'cmd': 'start', 'msg': 'Hi'});
-  }
-
-  function stop() {
-    // worker.terminate() from this script would also stop the worker.
-    worker.postMessage({'cmd': 'stop', 'msg': 'Bye'});
-  }
-
-  function unknownCmd() {
-    worker.postMessage({'cmd': 'foobard', 'msg': '???'});
-  }
+	
+	function pause() 
+	{
+	//worker.postMessage({'cmd': 'foobard', 'msg': '???'});
+	for (var i=current-1;i>=0;i--)
+		{
+		if (!mySounds[i].isEnded())
+			{
+			mySounds[i].togglePlay();
+			}
+		else break;
+		}	
+	}
 
   var worker = new Worker('../../static/scripts/timer.js');
 
