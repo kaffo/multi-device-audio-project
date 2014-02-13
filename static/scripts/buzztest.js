@@ -33,6 +33,8 @@ for (var i=0;i<mySounds.length;i++)
 //load the first sound
 mySounds[0].load();
 
+//recursive function to call all the recordings and play them
+/*
 function playSound(current)
 	{
 	console.log("now playing " + (current+1));
@@ -44,8 +46,33 @@ function playSound(current)
 		playSound(current);
 		}
 	}
-
 playSound(0);
+*/
+
+function sayHI() {
+    worker.postMessage({'cmd': 'start', 'msg': 'Hi'});
+  }
+
+  function stop() {
+    // worker.terminate() from this script would also stop the worker.
+    worker.postMessage({'cmd': 'stop', 'msg': 'Bye'});
+  }
+
+  function unknownCmd() {
+    worker.postMessage({'cmd': 'foobard', 'msg': '???'});
+  }
+
+  var worker = new Worker('../../static/scripts/timer.js');
+
+  worker.addEventListener('message', function(e) {
+    document.getElementById('result').textContent = e.data;
+  }, false);
+
+
+
+
+
+
 
 //play all sounds to test they work
 /*
