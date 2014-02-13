@@ -56,9 +56,7 @@ def process(recording_file, image_file, data, user):
     if user.is_authenticated():
         useracc = UserAcc.objects.filter(user__exact=user)[0]
         useracc.recs.add(rec)
-    context = RequestContext(request)
-    context_dict = {'boldmessage': "I am from context"}
-    return HttpResponse('webapp/submitsuccess.html', context_dict, context)
+    return HttpResponse('webapp/submitsuccess.html')
 
 
 
