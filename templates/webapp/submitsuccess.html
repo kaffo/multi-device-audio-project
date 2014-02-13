@@ -6,7 +6,7 @@
 	<head>
     	<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="description" content="A layout example with a side menu that hides on mobile, just like the Pure website.">
+		<meta name="description" content="Interact with users recordings as they sync up in time and space">
 
     	<title>MDRS - Submit Success</title>
 
@@ -14,28 +14,28 @@
 		<link rel="stylesheet" href="{% static "styles/side-menu.css" %}">
     
     </head>
+
+
 	<body>
 
 		<div id="layout">
-    		<!-- Menu toggle -->
     		<a href="#menu" id="menuLink" class="menu-link">
-        		<!-- Hamburger icon -->
         		<span></span>
     		</a>
 
     		{% include "navigation.html" %}
 
-        <div id="main"> 
-            <div class="header">
+			<div id="main"> 
+              <div class="header">
                 <h1>Submit Successfull!</h1>
-            </div>
+              </div>
 
-            <div class="content">
+              <div class="content">
                 Return <a href="{% url "index" %}">Home</a> to see your recording.
-            </div>     
+              </div>     
+			</div>
         </div>
-        </div>
-
+		
 		<script src="{% static "scripts/ui.js" %}"></script>
         
 	</body>
