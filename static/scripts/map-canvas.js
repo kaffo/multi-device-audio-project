@@ -20,7 +20,7 @@ function initialize() {
     // Calls the div on the webpage and binds the map to that div
     map = new google.maps.Map(document.getElementById("map-content"), mapOptions);
     
-    boundsTest();
+    drawMarkers();
 }
 
 
@@ -29,7 +29,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
 
 
 // Test function to test the possibility of retrieving the bounds of the map
-function boundsTest() {
+function drawMarkers() {
     
     // adds a listener to the map that is activated when the bounds change
     google.maps.event.addListener(map, 'bounds_changed', function() {
@@ -48,7 +48,7 @@ function boundsTest() {
 	    function(data) {
 
 		// map objects
-		var infoWindow = new google.maps.InfoWindow();
+		
 		var pin;
 		var image_pin;
 
@@ -86,65 +86,7 @@ function boundsTest() {
 			map: map
 		    });
 
-		    
-		    
-		    // creates a listener for a click action on that pin
-		    google.maps.event.addListener(pin, 'click', (function(pin, fileName, description, infoWindow, filePath, lngLat) {
-			return function() {
-			    mySound = new buzz.sound(filePath);
-			    // opens an info window with the title and description of that file
-			    infoWindow.setContent('<div><h3>' + 
-						  fileName + 
-						  '</h3><p>' + 
-						  description + 
-						  '</p>' +
-						  '<input id="play" type="button" value="Play" class="pure-button pure-button-primary" onclick="playAudio();"/>' +
-						  '&nbsp' +
-						  '<input id="pause" type="button" value="Pause" class="pure-button pure-button-primary" onclick="pauseAudio();" />' +
-						  '&nbsp' +
-						  '<input id="stop" type="button" value="Stop" class="pure-button pure-button-primary" onclick="stopAudio();" />' +
-						  '</div>');
-			    infoWindow.open(map, pin);
-			    
-			    var lat_lng_route = new Array();
-			    lat_lng_route[0] = lngLat;
-
-			    $.get(
-				"/webapp/getroute:" + fileName,
-				
-				function(data) {
-				    
-				    var locations = eval("(" + data + ")");
-				    var locArraySize = locations.length;
-				    
-				    for(var i = 0; i<locArraySize; i++) {
-					lat_lng_route[i+1] = new google.maps.LatLng(parseFloat(locations[i].fields.lat), parseFloat(locations[i].fields.lon));
-					var image_file = locations[i].fields.image;
-					
-					if((locations[i].fields.image) != "") {
-					    
-					    image_pin = new google.maps.Marker({
-						position: lat_lng_route[i+1],
-						map: map
-					    });
-					    
-					    google.maps.event.addListener(image_pin, 'click', (function(image_pin, image_file) {
-						return function() {
-						    infoWindow.setContent('<div>' +
-									  '<img src=' + '"/static/data/' + image_file + '" alt="Failed to load"></img>' +
-									  '</div>');
-						    infoWindow.open(map, image_pin);
-						}
-					    })(image_pin, image_file));
-					    
-					}
-					
-				    }
-				    var route = drawRoute(lat_lng_route);
-				}		     
-			    );
-			}
-		    })(pin, fileName, description, infoWindow, filePath, lngLat));
+		    addPinListener(pin, fileName, description, lngLat, filePath);
 		}
 	    }
 	    
@@ -190,3 +132,82 @@ function deleteRoute(route) {
     route.setMap(null);
 }
 
+function addRoute(fileName, lat_lng_route) {
+    alert("hello");
+    $.get(
+	"/webapp/getroute:" + fileName,
+	
+	function(data) {
+	    
+	    
+	    var locations = eval("(" + data + ")");
+	    var locArraySize = locations.length;
+	    
+	    for(var i = 0; i<locArraySize; i++) {
+		lat_lng_route[i+1] = new google.maps.LatLng(parseFloat(locations[i].fields.lat), parseFloat(locations[i].fields.lon));
+		var image_file = locations[i].fields.image;
+		
+		if((locations[i].fields.image) != "") {
+		    
+		    image_pin = new google.maps.Marker({
+			position: lat_lng_route[i+1],
+			map: map
+		    });
+		    alert(image_file);
+		    image_pin = addImageWindow(image_pin, image_file);		    
+		}
+		
+	    }
+	    var route = drawRoute(lat_lng_route);
+	}		     
+    );
+}
+
+function addImageWindow(image_pin, image_file) {
+    
+    var imageInfoWindow = new google.maps.InfoWindow();
+
+    
+    
+    google.maps.event.addListener(image_pin, 'click', (function(image_pin, image_file) {
+	return function() {
+
+	    alert(image_file + "strength");
+	    
+	    imageInfoWindow.setContent('<div>' +
+				  '<img src=' + '"/static/data/' + image_file + '" alt="Failed to load"></img>' +
+				  '</div>');
+	    imageInfoWindow.open(map, image_pin);
+	    
+	}
+    })(image_pin, image_file));
+    return image_pin;
+}
+
+function addPinListener(pin, fileName, description, lngLat, filePath) {
+    var infoWindow = new google.maps.InfoWindow();
+    // creates a listener for a click action on that pin
+    google.maps.event.addListener(pin, 'click', (function(pin, fileName, description, infoWindow, filePath, lngLat) {
+	return function() {
+	    mySound = new buzz.sound(filePath);
+	    // opens an info window with the title and description of that file
+	    infoWindow.setContent('<div><h3>' + 
+				  fileName + 
+				  '</h3><p>' + 
+				  description + 
+				  '</p>' +
+				  '<input id="play" type="button" value="Play" class="pure-button pure-button-primary" onclick="playAudio();"/>' +
+				  '&nbsp' +
+				  '<input id="pause" type="button" value="Pause" class="pure-button pure-button-primary" onclick="pauseAudio();" />' +
+				  '&nbsp' +
+				  '<input id="stop" type="button" value="Stop" class="pure-button pure-button-primary" onclick="stopAudio();" />' +
+				  '</div>');
+	    infoWindow.open(map, pin);
+	    
+	    var lat_lng_route = new Array();
+	    lat_lng_route[0] = lngLat;
+	    addRoute(fileName, lat_lng_route);
+	    
+	}
+    })(pin, fileName, description, infoWindow, filePath, lngLat));
+}
