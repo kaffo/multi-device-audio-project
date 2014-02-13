@@ -57,7 +57,7 @@ def process(recording_file, image_file, data, user):
         useracc = UserAcc.objects.filter(user__exact=user)[0]
         useracc.recs.add(rec)
 
-    return HttpResponse("<h1>UPLOAD SUCCESS, BUT MAKE ME A DAMN HTML PAGE PLEASE</h1>")
+    return HttpResponse('webapp/submitsuccess.html', context_dict, context)
 
 
 
