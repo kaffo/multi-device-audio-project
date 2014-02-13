@@ -6,7 +6,7 @@
 	<head>
     	<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="description" content="A layout example with a side menu that hides on mobile, just like the Pure website.">
+		<meta name="description" content="Interact with users recordings as they sync up in time and space">
 
     	<title>MDRS - Registration</title>
 
@@ -14,12 +14,12 @@
 		<link rel="stylesheet" href="{% static "styles/side-menu.css" %}">
     
     </head>
+
+
 	<body>
 
 		<div id="layout">
-    		<!-- Menu toggle -->
     		<a href="#menu" id="menuLink" class="menu-link">
-        		<!-- Hamburger icon -->
         		<span></span>
     		</a>
 
@@ -27,7 +27,7 @@
 
         <div id="main"> 
             <div class="header">
-                <h1>Settings</h1>
+                <h1>Registration</h1>
             </div>
 
             <div class="content">
@@ -37,11 +37,11 @@
                 <a href="{% url 'index' %}">Return Home</a>
                 {% else %}
                 <h3>Please fill in the fields below:</h3>
-                <form id="user_form" method="post" action="/webapp/register/" enctype="multipart/form-data">
+                <form id="user_form" class="pure-form pure-form-stacked" method="post" action="/webapp/register/" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ user_form.as_p }}
 
-                    <input type="submit" name="submit" value="Register" />
+                    <input class="pure-button pure-input-1-2 pure-button-primary" type="submit" name="submit" value="Register" />
                 </form>
                 {% endif %}
             </div>     
