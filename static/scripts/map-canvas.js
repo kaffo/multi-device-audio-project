@@ -16,6 +16,7 @@ function initialize() {
  
     // Sets the options on the map
     var mapOptions = {
+	disableDefaultUI: true,
 	center: myLatLng,
 	zoom: 3,
 	mapTypeId: google.maps.MapTypeId.TERRAIN

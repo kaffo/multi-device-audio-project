@@ -25,18 +25,11 @@
     </head>
 	<body>
 
-		<div id="layout">
-    		<!-- Menu toggle -->
-    		<a href="#menu" id="menuLink" class="menu-link">
-        		<!-- Hamburger icon -->
-        		<span></span>
-    		</a>
-
     		{% include "navigation.html" %}
 
     		<div id="main"> 
     			<div class="content">
-        			<div id="map-content"></div>
+        			<div id="map-content" style="position: absolute; left: 0; top: 0;"></div>
 					<div align="right" style = "margin-right:-32px; float:right;">
 					<!-- <div id="my-timeline"></div> -->
 					</div>
@@ -45,16 +38,16 @@
     		</div>
 		</div>
 
-		<script src="/static/scripts/ui.js"></script>
+		<script src="{% static "scripts/ui.js" %}"></script>
 
 		<script language="javascript">
     		    function autoResizeDiv()
         		{
-					var mheight = (window.innerHeight-1) +'px'; //-301
-					var mwidth = (window.innerWidth - 151) +'px';
+					var mheight = (window.innerHeight) +'px'; //-301
+					var mwidth = (window.innerWidth) +'px';
 					var tlwidth = (window.innerWidth - 150) + 'px';
-            		document.getElementById('map-content').style.height = mheight;
-					document.getElementById('map-content').style.width = mwidth;
+            	    document.getElementById('map-content').style.height = mheight;
+		    document.getElementById('map-content').style.width = mwidth;
 					document.getElementById('my-timeline').style.width = tlwidth;
         		}
         		window.onresize = autoResizeDiv;
