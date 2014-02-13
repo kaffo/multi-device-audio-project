@@ -2,6 +2,9 @@
 // Author - Gordon Adam
 // Please Make sure to do debugging if changes are made
 
+
+
+
 // Variables 
 var myLatLng = new google.maps.LatLng(55.873657, -4.292474);
 var map;
@@ -19,8 +22,9 @@ function initialize() {
     };
     // Calls the div on the webpage and binds the map to that div
     map = new google.maps.Map(document.getElementById("map-content"), mapOptions);
-    
-    drawMarkers();
+    google.maps.event.addListener(map, 'bounds_changed', function() {
+	drawMarkers(false);
+    });
 }
 
 
@@ -28,71 +32,78 @@ function initialize() {
 google.maps.event.addDomListener(window, 'load', initialize);
 
 
+
+
 // Test function to test the possibility of retrieving the bounds of the map
-function drawMarkers() {
+function drawMarkers(selected) {
+
+    var lngLatData;
     
     // adds a listener to the map that is activated when the bounds change
-    google.maps.event.addListener(map, 'bounds_changed', function() {
-
-	// fetches the bounds of the map at a specific time until they change again
-	var bounds = map.getBounds();
-	var swLat = bounds.getSouthWest().lat();
-	var swLng = bounds.getSouthWest().lng();
-	var neLat = bounds.getNorthEast().lat();
-	var neLng = bounds.getNorthEast().lng();
-	
-	// attempts to get data from the backend
-	$.get(
-	    "/webapp/getdata:" + swLat + ":" + swLng + ":" + neLat + ":" + neLng,
-
-	    function(data) {
-
-		// map objects
-		
-		var pin;
-		var image_pin;
-
-		// json data variables
-		
-		var recordings = eval("(" + data + ")");
-		var jsonArraySize = recordings.length;
-		var lat;
-		var lng;
-		var lat_lng_route = new Array();
-		
-		// individual file attributes
-		var fileName;
-		var description;
-		var lngLat;
-		var filePath;
-
-		// iterator over each file
-		for (var i=0; i<jsonArraySize; i++) {
-
-		    // sets the attributes of each file 
-		    lat = parseFloat(recordings[i].fields.lat);
-		    lng = parseFloat(recordings[i].fields.lon);
-		    fileName = recordings[i].fields.file_name;
-		    description = recordings[i].fields.description;
-		    lngLat = new google.maps.LatLng(lat,lng);
-		    filePath = recordings[i].fields.rec_file;
-		    filePath = "../" + filePath;
-
-		    
-		    // places a pin on the map at the lat and lng specified
-		    pin = new google.maps.Marker({
-			position: lngLat,
-			icon: '/static/images/marker.png',
-			map: map
-		    });
-
-		    addPinListener(pin, fileName, description, lngLat, filePath);
-		}
-	    }
-	    
-	);
-    });
     
+    
+    // fetches the bounds of the map at a specific time until they change again
+    var bounds = map.getBounds();
+    var swLat = bounds.getSouthWest().lat();
+    var swLng = bounds.getSouthWest().lng();
+    var neLat = bounds.getNorthEast().lat();
+    var neLng = bounds.getNorthEast().lng();
+    
+    // attempts to get data from the backend
+    $.get(
+	"/webapp/getdata:" + swLat + ":" + swLng + ":" + neLat + ":" + neLng,
+	
+	function(data) {
+	    
+    
+    
+    // map objects
+    
+    var pin;
+    var image_pin;
+    
+    // json data variables
+    
+    var recordings = eval("(" + data + ")");
+    var jsonArraySize = recordings.length;
+    var lat;
+    var lng;
+    var lat_lng_route = new Array();
+    
+    // individual file attributes
+    var fileName;
+    var description;
+    var lngLat;
+    var filePath;
+    
+    // iterator over each file
+    for (var i=0; i<jsonArraySize; i++) {
+	
+	// sets the attributes of each file 
+	lat = parseFloat(recordings[i].fields.lat);
+	lng = parseFloat(recordings[i].fields.lon);
+	fileName = recordings[i].fields.file_name;
+	description = recordings[i].fields.description;
+	lngLat = new google.maps.LatLng(lat,lng);
+	filePath = recordings[i].fields.rec_file;
+	filePath = "../" + filePath;
+	
+	
+	// places a pin on the map at the lat and lng specified
+	pin = new google.maps.Marker({
+	    position: lngLat,
+	    icon: '/static/images/marker.png',
+	    map: map
+	});
+	if(selected) {
+	    drawInfoWindow(pin, fileName, description, lngLat, filePath);
+	}
+	else{
+	    addPinListener(pin, fileName, description, lngLat, filePath);
+}
+    }
+}
+);
 }
 
 function playAudio() {
@@ -133,7 +144,6 @@ function deleteRoute(route) {
 }
 
 function addRoute(fileName, lat_lng_route) {
-    alert("hello");
     $.get(
 	"/webapp/getroute:" + fileName,
 	
@@ -210,4 +220,26 @@ function addPinListener(pin, fileName, description, lngLat, filePath) {
 	    
 	}
     })(pin, fileName, description, infoWindow, filePath, lngLat));
+}
+
+function selectAll() {
+    drawMarkers(true);
+}
+
+function drawInfoWindow(pin, fileName, description, lngLat, filePath) {
+    var infoWindow = new google.maps.InfoWindow();
+    mySound = new buzz.sound(filePath);
+	    // opens an info window with the title and description of that file
+	    infoWindow.setContent('<div><h3>' + 
+				  fileName + 
+				  '</h3><p>' + 
+				  description + 
+				  '</p>' +
+				  '<input id="play" type="button" value="Play" class="pure-button pure-button-primary" onclick="playAudio();"/>' +
+				  '&nbsp' +
+				  '<input id="pause" type="button" value="Pause" class="pure-button pure-button-primary" onclick="pauseAudio();" />' +
+				  '&nbsp' +
+				  '<input id="stop" type="button" value="Stop" class="pure-button pure-button-primary" onclick="stopAudio();" />' +
+				  '</div>');
+	    infoWindow.open(map, pin);
 }

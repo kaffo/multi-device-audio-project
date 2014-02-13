@@ -50,9 +50,16 @@
         <a href={{ url }}{% if request.path == url %} class="pure-menu-selected"{% endif %}>Login</a>
       </li>
       {% endif %}
+      {% url 'index' as url %}
+      {% if request.path ==  url %}
+      <li>
+	<a href="javascript:selectAll();" title="Select All" id="s_all">Select All</a> <!-- stackoverflow is the best! -->
+      </li>
+      {% endif %}
 
     </ul>
 
   </div>
   
 </div>
+
