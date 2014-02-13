@@ -1,56 +1,66 @@
 //hardcoded solution to the buzz problem
 
 //alert("This script is working");
-var mySounds = new Array();
+var mySounds = new Array();//array holding all the records to be played
+var workers = new Array(); //array holding reference to the workers
 var current = 0;//number of file currently playing
-var mySound1 = new buzz.sound( "../../static/data/test1.ogg", 
-	{	
-	preload: false,autoplay: false
-	});
-	var mySound2 = new buzz.sound("../../static/data/second_audio.ogg",
-	{
-	preload: false, autoplay:false
-	});
-var mySound3 = new buzz.sound("../../static/data/Second Audio Test.ogg",
-	{
-	preload: false, autoplay:false
-	});
-//populate the array with all sounds we want to play
-mySounds.push(mySound1);
-mySounds.push(mySound2);
-mySounds.push(mySound3);
+
 
 function start()//button start is pressed 
 	{
+	current=0;
    //worker.postMessage({'cmd': 'start', 'msg': 'Hi'});
-	var startTime = new Date().getTime();
-	
+	//var startTime = new Date().getTime();
+	var mySound1 = new buzz.sound( "../../static/data/test1.ogg");
+	var mySound2 = new buzz.sound("../../static/data/second_audio.ogg");
+	var mySound3 = new buzz.sound("../../static/data/Second Audio Test.ogg");
+
+	//populate the array with all sounds we want to play
+	mySounds.push(mySound1);
+	mySounds.push(mySound2);
+	mySounds.push(mySound3);
 	
 	//load the first recording
 	mySounds[0].load();
-
+	
 	//recursive function to call all the recordings and play them
 	function playSound()
 		{
 		console.log("now playing " + (current+1));
 		mySounds[current].play();
 		current++;
+		
 		if (mySounds.length > current)
 			{
 			mySounds[current].load();
-			playSound();
+			//var worker = new Worker('../../static/scripts/timer.js');
+			//workers.push(worker);
+			workers.push(new Worker('../../static/scripts/timer.js'));
+			workers[workers.length-1].addEventListener('message', function(e) 
+				{
+				console.log(e.data.cmd);
+				if (e.data.cmd === 'done')
+					{
+					playSound();					
+  				}, false);
+			workers[workers.length-1].postMessage({'cmd': 1000, 'msg': 'Work'});
 			}
 		}
 	playSound(0);
 	}
 	
-	function stop() 
+	function stop()//terminate all recordings and empty array
 	{
-	//worker.terminate() from this script would also stop the worker.
+	
 	//worker.postMessage({'cmd': 'stop', 'msg': 'Bye'});
 	for (var i=mySounds.length-1;i>=0;i--)
 		{
-		mySounds[i].stop();
+		mySounds[i].stop();	//stop all records
+		mySounds.splice(i,1);//remove all records and wait for start
+		}
+	for (var i=0;i<workers.length;i++)
+		{
+		workers[i].terminate()//this script would stop the workers.
 		}
 	}
 	
@@ -67,18 +77,14 @@ function start()//button start is pressed
 		}	
 	}
 
-  var worker = new Worker('../../static/scripts/timer.js');
-
-  worker.addEventListener('message', function(e) {
-    document.getElementById('result').textContent = e.data;
-  }, false);
 
 
 
+////////////////////////////////////////////////////////////////
 
+///////////    OUTDATED STUFF THAT MIGHT BE USEFUL  ////////////
 
-
-
+////////////////////////////////////////////////////////////////
 //play all sounds to test they work
 /*
 for (var i=0;i<mySounds.length;i++)
@@ -90,20 +96,12 @@ for (var i=0;i<mySounds.length;i++)
 //console.log(startTime);
 
 //stop all sounds
-
+/*
 for (var i=0;i<mySounds.length;i++)
 	{
 	mySounds[i].stop();
 	}
-
-
-
-
-
-
-
-
-
+*/
 
 
 //if (!mySounds[0].isEnded())
@@ -111,7 +109,6 @@ for (var i=0;i<mySounds.length;i++)
 //	alert("the sound has not ended!");
 //	}
 
-///////////////////// play factory ///////////////////
 //mySound.unmute();
 //mySound.setVolume(10);
 //mySound.load();
