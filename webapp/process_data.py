@@ -1,4 +1,4 @@
-from django.http import HttpResponse, HttpRequest
+from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
 import datetime, json
 from webapp.models import Event, Recording, Image, Location, UserAcc
 from django.core.serializers.json import DjangoJSONEncoder
@@ -56,7 +56,7 @@ def process(recording_file, image_file, data, user):
     if user.is_authenticated():
         useracc = UserAcc.objects.filter(user__exact=user)[0]
         useracc.recs.add(rec)
-    return HttpResponse('webapp/submitsuccess.html')
+    return HttpResponseRedirect('webapp/submitsuccess.html')
 
 
 

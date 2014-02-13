@@ -82,6 +82,11 @@ def submit(request):
             return process(request.FILES['rec_file'], request.FILES['image_file'], request.POST, request.user)
     return render_to_response('webapp/submit.html', {'form': form}, context)
 
+def submit_success(request):
+    context = RequestContext(request)
+    context_dict = {'boldmessage': "I am from context"}
+    return render_to_response('webapp/submitsuccess.html', context, context_dict)
+
 def getdata(request, lat1, lon1, lat2, lon2):
     context = RequestContext(request)
     if request.method == 'GET':
