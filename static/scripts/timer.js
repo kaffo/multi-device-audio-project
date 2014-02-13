@@ -1,7 +1,9 @@
 self.addEventListener('message', function(e) 
 	{
+	self.postMessage('done');
+	self.close();
 	var data = e.data;
-	if (data.cmd>0)
+	if (data.cmd==='noob')
 		{
 		function stateChange(newState) 
 			{
@@ -12,8 +14,9 @@ self.addEventListener('message', function(e)
         			self.postMessage('done');
             	self.close();
         			}
-    			}, data.cmd);
+    			}, 500);
 			}
+		}
 	else if (data.cmd===-1)
 		{
 		self.postMessage("I have -1");

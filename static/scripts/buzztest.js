@@ -33,20 +33,28 @@ function start()//button start is pressed
 		if (mySounds.length > current)
 			{
 			mySounds[current].load();
-			//var worker = new Worker('../../static/scripts/timer.js');
+			/*var worker = new Worker('../../static/scripts/timer.js');
+			worker.addEventListener('message', function(e) 
+				{
+				console.log(e.data);
+				if (e.data === 'done')
+					playSound();					
+  				}, false);
+  			worker.postMessage({'cmd': 'noob', 'msg': 'Work'});
+			*/
 			//workers.push(worker);
 			workers.push(new Worker('../../static/scripts/timer.js'));
 			workers[workers.length-1].addEventListener('message', function(e) 
 				{
-				console.log(e.data.cmd);
-				if (e.data.cmd === 'done')
-					{
+				console.log(e.data);
+				if (e.data === 'done')
 					playSound();					
   				}, false);
-			workers[workers.length-1].postMessage({'cmd': 1000, 'msg': 'Work'});
+			workers[workers.length-1].postMessage({'cmd': 'noob', 'msg': 'Work'});
+			
 			}
 		}
-	playSound(0);
+	playSound();
 	}
 	
 	function stop()//terminate all recordings and empty array
@@ -61,6 +69,7 @@ function start()//button start is pressed
 	for (var i=0;i<workers.length;i++)
 		{
 		workers[i].terminate()//this script would stop the workers.
+		workers.splice(i,1);
 		}
 	}
 	
