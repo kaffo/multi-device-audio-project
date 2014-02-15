@@ -23,11 +23,6 @@
     </a>
       </li>
 				
-      <li class="menu-item-divided">
-	{% url 'settings' as url %}
-        <a href={{ url }}{% if request.path == url %} class="pure-menu-selected"{% endif %}>Settings</a>
-      </li>
-
       <li>
 	{% url 'submit' as url %}
         <a href={{ url }}{% if request.path == url %} class="pure-menu-selected"{% endif %}>Submit</a>
