@@ -2,9 +2,6 @@
 // Author - Gordon Adam
 // Please Make sure to do debugging if changes are made
 
-
-
-
 // Global Variables 
 var myLatLng = new google.maps.LatLng(55.873657, -4.292474);
 var map;
@@ -20,15 +17,26 @@ var pins = {
 			};
 var numberOfPins;
  	
+
 // Funuction to start map
 function initialize() {
-    // Sets the options on the map
+    
+	// Uses HTML5 geolocation to track your location
+    if(navigator.geolocation) {
+    	navigator.geolocation.getCurrentPosition(function(position) {
+      		var pos = new google.maps.LatLng(position.coords.latitude,
+                                       position.coords.longitude);
+      		map.setCenter(pos);
+  		});
+	}
+
+	// Sets the options on the map
     var mapOptions = {
 	disableDefaultUI: true,
-	center: myLatLng,
-	zoom: 5,
-	mapTypeId: google.maps.MapTypeId.TERRAIN
+	zoom: 15,
+	mapTypeId: google.maps.MapTypeId.SATELLITE
     };
+
     // Calls the div on the webpage and binds the map to that div
     map = new google.maps.Map(document.getElementById("map-content"), mapOptions);
     
