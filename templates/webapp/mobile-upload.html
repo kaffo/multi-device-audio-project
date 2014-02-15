@@ -1,0 +1,66 @@
+<!doctype html>
+
+{% load static %}
+
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Interact with users recordings as they sync up in time and space">
+
+<title>MDRS - Submit</title>
+
+<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
+<link rel="stylesheet" href="{% static "styles/side-menu.css" %}">
+
+</head>
+<body>
+
+<div id="layout">
+    <!-- Menu toggle -->
+    <a href="#menu" id="menuLink" class="menu-link">
+        <!-- Hamburger icon -->
+        <span></span>
+    </a>
+
+    {% include "navigation.html" %}
+
+    <div id="main"> 
+        <div class="header">
+            <h1>Submit</h1>
+            {% if user.is_authenticated %}
+            <h3>Files will be tied to {{ user.username }}</h3>
+            {% else %}
+            <h3>Please <a href={% url 'register' %}>Register</a> or <a href={% url 'login' %}>Login</a> to submit to account</h3>
+            {% endif %}
+        </div>
+        <div class="content">
+            <form class="pure-form pure-form-stacked" action="." method="post" enctype="multipart/form-data">
+                <br>
+                <legend>Details</legend>
+                {% csrf_token %}
+                Title: <input type="text" name="file_name"><br>
+                Description: <input type="text" name="description" size="50"><br>
+                Longitude: <input type="text" name="lon"><br>
+                Latitude: <input type="text" name="lat"><br>
+                File: <input type="text" name="image"><br>
+                <br>
+                <legend>Please specify a file, or a set of files:</legend>
+                <br>
+                Audio: &nbsp;&nbsp;<input type="file" name="rec_file" class="pure-button" size="150" max="150">
+                <br>
+                <br>
+                Images: <input type="file" name="image_file" class="pure-button" size="150" max="150">
+                </p>
+                <input type="submit" class="pure-button pure-input-1-2 pure-button-primary" value="Submit">
+            </form>
+        </div>
+    </div>     
+</div>
+        </div>
+
+        <script src="{% static "scripts/ui.js" %}"></script>
+
+    </body>
+
+</html>
