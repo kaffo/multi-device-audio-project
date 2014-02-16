@@ -192,7 +192,7 @@ small screens.
 /*
 Hides the menu at `767px`, but modify this based on your app's needs.
 */
-@media (max-width: 767px) {
+@media (max-width: 300px) {
 
     .header {
         text-align: left;
