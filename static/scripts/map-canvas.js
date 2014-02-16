@@ -22,12 +22,19 @@ var numberOfPins;
 // Funuction to start map
 function initialize() {
     
+    var pos;
+
 	// Uses HTML5 geolocation to track your location
     if(navigator.geolocation) {
     	navigator.geolocation.getCurrentPosition(function(position) {
-      		var pos = new google.maps.LatLng(position.coords.latitude,
+      		pos = new google.maps.LatLng(position.coords.latitude,
                                        position.coords.longitude);
       		map.setCenter(pos);
+      		var homeMarker = new google.maps.Marker({
+		position: pos,
+		icon: '/static/images/home.png', // Loads the custom marker for each recording
+	    map: map
+	});
   		});
 	}
 
@@ -40,6 +47,8 @@ function initialize() {
 
     // Calls the div on the webpage and binds the map to that div
     map = new google.maps.Map(document.getElementById("map-content"), mapOptions);
+
+    
     
     google.maps.event.addListener(map, 'bounds_changed', function() {
 		drawMarkers();
