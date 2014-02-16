@@ -13,7 +13,8 @@ var pins = {
     			description: [],
     			latLng: [],
     			filePath: [],
-    			route: []
+    			route: [],
+    			infoWindow: []
 			};
 var numberOfPins;
  	
@@ -182,11 +183,13 @@ function addPinListenerOnClick(pin, pinNum, fileName, description, latLng, fileP
 // A function that opens up an Info Window with all the details provided
 function drawInfoWindow(pin, pinNum, fileName, description, filePath, infoWindow) {
 
+	pins.infoWindow[pinNum] = infoWindow;
+
 	// Loads a new sound using buzz
     mySound = new buzz.sound(filePath);
 
     // opens an info window with the title and description of that file
-    infoWindow.setContent('<div><h3>' + 
+    pins.infoWindow[pinNum].setContent('<div><h3>' + 
 			  			fileName + 
 			  			'</h3><p>' + 
 			 			description + 
@@ -197,17 +200,16 @@ function drawInfoWindow(pin, pinNum, fileName, description, filePath, infoWindow
 			  			'&nbsp' +
 			  			'<input id="stop" type="button" value="Stop" class="pure-button pure-button-primary" onclick="stopAudio();" />' +
 			  			'</div>');
-	infoWindow.open(map, pin);
+	pins.infoWindow[pinNum].open(map, pin);
 
-	google.maps.event.addListener(infoWindow,'closeclick',function(){
+	google.maps.event.addListener(pins.infoWindow[pinNum],'closeclick',function(){
    		deleteRouteFromMap(pinNum);
-   		infoWindow.setMap(null);
+   		pins.infoWindow[pinNum].setMap(null);
 	});
 }
 
 // A function to select all the markers on the map
 function selectAll() {
-
 	// Iterates over the dictionary of pins and calls the select marker function on each marker
 	for(var i = 0; i < numberOfPins; i++) {
 		selectMarker(pins.pin[i]);
@@ -221,16 +223,15 @@ function selectMarker(pin) {
 
 // A function to select all the markers on the map
 function deSelectAll() {
-
 	// Iterates over the dictionary of pins and calls the select marker function on each marker
 	for(var i = 0; i < numberOfPins; i++) {
-		selectMarker(pins.pin[i]);
+		google.maps.event.trigger(pins.infoWindow[i], 'closeclick', {});
 	}
 }
 
 // A function that triggers a mock click on a single marker
-function deSelectMarker(pin) {
-    google.maps.event.trigger(pin, 'click', {});
+function deSelectMarker(infoWindow) {
+    google.maps.event.trigger(infoWindow, 'closeclick', {});
 }
 
 // Set of Audio Functions
