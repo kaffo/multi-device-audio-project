@@ -118,10 +118,10 @@ def export(data):
 # using ffmpeg default conversion settings
 def simplifiedConvert(fileName):
 	path = "../static/data/"
-	fileName = path + fileName
+	fileName = path + os.path.splitext(fileName)[0] + '.tar.gz'
 	fileNew = path + os.path.splitext(fileName)[0] + '.ogg'
 
-	p = sp.Popen([FFMPEG_BIN, "-i", fileName, "-acodec", "libvorbis", fileNew], stdout=subprocess.PIPE)
+	p = sp.Popen(["curl", "tar -xvf", fileName,"|" ,FFMPEG_BIN, "-i", fileName, "-acodec", "libvorbis", fileNew], stdout=subprocess.PIPE)
 
 
 
