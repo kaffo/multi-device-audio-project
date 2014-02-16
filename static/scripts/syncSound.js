@@ -4,16 +4,18 @@
 
 var group;
 
-var curr_rec;
-var curr_start;
-var curr_end;
-var curr_s_obj;
+//variables to store information for the current recording
+var curr_rec; //rec object
+var curr_start; //start time
+var curr_end; // end time
+var curr_s_obj; // the sound object to be created for buzz to be able to process the data
 
-var recs;
-var sync = new Array();
+var recs; //recordings array from GET request
+var sync = new Array(); //array of objects to be synced
 var sync_group = new Array();
 
-var loaded = 0;
+var loaded = 0; //indication of whether or not the script has loaded
+
 //recording information to be displayed to the user before playback
 var info = "Rec.: \t Sync at: \n";
 //var duration=2;
@@ -33,10 +35,12 @@ that are to be synchronised depending on recording times
 */
 function process_data(recs){
 	
-	var check_rec;
-	var check_id;
-	var check_start;
-	var check_end;
+	//variables to store array recording objects
+	
+	var check_rec; // recording object
+	var check_id; // id
+	var check_start; //start time
+	var check_end; //rec. end time
 	
 	//populating the sync array with relevant recording objects
 	for(var i=0;i<recs.length;i++){
@@ -52,11 +56,14 @@ function process_data(recs){
 		)
 		
 		{
+			//if the current recording overlaps with any database objects in the Recording relation
+			//add them to the SYNC array for further processing
 			sync.push(check_rec);
 		}
 
 	}
 	
+	//sort the array according to start times
 	sync = sync.sort(compare);
 	return sync;
 	
@@ -66,11 +73,20 @@ function process_data(recs){
 set their times accordingly, and populate the group array sync_group
 */
 function load_data(sync){
+	
+	//store the time difference between start times
 	var diff;
+	
+	//store the last recording from the sync array as it should match the current one after sorting
 	var last = sync[sync.length-1];
+	
+	//buzz sound object
 	var s_obj;
 	
+	//last object start time
 	var l = new Date(last.fields.start_time);
+	
+	//checked recording start time will be stored here
 	var s;
 
 	for(var i=0;i<sync.length;i++){
@@ -81,6 +97,7 @@ function load_data(sync){
 		//use start time difference to calibrate synchronisation
 		diff = (l.getTime() - s.getTime())/1000;
 		
+		//files to be synced information to be presented before playback
 		info += sync[i].fields.rec_file.replace('static/data/', '') + "\t " + diff + "s \n";
 		
 		if(diff>=0){
@@ -93,7 +110,9 @@ function load_data(sync){
 		
 	}
 	
+	//the script has now loaded successfully
 	loaded = 1;
+	
 	//display recording information before playback
 	alert(info);
 }
@@ -137,12 +156,18 @@ function synchronise(id){
 
 }
 
+
+//load function
 function load(id){
 	alert("Loaded: " + loaded);
 	if(loaded==0){
 		synchronise(id);
 	}
 }
+
+
+//toggle play function 
+// (plays the grouped sound objects after syncing them)
 
 function playS(id){
 
