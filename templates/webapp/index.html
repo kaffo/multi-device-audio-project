@@ -30,9 +30,9 @@
     		<div id="main"> 
     			<div class="content">
         			<div id="map-content" style="position: absolute; left: 0; top: 0;"></div>
-					<div align="right" style = "position: fixed; bottom: 0; right: 0;">
+					<!-- <div align="right" style = "position: fixed; bottom: 0; right: 0;">
 					<div id="my-timeline"></div>
-					</div>
+					</div> -->
          		</div>     
 				
     		</div>
@@ -43,7 +43,7 @@
 		<script language="javascript">
     		    function autoResizeDiv()
         		{
-					var mheight = (window.innerHeight-301) +'px'; //-301
+					var mheight = (window.innerHeight) +'px'; //-301
 					var mwidth = (window.innerWidth) +'px';
 					var tlwidth = (window.innerWidth - 150) + 'px';
             	    document.getElementById('map-content').style.height = mheight;
