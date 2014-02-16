@@ -90,11 +90,11 @@ def submit(request):
     if request.method == 'POST':
         form = UploadFileForm(request.POST,request.FILES)
 		
-		name = form['threeGP_file']
+        name = form['threeGP_file']
 		
         if form.is_valid():
 		
-			convert(request, name)
+            #convert(request, name)
 			
             return process(request.FILES['json_file'], request.FILES['threeGP_file'], request.POST, request.user)
 
