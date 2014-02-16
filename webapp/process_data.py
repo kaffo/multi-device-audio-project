@@ -23,10 +23,10 @@ def process(json_file, threeGP_file, data, user):
     data = json.load(json_file)
 
     path = 'static/data/' + str(data[0]["title"]) + ".3gp"
-
-    with open(path, 'wb+') as destination:
-        for chunk in threeGP_file.chunks():
-            destination.write(chunk)
+    
+    #this function call converts the file from .3gp to .ogg
+    #below the new file name with an ogg extension is saved to the database
+    simplifiedConvert(threeGP_file)
 
     rec = Recording(
         file_name = str(data[0]["title"]),
