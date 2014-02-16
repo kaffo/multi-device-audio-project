@@ -110,19 +110,21 @@ function drawMarkers() {
 
 
 function drawRouteOnMap(pinNum, coordArray) {
-    var route = new google.maps.Polyline({ // Creates the polyline object
-		path: coordArray,
-		geodesic: true,
-		strokeColor: '#1F8DD6', // Makes the route polyline pretty
-		strokeOpacity: 0.6,
-		strokeWeight: 4
-    })
-    route.setMap(map); // places the polyline on the map
-    pin.route[pinNum] = route; // places it into the dictionary
+	if(pins.route[pinNum] == null)
+    	var route = new google.maps.Polyline({ // Creates the polyline object
+			path: coordArray,
+			geodesic: true,
+			strokeColor: '#1F8DD6', // Makes the route polyline pretty
+			strokeOpacity: 0.6,
+			strokeWeight: 4
+    	})
+    	route.setMap(map); // places the polyline on the map
+    	pins.route[pinNum] = route; // places it into the dictionary
 }
 
-function deleteRouteFromMap(route) {
-    route.setMap(null);
+function deleteRouteFromMap(pinNum) {
+    pins.route[pinNum].setMap(null);
+    pins.route[pinNum] = null;
 }
 
 // Function that queries the database for a route then attaches that route to a marker
@@ -171,14 +173,14 @@ function addPinListenerOnClick(pin, pinNum, fileName, description, latLng, fileP
     // creates a listener for a click action on the marker
     google.maps.event.addListener(pin, 'click', (function(pin, pinNum, fileName, description, infoWindow, filePath, latLng) {
 		return function() {
-			drawInfoWindow(pin, fileName, description, filePath, infoWindow); // If the marker is clicked an info window is opened
+			drawInfoWindow(pin, pinNum, fileName, description, filePath, infoWindow); // If the marker is clicked an info window is opened
 	    	addRouteToMarker(pinNum, fileName, latLng); // If the marker is clicked the route is queried and drawn
 		}
     })(pin, pinNum, fileName, description, infoWindow, filePath, latLng));
 }
 
 // A function that opens up an Info Window with all the details provided
-function drawInfoWindow(pin, fileName, description, filePath, infoWindow) {
+function drawInfoWindow(pin, pinNum, fileName, description, filePath, infoWindow) {
 
 	// Loads a new sound using buzz
     mySound = new buzz.sound(filePath);
@@ -196,6 +198,11 @@ function drawInfoWindow(pin, fileName, description, filePath, infoWindow) {
 			  			'<input id="stop" type="button" value="Stop" class="pure-button pure-button-primary" onclick="stopAudio();" />' +
 			  			'</div>');
 	infoWindow.open(map, pin);
+
+	google.maps.event.addListener(infoWindow,'closeclick',function(){
+   		deleteRouteFromMap(pinNum);
+   		infoWindow.setMap(null);
+	});
 }
 
 // A function to select all the markers on the map
@@ -212,6 +219,19 @@ function selectMarker(pin) {
     google.maps.event.trigger(pin, 'click', {});
 }
 
+// A function to select all the markers on the map
+function deSelectAll() {
+
+	// Iterates over the dictionary of pins and calls the select marker function on each marker
+	for(var i = 0; i < numberOfPins; i++) {
+		selectMarker(pins.pin[i]);
+	}
+}
+
+// A function that triggers a mock click on a single marker
+function deSelectMarker(pin) {
+    google.maps.event.trigger(pin, 'click', {});
+}
 
 // Set of Audio Functions
 function playAudio() {
