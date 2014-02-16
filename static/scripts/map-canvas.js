@@ -33,7 +33,7 @@ function initialize() {
 	// Sets the options on the map
     var mapOptions = {
 	disableDefaultUI: true,
-	zoom: 15,
+	zoom: 17,
 	mapTypeId: google.maps.MapTypeId.SATELLITE
     };
 

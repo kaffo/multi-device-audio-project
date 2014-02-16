@@ -2,6 +2,7 @@ from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
 import datetime, json
 from webapp.models import Event, Recording, Image, Location, UserAcc
 from django.core.serializers.json import DjangoJSONEncoder
+import time
 
 FFMPEG_BIN = "ffmpeg"
 import subprocess as sp
@@ -9,53 +10,53 @@ import subprocess as sp
 import os
 
 
-def process(recording_file, image_file, data, user):
-    lon_array = data['lon'].split(',')
-    lat_array = data['lat'].split(',')
-    img_array = data['image'].split(',')
-    recording_extn = recording_file.name.split('.')[-1]
-    image_extn = image_file.name.split('.')[-1]
-    if (recording_extn != "ogg"):
-        return  HttpResponse("<h1>Please upload an ogg file!</h1>")
-    if (image_extn != "jpg"):
-        return HttpResponse("<h1>Please upload a jpg file!</h1>")
-    image_title = data['file_name'] + '.' + image_extn
-    recording_title = data['file_name'] + '.' + recording_extn
-    path = 'static/data/' + recording_title # I modified this from "data/" because django was being a nuisance and not letting me link to things outside /static/ (gadam)
+def process(json_file, threeGP_file, data, user):
+
+    json_extn = json_file.name.split('.')[-1]
+    threeGP_extn = threeGP_file.name.split('.')[-1]
+
+    if (json_extn != "json"):
+        return  HttpResponse("<h1>Please upload an json file!</h1>")
+    if (threeGP_extn != "3gp"):
+        return HttpResponse("<h1>Please upload a 3gp file!</h1>")
+
+    data = json.load(json_file)
+
+    path = 'static/data/' + str(data[0]["title"]) + ".3gp"
+
     with open(path, 'wb+') as destination:
-        for chunk in recording_file.chunks():
+        for chunk in threeGP_file.chunks():
             destination.write(chunk)
-    
+
     rec = Recording(
-        file_name = data["file_name"],
-        length = 0.01, #we need to grab the time from the metadata, pretty easy.
-        start_time = datetime.datetime.today(),
-        end_time = datetime.datetime.today(),
-        description = data["description"],
-        rec_file = path,
-        lon = lon_array[0],
-        lat = lat_array[0]
+        file_name = str(data[0]["title"]),
+        description = str(data[0]["description"]),
+        length = (int(data[0]["endTime"]) - int(data[0]["startTime"])),
+        start_time = datetime.datetime.fromtimestamp(int(data[0]["startTime"])/1000),
+        end_time = datetime.datetime.fromtimestamp(int(data[0]["endTime"])/1000),
+        rec_file = (str(data[0]["title"]) + ".ogg"),
+        lon = data[1][0]["lon"],
+        lat = data[1][0]["lat"]
     )
-    path = 'static/data/' + image_title
-    with open(path, 'wb+') as destination:
-        for chunk in image_file.chunks():
-            destination.write(chunk)
+
     rec.save()
-    lonlat_len = len(lon_array)
-    for i in range(1, lonlat_len):
+
+    for i in range(1, len(data[1])):
         loc = Location(
             recording_assoc = rec,
-            lon = lon_array[i],
-            lat = lat_array[i],
-            image = img_array[i],
-            alt = 0.0, # This is just temporary until we can start uploading data from mobile device
-            time = "2000-01-01" # This is just temporary until we can start uploading data from mobile device
+            lon = data[1][i]["lon"],
+            lat = data[1][i]["lat"],
+            image = "",
+            alt = data[1][i]["altitude"],
+            time = datetime.datetime.fromtimestamp(int(data[1][i]["time"])/1000)
         )
+
         loc.save()
 
     if user.is_authenticated():
         useracc = UserAcc.objects.filter(user__exact=user)[0]
         useracc.recs.add(rec)
+
     return HttpResponseRedirect('/webapp/submitsuccess')
 
 

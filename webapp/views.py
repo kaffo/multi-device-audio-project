@@ -79,11 +79,23 @@ def submit(request):
     if request.method == 'POST':
         form = UploadFileForm(request.POST,request.FILES)
         if form.is_valid():
-            return process(request.FILES['rec_file'], request.FILES['image_file'], request.POST, request.user)
+            return process(request.FILES['json_file'], request.FILES['threeGP_file'], request.POST, request.user)
+
     return render_to_response('webapp/submit.html', {'form': form}, context)
 
 def submit_success(request):
     return render_to_response('webapp/submitsuccess.html')
+
+def mobile_upload(request):
+    context = RequestContext(request)
+    if request.method == 'GET':
+        form = UploadFileForm()
+    if request.method == 'POST':
+        form = UploadFileForm(request.POST,request.FILES)
+        print(form)
+        if form.is_valid():
+            return process(request.FILES['json_file'], request.FILES['threeGP_file'], request.POST, request.user)
+    return render_to_response('webapp/mobile_upload.html', {'form': form}, context)
 
 def getdata(request, lat1, lon1, lat2, lon2):
     context = RequestContext(request)
