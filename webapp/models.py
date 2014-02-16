@@ -40,7 +40,7 @@ class Location(models.Model):
     lat = models.DecimalField(max_digits=50, decimal_places=20) # moved from recording
     image = models.CharField(max_length=50)
     
-    alt = models.DecimalField(max_digits=4, decimal_places=2)
+    alt = models.DecimalField(max_digits=6, decimal_places=2)
     bearing = models.FloatField(default=0.0)
     speed = models.FloatField(default=0.0)
     time = models.DateTimeField()
