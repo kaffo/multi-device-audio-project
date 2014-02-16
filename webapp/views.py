@@ -71,6 +71,17 @@ def user(request):
     context = RequestContext(request)
     context_dict = {'boldmessage': "I am from context"}
     return render_to_response('webapp/user.html', context_dict, context)
+	
+def convert(request, fN):
+    context = RequestContext(request)
+    ext = os.path.splitext(fN)[1]
+    response = HttpResponse()
+    if(fN == '3gp' and os.path.isfile("../static/data/" + fN)):
+        simplifiedConvert(fN)
+        response.write("Success!")
+    else:
+	    response.write("Error!")
+    return response
 
 def submit(request):
     context = RequestContext(request)
@@ -78,7 +89,13 @@ def submit(request):
         form = UploadFileForm()
     if request.method == 'POST':
         form = UploadFileForm(request.POST,request.FILES)
+		
+        name = form['threeGP_file']
+		
         if form.is_valid():
+		
+            #convert(request, name)
+			
             return process(request.FILES['json_file'], request.FILES['threeGP_file'], request.POST, request.user)
 
     return render_to_response('webapp/submit.html', {'form': form}, context)
@@ -137,17 +154,6 @@ def playSound(request, id):
         rec = getRecId(id)
         rec = serializers.serialize("json", rec)
         return HttpResponse(rec, "application/json")
-
-def convert(request, fN):
-    context = RequestContext(request)
-    ext = os.path.splitext(fN)[1]
-    response = HttpResponse()
-    if(fN == '3gp' and os.path.isfile("../static/data/" + fN)):
-        simplifiedConvert(fN)
-        response.write("Success!")
-    else:
-	    response.write("Error!")
-    return response
 
 
 def register(request):
