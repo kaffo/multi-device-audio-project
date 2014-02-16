@@ -44,6 +44,9 @@
         <div class="header">
             {% if user.is_authenticated %}
             <h1>{{ user.username }}</h1>
+            {% if user.is_superuser %}
+            <button>This is a button</button>
+            {% endif %}
             {% else %}
             <h1>User</h1>
             {% endif %}
@@ -61,7 +64,6 @@
                     }
             )
             </script>
-            <p>{{ useracc.recs }}</p>    				
             {% else %}
             <h3>Please <a href={% url 'register' %}>Register</a> or <a href={% url 'login' %}>Login</a> to proceed</h3>
             {% endif %}	
