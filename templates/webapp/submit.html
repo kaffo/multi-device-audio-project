@@ -10,7 +10,6 @@
 
 <title>MDRS - Submit</title>
 
-<link rel="shortcut icon" href="/static/images/favicon.ico" type="image/x-icon" />
 <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
 <link rel="stylesheet" href="{% static "styles/side-menu.css" %}">
 
@@ -35,7 +34,7 @@
             <h3>Please <a href={% url 'register' %}>Register</a> or <a href={% url 'login' %}>Login</a> to submit to account</h3>
             {% endif %}
         </div>
-        <div class="content">
+        <div class="content" style="width:500px;">
             <form class="pure-form pure-form-stacked" action="." method="post" enctype="multipart/form-data">
                 <br>
                 <legend>Details</legend>
@@ -48,10 +47,10 @@
                 <br>
                 <legend>Please specify a file, or a set of files:</legend>
                 <br>
-                Audio: &nbsp;&nbsp;<input type="file" name="rec_file" class="pure-button" size="150" max="150">
+                Audio: &nbsp;&nbsp;<input type="file" name="rec_file" class="pure-button" size="30" max="150">
                 <br>
                 <br>
-                Images: <input type="file" name="image_file" class="pure-button" size="150" max="150">
+                Images: <input type="file" name="image_file" class="pure-button" size="30" max="150">
                 </p>
                 <input type="submit" class="pure-button pure-input-1-2 pure-button-primary" value="Submit">
             </form>
