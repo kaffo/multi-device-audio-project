@@ -5,6 +5,7 @@
 // Global Variables 
 var myLatLng = new google.maps.LatLng(55.873657, -4.292474);
 var copy = new google.maps.LatLng(55.873657, -4.292474);
+var homeMarker;
 var map;
 var mySound;
 var syncSounds = [];
@@ -38,9 +39,14 @@ function initialize() {
                                        position.coords.longitude);
       		map.setCenter(pos);
       		map.setZoom(17);
+      		var image = {
+      			url: '/static/images/home.png',
+      			anchor: new google.maps.Point(14,14)
+      		}
+
       		var homeMarker = new google.maps.Marker({
 				position: pos,
-				icon: '/static/images/home.png', // Loads the custom marker for each recording
+				icon: image, // Loads the custom marker for each recording
 				map: map
 			});
   		});
