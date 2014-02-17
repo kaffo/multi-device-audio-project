@@ -122,7 +122,7 @@ function drawMarkers() {
 				// Places a marker on the map at the lat & lng specified
 				pins.pin[i] = new google.maps.Marker({
 	    			position: pins.latLng[i],
-	    			icon: '/static/images/marker.png', // Loads the custom marker for each recording
+	    			icon: {url: "/static/images/marker.png"}, // Loads the custom marker for each recording
 	    			map: map
 				});
 
@@ -130,7 +130,7 @@ function drawMarkers() {
 
     		// Adds a listener to each marker that activates on a mouse click
     		for (var i=0; i<numberOfPins; i++) {
-    			addPinListenerOnClick(pins.pin[i], i, pins.fileName[i], pins.description[i], pins.latLng[i], pins.filePath[i])
+    			addPinListenerOnClick(i, pins.fileName[i], pins.description[i], pins.latLng[i], pins.filePath[i])
     		}
     		
     	}
@@ -198,20 +198,23 @@ function addImageWindow(image_pin, image_file) {
 }
 
 // A function to attach a listener for a mouse click on a marker
-function addPinListenerOnClick(pin, pinNum, fileName, description, latLng, filePath) {
+function addPinListenerOnClick(pinNum, fileName, description, latLng, filePath) {
     var infoWindow = new google.maps.InfoWindow(); // Creates an empty Information Window
 
     // creates a listener for a click action on the marker
-    google.maps.event.addListener(pin, 'click', (function(pin, pinNum, fileName, description, infoWindow, filePath, latLng) {
+    google.maps.event.addListener(pins.pin[pinNum], 'click', (function(pinNum, fileName, description, infoWindow, filePath, latLng) {
 		return function() {
-			drawInfoWindow(pin, pinNum, fileName, description, filePath, infoWindow); // If the marker is clicked an info window is opened
+			alert(pins.pin[pinNum].getIcon());
+			pins.pin[pinNum].setIcon({url: "/static/images/marker_selected.png"});
+			pins.pin[pinNum].setMap(map);
+			drawInfoWindow(pinNum, fileName, description, filePath, infoWindow); // If the marker is clicked an info window is opened
 	    	addRouteToMarker(pinNum, fileName, latLng); // If the marker is clicked the route is queried and drawn
 		}
-    })(pin, pinNum, fileName, description, infoWindow, filePath, latLng));
+    })(pinNum, fileName, description, infoWindow, filePath, latLng));
 }
 
 // A function that opens up an Info Window with all the details provided
-function drawInfoWindow(pin, pinNum, fileName, description, filePath, infoWindow) {
+function drawInfoWindow(pinNum, fileName, description, filePath, infoWindow) {
 
 	pins.infoWindow[pinNum] = infoWindow;
 
@@ -230,11 +233,13 @@ function drawInfoWindow(pin, pinNum, fileName, description, filePath, infoWindow
 			  			'&nbsp' +
 			  			'<input id="stop" type="button" value="Stop" class="pure-button pure-button-primary" onclick="stopAudio();" />' +
 			  			'</div>');
-	pins.infoWindow[pinNum].open(map, pin);
+	pins.infoWindow[pinNum].open(map, pins.pin[pinNum]);
 
 	google.maps.event.addListener(pins.infoWindow[pinNum],'closeclick',function(){
+		pins.pin[pinNum].setIcon({url: "/static/images/marker.png"});
    		deleteRouteFromMap(pinNum);
    		pins.infoWindow[pinNum].setMap(null);
+   		
 	});
 }
 
