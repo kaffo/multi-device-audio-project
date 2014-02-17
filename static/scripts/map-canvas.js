@@ -4,6 +4,7 @@
 
 // Global Variables 
 var myLatLng = new google.maps.LatLng(55.873657, -4.292474);
+var copy = new google.maps.LatLng(55.873657, -4.292474);
 var map;
 var mySound;
 var syncSounds = [];
@@ -21,30 +22,32 @@ var numberOfPins;
 
 // Funuction to start map
 function initialize() {
-    
-    var pos;
-
-	// Uses HTML5 geolocation to track your location
-    if(navigator.geolocation) {
-    	navigator.geolocation.getCurrentPosition(function(position) {
-      		pos = new google.maps.LatLng(position.coords.latitude,
-                                       position.coords.longitude);
-      		map.setCenter(pos);
-      		var homeMarker = new google.maps.Marker({
-		position: pos,
-		icon: '/static/images/home.png', // Loads the custom marker for each recording
-	    map: map
-	});
-  		});
-	}
 
 	// Sets the options on the map
     var mapOptions = {
-	disableDefaultUI: true,
-	zoom: 17,
-	mapTypeId: google.maps.MapTypeId.SATELLITE
+		disableDefaultUI: true,
+		zoom: 6,
+		center: copy,
+		mapTypeId: google.maps.MapTypeId.ROADMAP
     };
-
+    
+	// Uses HTML5 geolocation to track your location
+    if(navigator.geolocation) {
+    	navigator.geolocation.getCurrentPosition(function(position) {
+      		var pos = new google.maps.LatLng(position.coords.latitude,
+                                       position.coords.longitude);
+      		map.setCenter(pos);
+      		map.setZoom(17);
+      		var homeMarker = new google.maps.Marker({
+				position: pos,
+				icon: '/static/images/home.png', // Loads the custom marker for each recording
+				map: map
+			});
+  		});
+	}
+/*
+		
+*/
     // Calls the div on the webpage and binds the map to that div
     map = new google.maps.Map(document.getElementById("map-content"), mapOptions);
 
@@ -53,6 +56,18 @@ function initialize() {
     google.maps.event.addListener(map, 'bounds_changed', function() {
 		drawMarkers();
     });
+
+/*
+	Still to be implemented properly
+
+    alert(map.getCenter() + "<br />" + myLatLng);
+
+    if(map.getCenter().equals(myLatLng)) {
+    	var locationWindow = new google.maps.infoWindow();
+		locationWindow.setContent("Please update your browser or use google chrome for location services");
+		locationWindow.open(map);
+	}
+*/
 }
 
 // Loads the Map
