@@ -16,9 +16,30 @@ var pins = {
     			latLng: [],
     			filePath: [],
     			route: [],
-    			infoWindow: []
+    			infoWindow: [],
+    			image: []
 			};
 var numberOfPins;
+var myOptions = {
+                    content: ".",
+                    maxWidth: 250,
+                    minHeight: 100,
+                    maxHeight: 300,
+                    shadowStyle: 1,
+                    padding: 0,
+                    backgroundColor: '#252424',
+                    borderRadius: 8,
+                    arrowSize: 7,
+                    borderWidth: 1,
+                    borderColor: '#454444',
+                    disableAutoPan: true,
+                    hideCloseButton: false,
+                    arrowPosition: 25,
+                    backgroundClassName: 'phoney',
+                    arrowStyle: 2,
+            		map: map,
+
+                };
  	
 
 // Funuction to start map
@@ -58,11 +79,10 @@ function initialize() {
     map = new google.maps.Map(document.getElementById("map-content"), mapOptions);
 
     
-    
     google.maps.event.addListener(map, 'bounds_changed', function() {
 		drawMarkers();
     });
-
+	
 /*
 	Still to be implemented properly
 
@@ -111,6 +131,8 @@ function drawMarkers() {
 				// Creates the latlng object and adds it to the dictionary
 				pins.latLng[i] = new google.maps.LatLng(lat,lng);
 			}
+
+
     		
     		// Adds the marker and all relevant information to the dictionary
     		for (var i=0; i<numberOfPins; i++) {
@@ -118,21 +140,21 @@ function drawMarkers() {
 				pins.fileName[i] = recordings[i].fields.file_name; // The name of the recording
 				pins.description[i] = recordings[i].fields.description; // The description of the recording
 				pins.filePath[i] = "../" + recordings[i].fields.rec_file; // The file path on the server to the audio recording
+				pins.image[i] = "/static/images/marker.png";
 	
 				// Places a marker on the map at the lat & lng specified
 				pins.pin[i] = new google.maps.Marker({
 	    			position: pins.latLng[i],
-	    			icon: {url: "/static/images/marker.png"}, // Loads the custom marker for each recording
+	    			icon: {url: pins.image[i]}, // Loads the custom marker for each recording
 	    			map: map
 				});
 
-    		}
 
+    		}
     		// Adds a listener to each marker that activates on a mouse click
     		for (var i=0; i<numberOfPins; i++) {
     			addPinListenerOnClick(i, pins.fileName[i], pins.description[i], pins.latLng[i], pins.filePath[i])
     		}
-    		
     	}
 	);
 
@@ -179,7 +201,10 @@ function addRouteToMarker(pinNum, fileName, latLng) {
 		    		addImageWindow(imagePin, imageFile);	// Adds an image window for the marker
 				}
 			}
-	    	drawRouteOnMap(pinNum, route); // Draws the route on the map
+			// Draws the route on the map
+	    	if(locArraySize>0) {
+	    		drawRouteOnMap(pinNum, route);
+	    	} 
 		}
 	);
 }
@@ -199,16 +224,23 @@ function addImageWindow(image_pin, image_file) {
 
 // A function to attach a listener for a mouse click on a marker
 function addPinListenerOnClick(pinNum, fileName, description, latLng, filePath) {
-    var infoWindow = new google.maps.InfoWindow(); // Creates an empty Information Window
+    var infoWindow = new InfoBubble(myOptions); // Creates an empty Information Window
+    alert(pinNum);
 
     // creates a listener for a click action on the marker
     google.maps.event.addListener(pins.pin[pinNum], 'click', (function(pinNum, fileName, description, infoWindow, filePath, latLng) {
 		return function() {
-			alert(pins.pin[pinNum].getIcon());
-			pins.pin[pinNum].setIcon({url: "/static/images/marker_selected.png"});
-			pins.pin[pinNum].setMap(map);
-			drawInfoWindow(pinNum, fileName, description, filePath, infoWindow); // If the marker is clicked an info window is opened
-	    	addRouteToMarker(pinNum, fileName, latLng); // If the marker is clicked the route is queried and drawn
+			alert(pinNum);
+			if(this.getIcon() == '/static/images/marker.png') {
+				alert("hello");
+				this.setIcon("/static/images/marker_selected.png")
+				drawInfoWindow(pinNum, fileName, description, filePath, infoWindow); // If the marker is clicked an info window is opened
+	    		addRouteToMarker(pinNum, fileName, latLng); // If the marker is clicked the route is queried and drawn
+	    	}
+	    	else {
+				this.setIcon("/static/images/marker.png")
+				deleteRouteFromMap(pinNum); // If the marker is clicked an info window is opened
+	    	}
 		}
     })(pinNum, fileName, description, infoWindow, filePath, latLng));
 }
@@ -222,25 +254,26 @@ function drawInfoWindow(pinNum, fileName, description, filePath, infoWindow) {
     mySound = new buzz.sound(filePath);
 
     // opens an info window with the title and description of that file
-    pins.infoWindow[pinNum].setContent('<div><h3>' + 
-			  			fileName + 
-			  			'</h3><p>' + 
-			 			description + 
-			  			'</p>' +
-			  			'<input id="play" type="button" value="Play" class="pure-button pure-button-primary" onclick="playAudio();"/>' +
-			  			'&nbsp' +
-			  			'<input id="pause" type="button" value="Pause" class="pure-button pure-button-primary" onclick="pauseAudio();" />' +
-			  			'&nbsp' +
-			  			'<input id="stop" type="button" value="Stop" class="pure-button pure-button-primary" onclick="stopAudio();" />' +
-			  			'</div>');
+    pins.infoWindow[pinNum].setContent('<div style="margin-left:20px;"">' +
+                    					'<h2>' + 
+			  							fileName + 
+			  							'</div>' +
+			  							'</h2>' +
+			  							'<div style="margin-left:20px; margin-right:20px; max-height:100px; overflow:auto;">' +
+			  							'<p style="line-height:normal; margin-right:3px">' +
+			  							description +
+			  							'</div>' +
+			  							'<div style="min-width:230px; margin-left:20px; margin-right:20px; max-height:15px;">' +
+			  							'</p>' +
+			  							'<input id="play" type="button" value="Play" class="pure-button pure-button-primary" onclick="playAudio();"/>' +
+			  							'&nbsp' +
+			  							'<input id="pause" type="button" value="Pause" class="pure-button pure-button-primary" onclick="pauseAudio();" />' +
+			  							'&nbsp' +
+			  							'<input id="stop" type="button" value="Stop" class="pure-button pure-button-primary" onclick="stopAudio();" />' +
+										'</div>');
+
 	pins.infoWindow[pinNum].open(map, pins.pin[pinNum]);
 
-	google.maps.event.addListener(pins.infoWindow[pinNum],'closeclick',function(){
-		pins.pin[pinNum].setIcon({url: "/static/images/marker.png"});
-   		deleteRouteFromMap(pinNum);
-   		pins.infoWindow[pinNum].setMap(null);
-   		
-	});
 }
 
 // A function to select all the markers on the map
