@@ -72,7 +72,7 @@ def user(request):
     context = RequestContext(request)
     context_dict = {'boldmessage': "I am from context"}
     return render_to_response('webapp/user.html', context_dict, context)
-	
+
 def convert(request, fN):
     context = RequestContext(request)
     ext = os.path.splitext(fN)[1]
@@ -90,13 +90,13 @@ def submit(request):
         form = UploadFileForm()
     if request.method == 'POST':
         form = UploadFileForm(request.POST,request.FILES)
-		
+
         name = form['threeGP_file']
-		
+
         if form.is_valid():
-		
+
             #convert(request, name)
-			
+
             return process(request.FILES['json_file'], request.FILES['threeGP_file'], request.POST, request.user)
 
     return render_to_response('webapp/submit.html', {'form': form}, context)
@@ -141,13 +141,11 @@ def getUserRecs(request, username):
     context = RequestContext(request)
     if request.method == 'GET':
         user = User.objects.get(username = username)
+        print( UserAcc.objects.filter(user__exact=user))
         useracc = UserAcc.objects.filter(user__exact=user)[0]
         userrecs = useracc.recs.all()
-        data = []
-        for item in userrecs:
-            data = data + [item.file_name]
-        #data = serializers.serialize("json", data)
-        return HttpResponse(data)
+        data = serializers.serialize("json", userrecs)
+        return HttpResponse(data, "application/json")
 
 def playSound(request, id):
     context = RequestContext(request)
