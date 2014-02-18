@@ -27,6 +27,7 @@ def process(json_file, threeGP_file, data, user):
     with open(path, 'wb+') as destination:
         for chunk in threeGP_file.chunks():
             destination.write(chunk)
+			
 	if str(Recording.objects.filter(file_name=str(data[0]["title"]))) != "[]":
 		return HttpResponse("<h1>A file with this name has already been uploaded</h1>")
     rec = Recording(
@@ -35,7 +36,7 @@ def process(json_file, threeGP_file, data, user):
         length = (int(data[0]["endTime"]) - int(data[0]["startTime"])),
         start_time = datetime.datetime.fromtimestamp(int(data[0]["startTime"])/1000),
         end_time = datetime.datetime.fromtimestamp(int(data[0]["endTime"])/1000),
-        rec_file = (str(data[0]["title"]) + ".ogg"),
+        rec_file = (str(data[0]["title"]) + ".3gp"),
         lon = data[1][0]["lon"],
         lat = data[1][0]["lat"]
     )
@@ -87,7 +88,7 @@ def export(data):
 			"startDate":recording.start_time.strftime("%Y,%m,%d %H,%M"),
 			"endDate":recording.end_time.strftime("%Y,%m,%d %H,%M"),
 			"headline":recording.file_name,
-			"text":"<button id='play' class='pure-button pure-button-primary' onclick='playS(10);'>Play</button><p>Length: " + str(recording.length) + "\n" + "Event: " + str(recording.event_assoc) + "\n" + recording.description + "</p>", #HTML + IMG rec. description
+			"text":"<button id='play' class='pure-button pure-button-primary' onclick='playS(" + str(recording.file_ID) + ");'>Play/Pause</button><p>Length: " + str(recording.length) + "\n" + "Event: " + str(recording.event_assoc) + "\n" + recording.description + "</p>", #HTML + IMG rec. description
 			"asset": {
 				"media":"https://maps.google.com/?q=" + str(recording.lat) + "," + str(recording.lon), #recording.rec_file.url, http://link_to_recording_file_music_player
 				"caption":"ID" + str(recording.file_ID)
@@ -104,7 +105,7 @@ def export(data):
 			"type":"default",
 			"text":"<p>Here is your personal MDAP timeline.</p>",
 			"asset": {
-				"media":"http://mdap.org/images/icon.png",
+				"media":"/static/images/tl.jpg",
 				"caption":"Multi Device Recording System"
 			},
 			"date": recs

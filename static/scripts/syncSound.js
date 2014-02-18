@@ -2,7 +2,7 @@
 
 //jQuery.ajaxSetup({async:false});
 
-var group;
+var group = new buzz.group([]);
 
 //variables to store information for the current recording
 var curr_rec; //rec object
@@ -17,7 +17,7 @@ var sync_group = new Array();
 var loaded = 0; //indication of whether or not the script has loaded
 
 //recording information to be displayed to the user before playback
-var info = "Rec.: \t Sync at: \n";
+var info = "";
 //var duration=2;
 
 //a function to sort the synchronisation array
@@ -91,7 +91,7 @@ function load_data(sync){
 
 	for(var i=0;i<sync.length;i++){
 		s = new Date(sync[i].fields.start_time);
-		s_obj = new buzz.sound("../../" + sync[i].fields.rec_file);
+		s_obj = new buzz.sound("../../static/data/" + sync[i].fields.rec_file);
 		sync_group.push(s_obj);
 		
 		//use start time difference to calibrate synchronisation
@@ -114,7 +114,7 @@ function load_data(sync){
 	loaded = 1;
 	
 	//display recording information before playback
-	alert(info);
+	alert("Rec.: \t Sync at: \n" + info);
 }
 
 function synchronise(id){
@@ -130,27 +130,29 @@ function synchronise(id){
 	}
 
 	//get request for accessing current sound object attributes
-	$.get("/webapp/playSound:" + id,
+	$.getJSON("/webapp/playSound:" + id,
 		
 		function(data){
-			curr_rec = eval("(" + data + ")");
+			curr_rec = data;
 			curr_start = new Date(curr_rec[0].fields.start_time);
 			curr_end= new Date(curr_rec[0].fields.end_time);
-			curr_s_obj = new buzz.sound("../../" + curr_rec[0].fields.rec_file);
+			curr_s_obj = new buzz.sound("../../static/data/" + curr_rec[0].fields.rec_file);
 		});
 		
-		
+
 	//get request for populating the recs array with database recording objects and process the data
-	$.get(
+	$.getJSON(
 		"/webapp/getRecs",
 		
 		function(data){
-			recs = eval("("+ data +")");
+			recs = data;
 			var toSync = process_data(recs);
-			
 			load_data(toSync);
 	
 			group = new buzz.group(sync_group);
+			
+			sync_group = [];
+			toSync = [];
 		});
 	
 
@@ -170,12 +172,12 @@ function load(id){
 // (plays the grouped sound objects after syncing them)
 
 function playS(id){
-
+	
 	//alert("Loaded: " + loaded);
 	if(loaded==0){
 		synchronise(id);
 	}
-	
+		
 	group.togglePlay();
 	
 }
