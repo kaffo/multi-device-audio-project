@@ -41,6 +41,7 @@ def index(request):
     context = RequestContext(request)
     context_dict = {'boldmessage': "I am from context"}
     #export(getRecs(request))
+    export()
     return render_to_response('webapp/index.html', context_dict, context)
 
 ###########################################################
