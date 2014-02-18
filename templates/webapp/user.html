@@ -39,6 +39,7 @@
 
     <div id="main"> 
         <div class="header">
+
             {% if user.is_authenticated %}
             <h1>{{ user.username }}</h1>
             {% if user.is_superuser %}
@@ -52,12 +53,33 @@
             {% if user.is_authenticated %}
 			<div>
 			
-			<div align="right" style = "position: fixed; bottom: 0; right: 0;">
+			<div id="info" style="padding:10px; margin-bottom:10px; margin-right:5px; background-color:#ebf2f8; color:#666; text-align:right; float:left; position: fixed; top: 135px; left: 160px; border: 1px solid #d3d7d9; border-radius:12px;">
+			
+			<p id="sync">
+			Sync at:
+			</br>
+			<div id="tl"></div>
+			
+			</p>
+			<p id="recordings">
+			User recordings:
+			</p>
+            <script>
+			var user = "{{ user.username }}";
+            $.get(
+                    "/webapp/getUserRecs:{{ user.username }}",
+                    function(data) {
+                        alert(data);
+                    }
+            )
+            </script>
+			</div>
+			<div align="right" style = "position: fixed; bottom: 10px; right: 10px;">
 					<div id="my-timeline"></div>
 					</div>
 					
             <!--<p id="recordings"></p>
-            script>
+            <script>
             $.get(
                     "/webapp/getUserRecs:{{ user.username }}",
                     function(data) {
@@ -66,19 +88,6 @@
             )
             </script>-->
 			</div>
-			
-		<script language="javascript">
-    		    function autoResizeDiv()
-        		{
-
-					var tlwidth = (window.innerWidth - 150) + 'px';
-					var tlheight = (window.innerHeight - 140) + 'px';
-					document.getElementById('my-timeline').style.width = tlwidth;
-					document.getElementById('my-timeline').style.height = tlheight;
-        		}
-        		window.onresize = autoResizeDiv;
-        		autoResizeDiv();
-		</script>
 			
             {% else %}
             <h3>Please <a href={% url 'register' %}>Register</a> or <a href={% url 'login' %}>Login</a> to proceed</h3>

@@ -103,7 +103,7 @@ function load_data(sync){
 		diff = (ls.getTime() - s.getTime())/1000;
 		
 		//files to be synced information to be presented before playback
-		info += sync[i].fields.rec_file.replace('static/data/', '') + "\t " + diff + "s \n";
+		info += sync[i].fields.rec_file.replace('static/data/', '') + "&nbsp;&nbsp; " + diff + "s <br>";
 		
 		if(diff>=0){
 			s_obj.setTime(diff);
@@ -119,10 +119,11 @@ function load_data(sync){
 	loaded = 1;
 	
 	//display recording information before playback
-	alert("Rec.: \t Sync at: \n" + info);
+	//alert("Rec.: \t Sync at: \n" + info);
+
 }
 
-function synchronise(id){
+function synchronise(id, user){
 
 	//check if html5 audio tag is supported
 	if (!buzz.isSupported()) {
@@ -147,7 +148,7 @@ function synchronise(id){
 
 	//get request for populating the recs array with database recording objects and process the data
 	$.getJSON(
-		"/webapp/getRecs",
+		"/webapp/getRecs:" + user,
 		
 		function(data){
 			recs = data;
@@ -156,7 +157,7 @@ function synchronise(id){
 			load_data(toSync);
 		
 			group = new buzz.group(sync_group);
-			
+			group.load();
 		});
 	
 
@@ -179,6 +180,8 @@ var cid=-1;
 
 
 function playS(id){
+
+	document.getElementById("tl").innerHTML=info;
 	
 	//alert("Loaded: " + loaded);
 	if(loaded==0){
@@ -189,7 +192,6 @@ function playS(id){
 	group.togglePlay();
 	
 	//setTimeout(stop(),1);
-
 	
 	if(id!=cid && cid!=-1){
 		group.stop();
