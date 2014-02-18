@@ -89,6 +89,8 @@ function load_data(sync){
 	//checked recording start time will be stored here
 	var s;
 
+	info = "";//info > null
+	
 	for(var i=0;i<sync.length;i++){
 		s = new Date(sync[i].fields.start_time);
 		s_obj = new buzz.sound("../../static/data/" + sync[i].fields.rec_file);
@@ -146,13 +148,12 @@ function synchronise(id){
 		
 		function(data){
 			recs = data;
-			var toSync = process_data(recs);
+			var toSync = new Array();
+			toSync = process_data(recs);
 			load_data(toSync);
-	
+		
 			group = new buzz.group(sync_group);
 			
-			sync_group = [];
-			toSync = [];
 		});
 	
 
@@ -171,6 +172,9 @@ function load(id){
 //toggle play function 
 // (plays the grouped sound objects after syncing them)
 
+var cid;
+
+
 function playS(id){
 	
 	//alert("Loaded: " + loaded);
@@ -179,7 +183,15 @@ function playS(id){
 	}
 		
 	group.togglePlay();
+	if(id!=cid){
+		group.stop();
+		sync = new Array();
+		sync_group = new Array();
+		synchronise(id);
+	}
 	
+	//check the current file id
+	cid = id;
 }
 
 /*
