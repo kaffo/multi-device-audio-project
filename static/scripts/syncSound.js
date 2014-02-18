@@ -18,7 +18,8 @@ var loaded = 0; //indication of whether or not the script has loaded
 
 //recording information to be displayed to the user before playback
 var info = "";
-//var duration=2;
+
+var duration;
 
 //a function to sort the synchronisation array
 function compare(a,b){
@@ -83,13 +84,15 @@ function load_data(sync){
 	//buzz sound object
 	var s_obj;
 	
-	//last object start time
-	var l = new Date(last.fields.start_time);
-	
+	//last object start/end time
+	var ls,le;
+	ls = new Date(last.fields.start_time);
+	le = new Date(last.fields.end_time);
+	duration = (le.getTime() - ls.getTime())/1000;
 	//checked recording start time will be stored here
 	var s;
 
-	info = "";//info > null
+	info = "";//info -> null
 	
 	for(var i=0;i<sync.length;i++){
 		s = new Date(sync[i].fields.start_time);
@@ -97,7 +100,7 @@ function load_data(sync){
 		sync_group.push(s_obj);
 		
 		//use start time difference to calibrate synchronisation
-		diff = (l.getTime() - s.getTime())/1000;
+		diff = (ls.getTime() - s.getTime())/1000;
 		
 		//files to be synced information to be presented before playback
 		info += sync[i].fields.rec_file.replace('static/data/', '') + "\t " + diff + "s \n";
@@ -181,8 +184,13 @@ function playS(id){
 	if(loaded==0){
 		synchronise(id);
 	}
-		
+	//alert(duration);
+	
 	group.togglePlay();
+	
+	//setTimeout(stop(),1);
+
+	
 	if(id!=cid && cid!=-1){
 		group.stop();
 		sync = new Array();
@@ -192,6 +200,13 @@ function playS(id){
 	
 	//check the current file id
 	cid = id;
+}
+
+function stop(){
+	group.stop();
+	sync = new Array();
+	sync_group = new Array();
+	synchronise(id);
 }
 
 /*
