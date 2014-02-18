@@ -225,14 +225,11 @@ function addImageWindow(image_pin, image_file) {
 // A function to attach a listener for a mouse click on a marker
 function addPinListenerOnClick(pinNum, fileName, description, latLng, filePath) {
     var infoWindow = new InfoBubble(myOptions); // Creates an empty Information Window
-    alert(pinNum);
 
     // creates a listener for a click action on the marker
     google.maps.event.addListener(pins.pin[pinNum], 'click', (function(pinNum, fileName, description, infoWindow, filePath, latLng) {
 		return function() {
-			alert(pinNum);
 			if(this.getIcon() == '/static/images/marker.png') {
-				alert("hello");
 				this.setIcon("/static/images/marker_selected.png")
 				drawInfoWindow(pinNum, fileName, description, filePath, infoWindow); // If the marker is clicked an info window is opened
 	    		addRouteToMarker(pinNum, fileName, latLng); // If the marker is clicked the route is queried and drawn
