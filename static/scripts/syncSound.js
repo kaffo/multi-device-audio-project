@@ -172,7 +172,7 @@ function load(id){
 //toggle play function 
 // (plays the grouped sound objects after syncing them)
 
-var cid;
+var cid=-1;
 
 
 function playS(id){
@@ -183,7 +183,7 @@ function playS(id){
 	}
 		
 	group.togglePlay();
-	if(id!=cid){
+	if(id!=cid && cid!=-1){
 		group.stop();
 		sync = new Array();
 		sync_group = new Array();
