@@ -230,8 +230,10 @@ function addPinListenerOnClick(pinNum, fileName, description, latLng, filePath) 
     google.maps.event.addListener(pins.pin[pinNum], 'click', (function(pinNum, fileName, description, infoWindow, filePath, latLng) {
 		return function() {
 			if(this.getIcon() == '/static/images/marker.png') {
-				this.setIcon("/static/images/marker_selected.png")
-				drawInfoWindow(pinNum, fileName, description, filePath, infoWindow); // If the marker is clicked an info window is opened
+				this.setIcon("/static/images/marker_selected.png");
+				if(!infoWindow.isOpen()) {
+					drawInfoWindow(pinNum, fileName, description, filePath, infoWindow); // If the marker is clicked an info window is opened
+				}
 	    		addRouteToMarker(pinNum, fileName, latLng); // If the marker is clicked the route is queried and drawn
 	    	}
 	    	else {
