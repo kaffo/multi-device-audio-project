@@ -79,8 +79,8 @@ function initialize() {
     map = new google.maps.Map(document.getElementById("map-content"), mapOptions);
 
     
-    google.maps.event.addListener(map, 'bounds_changed', function() {
-		drawMarkers();
+    google.maps.event.addListener(map, 'idle', function() {
+		drawMarkers()
     });
 	
 /*
