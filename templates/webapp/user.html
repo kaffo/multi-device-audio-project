@@ -42,7 +42,9 @@
             {% if user.is_authenticated %}
             <h1>{{ user.username }}</h1>
             {% if user.is_superuser %}
-			<button id='play' onclick='playS(1);'>Play/Pause</button>
+			
+			<!-- <button id='play' onclick='playS(1);'>Play/Pause</button> -->
+			
             {% endif %}
             {% else %}
             <h1>User</h1>

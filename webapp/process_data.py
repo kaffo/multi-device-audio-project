@@ -88,10 +88,23 @@ def export(data):
 			"startDate":recording.start_time.strftime("%Y,%m,%d %H,%M"),
 			"endDate":recording.end_time.strftime("%Y,%m,%d %H,%M"),
 			"headline":recording.file_name,
-			"text":"<button id='play' class='pure-button pure-button-primary' onclick='playS(" + str(recording.file_ID) + ");'>Play/Pause</button><p>Length: " + str(recording.length) + "\n" + "Event: " + str(recording.event_assoc) + "\n" + recording.description + "</p>", #HTML + IMG rec. description
+			"text":"<button class='button blue' onclick='playS("
+				+ str(recording.file_ID)
+				+ ");'>Play/Pause</button><p>Length: "
+				+ str(recording.length)
+				+ "\n"
+				+ "Event: "
+				+ str(recording.event_assoc)
+				+ "\n"
+				+ recording.description
+				+ "</p>", #HTML + IMG rec. description
 			"asset": {
-				"media":"https://maps.google.com/?q=" + str(recording.lat) + "," + str(recording.lon), #recording.rec_file.url, http://link_to_recording_file_music_player
-				"caption":"ID" + str(recording.file_ID)
+				"media":"https://maps.google.com/?q="
+					+ str(recording.lat)
+					+ ","
+					+ str(recording.lon), #recording.rec_file.url, http://link_to_recording_file_music_player
+				"caption":"ID"
+					+ str(recording.file_ID)
 			}
 		}
 
@@ -103,10 +116,10 @@ def export(data):
 		{
 			"headline":"MDAP timeline",
 			"type":"default",
-			"text":"<p>Here is your personal MDAP timeline.</p>",
+			"text":"<p>Here is your personal MDAP timeline. You can browse your recordings and play them simultaneously if they overlap.</p>",
 			"asset": {
 				"media":"/static/images/tl.jpg",
-				"caption":"Multi Device Recording System"
+				"caption":"Multi Device Recording System V1.0"
 			},
 			"date": recs
 
