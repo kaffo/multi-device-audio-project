@@ -119,7 +119,7 @@ def getdata(request, lat1, lon1, lat2, lon2):
     context = RequestContext(request)
     if request.method == 'GET':
         data = getRecording(lat1, lon1, lat2, lon2)
-        export(data)
+        #export(data)
         data = serializers.serialize("json", data)
         return HttpResponse(data, "application/json")
 
