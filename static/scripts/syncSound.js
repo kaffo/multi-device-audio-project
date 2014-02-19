@@ -159,7 +159,7 @@ function synchronise(id, user){
 
 	//get request for populating the recs array with database recording objects and process the data
 	$.getJSON(
-		"/webapp/getRecs", // + user,
+		"/webapp/getUserRecs:",  + user,
 		
 		function(data){
 			recs = data;
