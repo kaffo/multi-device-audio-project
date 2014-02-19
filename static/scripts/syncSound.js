@@ -43,6 +43,8 @@ function process_data(recs){
 	var check_id; // id
 	var check_start; //start time
 	var check_end; //rec. end time
+	var check_name;
+	var check_file;
 	
 	uRecs = ""; //uRecs -> null
 	
@@ -71,7 +73,7 @@ function process_data(recs){
 		}
 		
 		
-		uRecs += "<p> <button class='blue button' onclick=''>Play</button>" + check_name + " " + check_id + "<br>" + check_desc + "</p>"
+		//uRecs += "<p> <button class='blue button' onclick=''>Play</button>" + check_name + " " + check_id + "<br>" + check_desc + "</p>";
 
 	}
 	
@@ -159,7 +161,7 @@ function synchronise(id, user){
 
 	//get request for populating the recs array with database recording objects and process the data
 	$.getJSON(
-		"/webapp/getUserRecs:",  + user,
+		"/webapp/getRecs", // + user,
 		
 		function(data){
 			recs = data;
@@ -199,11 +201,11 @@ function playS(id){
 	}
 	
 	document.getElementById("tl").innerHTML=info;
-	document.getElementById("uRecs").innerHTML=uRecs;
+	//document.getElementById("uRecs").innerHTML=uRecs;
 	
-	//s_group.togglePlay();
+	s_group.togglePlay();
 	
-	s_group.play();
+	//s_group.play();
 	
 	if(id!=cid && cid!=-1){
 		s_group.stop();
@@ -224,6 +226,7 @@ function stopS(){
 	sync_group = new Array();
 	synchronise(id);
 }
+
 
 /*
 group.bind("timeupdate", function(e){

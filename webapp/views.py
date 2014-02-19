@@ -154,6 +154,24 @@ def playSound(request, id):
         rec = serializers.serialize("json", rec)
         return HttpResponse(rec, "application/json")
 
+def deleteRec(request, id):
+    context = RequestContext(request)
+    if request.method == 'GET':
+        if request.user.is_authenticated() == False:
+            return HttpResponse("<h1>Error, please log in!</h1>")
+        username = request.user.username
+        rec = getRecId(id)
+        if rec.count() < 1:
+            return HttpResponse("<h1>No Recording With this ID</h1>")
+        user = User.objects.get(username = username)
+        useracc = UserAcc.objects.filter(user__exact=user)[0]
+        print useracc
+        userrecs = useracc.recs.filter(file_ID__exact=rec[0].file_ID)
+        print userrecs
+        if userrecs.count() > 0 or user.is_superuser:
+            rec.delete()
+            return HttpResponse("<h1>Recording Deleted</h1>")
+        return HttpResponse("<h1>Error, you are not the owner of this file!</h1>")
 
 def register(request):
     context = RequestContext(request)
