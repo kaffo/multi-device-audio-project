@@ -110,12 +110,12 @@ function drawMarkers() {
     var neLng = bounds.getNorthEast().lng();
     
     // The attempt to query the database
-    $.get(
+    $.getJSON(
 		"/webapp/getdata:" + swLat + ":" + swLng + ":" + neLat + ":" + neLng,
 	
 		function(data) {
   
-    		var recordings = eval("(" + data + ")"); // The recordings received from the database 
+    		var recordings = data; // The recordings received from the database 
     		numberOfPins = recordings.length; // The number of recordings
 
     		var lat;
@@ -185,9 +185,9 @@ function addRouteToMarker(pinNum, fileName, latLng) {
 	var route = new Array(); // New array to store the co-ordinates of the route
 	route[0] = latLng; // The first co-ordinates of the route are obviously the co-ordinates of the marker
 
-    $.get("/webapp/getroute:" + fileName, //Queries the database for locations using the name of the file
+    $.getJSON("/webapp/getroute:" + fileName, //Queries the database for locations using the name of the file
 		function(data) {
-	       	var locations = eval("(" + data + ")"); // Parses the data returned from the database
+	       	var locations = data; // Parses the data returned from the database
 	    	var locArraySize = locations.length; // Specifies the number of waypoints on the route
 	       	for(var i = 0; i<locArraySize; i++) {
 				route[i+1] = new google.maps.LatLng(locations[i].fields.lat, locations[i].fields.lon); // Adds all the lat & lon to an array
