@@ -1,0 +1,71 @@
+<!doctype html>
+
+{% load static %}
+
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Interact with users recordings as they sync up in time and space">
+
+<title>MDRS - Upload</title>
+
+<link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
+<link rel="stylesheet" href="{% static "styles/side-menu.css" %}">
+
+</head>
+<body>
+
+<div id="layout">
+    <!-- Menu toggle -->
+    <a href="#menu" id="menuLink" class="menu-link">
+        <!-- Hamburger icon -->
+        <span></span>
+    </a>
+
+    {% include "navigation.html" %}
+
+    <div id="main">
+    	<h1>Upload</h1>
+    	<div class="pure-g-r">
+    		<p>Here you can manually upload your recordings with their accompanying images and location 			information</p>
+    		
+    		
+    
+    
+    	</div>
+    </div>
+    
+    
+        <div class="content">
+            <form class="pure-form pure-form-aligned" action="." method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <fieldset>
+                	<div class="pure-control-group">
+                		<label for="file">Audio</label>
+                		<input type="file" name="threeGP_file" class="pure-button" size="30" max="150">
+                	</div>
+                	<div class="pure-control-group">
+                		<label for="file">Metadata</label>
+                		<input type="file" name="json_file" class="pure-button" size="30" max="150">
+                	</div>
+                	<div class="pure-control-group">
+                		<label for="file">Images</label>
+                		<input type="file" name="images_file" class="pure-button" size="30" max="150">
+                	</div>
+                	<div class="pure-controls">
+                		 <button type="submit" class="pure-button pure-button-primary">Submit</button>
+                	</div>
+                </fieldset>
+            </form>
+        </div>
+    </div>     
+</div>
+        </div>
+
+        <script src="{% static "scripts/ui.js" %}"></script>
+
+    </body>
+
+</html>
