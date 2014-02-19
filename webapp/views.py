@@ -142,7 +142,6 @@ def getUserRecs(request, username):
     context = RequestContext(request)
     if request.method == 'GET':
         user = User.objects.get(username = username)
-        print( UserAcc.objects.filter(user__exact=user))
         useracc = UserAcc.objects.filter(user__exact=user)[0]
         userrecs = useracc.recs.all()
         data = serializers.serialize("json", userrecs)
