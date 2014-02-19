@@ -5,7 +5,7 @@ from webapp import views
 urlpatterns = patterns ('',
     url(r'^$', views.index, name='index'),
     url(r'^about/$', views.about, name='about'),
-    url(r'^submit/$', views.submit, name='submit'),
+    #url(r'^submit/$', views.submit, name='submit'), Depreciated
     url(r'^getdata:(-?[0-9]+.-?[0-9]+):(-?[0-9]+.-?[0-9]+):(-?[0-9]+.-?[0-9])+:(-?[0-9]+.-?[0-9]+)/$', views.getdata, name='getdata'),
     url(r'^convert:([a-z|A-Z|0-9]+.[a-z|0-9]+)/$',views.convert, name='convert'),
     url(r'^playSound:(-?[0-9]+)/$', views.playSound, name='playSound'),
@@ -20,7 +20,7 @@ urlpatterns = patterns ('',
     url(r'^login/$', views.user_login, name='login'),
     url(r'^logout/$', views.user_logout, name='logout'),
     url(r'^submitsuccess/$', views.submit_success, name='submit_success'),
-    url(r'^mobile_upload/$', views.mobile_upload, name='mobile_upload'),
+    url(r'^upload/$', views.upload, name='upload'),
 
     #commented out, so it is not lost in case i'm wrong (Gordon Adam)
     #url(r'^settings/$', views.settings, name='settings'),
