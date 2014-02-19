@@ -10,6 +10,7 @@
 
 <title>MDRS - Upload</title>
 
+<link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
 <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
 <link rel="stylesheet" href="{% static "styles/side-menu.css" %}">
 
@@ -26,17 +27,14 @@
     {% include "navigation.html" %}
 
     <div id="main">
-    	<h1>Upload</h1>
-    	<div class="pure-g-r">
-    		<p>Here you can manually upload your recordings with their accompanying images and location 			information</p>
-    		
-    		
-    
-    
+    	<div class="header">
+    		<h1>Upload</h1>
+	    	{% if user.is_authenticated %}
+            	<h3>Files will be tied to {{ user.username }}</h3>
+            	{% else %}
+            	<h3>Please <a href={% url 'register' %}>Register</a> or <a href={% url 'login' %}>Login</a> to submit to account</h3>
+            	{% endif %}
     	</div>
-    </div>
-    
-    
         <div class="content">
             <form class="pure-form pure-form-aligned" action="." method="post" enctype="multipart/form-data">
                 {% csrf_token %}
