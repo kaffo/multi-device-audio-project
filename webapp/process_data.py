@@ -90,7 +90,7 @@ def export():
 			"headline":recording.file_name,
 			"text":"<button class='button blue' onclick='playS("
 				+ str(recording.file_ID)
-				+ ");'> Play/Pause </button><p>Length: "
+				+ ");'> Play/Pause </button> <p>Length: "
 				+ str(recording.length)
 				+ "\n"
 				+ "Event: "

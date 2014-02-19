@@ -2,7 +2,7 @@
 
 //jQuery.ajaxSetup({async:false});
 
-var group = new buzz.group([]);
+var s_group = new buzz.group([]);
 
 //variables to store information for the current recording
 var curr_rec; //rec object
@@ -18,6 +18,7 @@ var loaded = 0; //indication of whether or not the script has loaded
 
 //recording information to be displayed to the user before playback
 var info = "";
+var uRecs = "";
 
 var duration;
 
@@ -43,12 +44,19 @@ function process_data(recs){
 	var check_start; //start time
 	var check_end; //rec. end time
 	
+	uRecs = ""; //uRecs -> null
+	
 	//populating the sync array with relevant recording objects
 	for(var i=0;i<recs.length;i++){
 		check_rec = recs[i];
 		check_id = check_rec.pk;
 		check_start = new Date(check_rec.fields.start_time);
 		check_end = new Date(check_rec.fields.end_time);
+		
+		check_name = check_rec.fields.file_name;
+		check_desc = check_rec.fields.description;
+		check_file = check_rec.fields.rec_file;
+	
 		
 		//start-end time comparison check
 		if((curr_start.getTime() <= check_start.getTime() && check_end.getTime()<= curr_end.getTime()) || 
@@ -61,6 +69,9 @@ function process_data(recs){
 			//add them to the SYNC array for further processing
 			sync.push(check_rec);
 		}
+		
+		
+		uRecs += "<p> <button class='blue button' onclick=''>Play</button>" + check_name + " " + check_id + "<br>" + check_desc + "</p>"
 
 	}
 	
@@ -148,7 +159,7 @@ function synchronise(id, user){
 
 	//get request for populating the recs array with database recording objects and process the data
 	$.getJSON(
-		"/webapp/getRecs:" + user,
+		"/webapp/getRecs", // + user,
 		
 		function(data){
 			recs = data;
@@ -156,8 +167,8 @@ function synchronise(id, user){
 			toSync = process_data(recs);
 			load_data(toSync);
 		
-			group = new buzz.group(sync_group);
-			group.load();
+			s_group = new buzz.group(sync_group);
+			s_group.load();
 		});
 	
 
@@ -181,20 +192,21 @@ var cid=-1;
 
 function playS(id){
 
-	document.getElementById("tl").innerHTML=info;
 	
 	//alert("Loaded: " + loaded);
 	if(loaded==0){
 		synchronise(id);
 	}
-	//alert(duration);
 	
-	group.togglePlay();
+	document.getElementById("tl").innerHTML=info;
+	document.getElementById("uRecs").innerHTML=uRecs;
 	
-	//setTimeout(stop(),1);
+	//s_group.togglePlay();
+	
+	s_group.play();
 	
 	if(id!=cid && cid!=-1){
-		group.stop();
+		s_group.stop();
 		sync = new Array();
 		sync_group = new Array();
 		synchronise(id);
@@ -204,8 +216,10 @@ function playS(id){
 	cid = id;
 }
 
-function stop(){
-	group.stop();
+
+
+function stopS(){
+	s_group.stop();
 	sync = new Array();
 	sync_group = new Array();
 	synchronise(id);
