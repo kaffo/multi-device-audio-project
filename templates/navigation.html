@@ -24,8 +24,8 @@
       </li>
 				
       <li>
-	{% url 'submit' as url %}
-        <a href={{ url }}{% if request.path == url %} class="pure-menu-selected"{% endif %}>Submit</a>
+	{% url 'upload' as url %}
+        <a href={{ url }}{% if request.path == url %} class="pure-menu-selected"{% endif %}>Upload</a>
       </li>
       {% if user.is_authenticated %}
       <li class="menu-item-divided">

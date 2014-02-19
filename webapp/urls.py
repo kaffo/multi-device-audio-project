@@ -19,7 +19,7 @@ urlpatterns = patterns ('',
     url(r'^login/$', views.user_login, name='login'),
     url(r'^logout/$', views.user_logout, name='logout'),
     url(r'^submitsuccess/$', views.submit_success, name='submit_success'),
-    url(r'^upload/$', views.mobile_upload, name='upload'),
+    url(r'^upload/$', views.upload, name='upload'),
 
     #commented out, so it is not lost in case i'm wrong (Gordon Adam)
     #url(r'^settings/$', views.settings, name='settings'),

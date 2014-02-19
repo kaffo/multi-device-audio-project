@@ -105,7 +105,7 @@ def submit(request):
 def submit_success(request):
     return render_to_response('webapp/submitsuccess.html')
 
-def mobile_upload(request):
+def upload(request):
     context = RequestContext(request)
     if request.method == 'GET':
         form = UploadFileForm()
@@ -113,8 +113,8 @@ def mobile_upload(request):
         form = UploadFileForm(request.POST,request.FILES)
         print(form)
         if form.is_valid():
-            return process(request.FILES['json_file'], request.FILES['threeGP_file'], request.POST, request.user)
-    return render_to_response('webapp/mobile_upload.html', {'form': form}, context)
+            return process(request.FILES['json_file'], request.FILES['threeGP_file'], request.FILES['images_file'], request.POST, request.user)
+    return render_to_response('webapp/upload.html', {'form': form}, context)
 
 def getdata(request, lat1, lon1, lat2, lon2):
     context = RequestContext(request)
