@@ -13,6 +13,7 @@
   <link rel="shortcut icon" href="/static/images/favicon.ico" type="image/x-icon" />
   <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
   <link rel="stylesheet" href="{% static "styles/side-menu.css" %}">
+  <link rel="stylesheet" href="{% static "styles/user.css" %}">
   
   
   <!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAcCsb4_1FhEOP4bYPwm10FV_bGhjHBBH0&sensor=true"></script>
@@ -53,19 +54,26 @@
             {% if user.is_authenticated %}
 			<div>
 			
-			<div id="info" style="padding:10px; margin-bottom:10px; margin-right:5px; background-color:#ebf2f8; color:#666; text-align:right; float:left; position: fixed; top: 135px; left: 160px; border: 1px solid #d3d7d9; border-radius:12px;">
+			<div id="info" class="Ucontainer">
 			
-			<p id="sync">
-			Sync at:
+			
+			<div class="Uinfo">
+			
+			<b>Sync at:</b>
 			</br>
-			<div id="tl"></div>
 			
-			</p>
-			<p id="recordings">
-			User recordings:
+			<div id="tl"></div>
+			</div>
+			
+			
+			<div class="Uinfo">
+			<b>User recordings:</b>
 			</br>
 			<div id="uRecs"></div>
-			</p>
+			</div>
+			
+			
+			
             <!--<script>
 			var user = "{{ user.username }}";
             $.get(
@@ -76,6 +84,8 @@
             )
             </script> -->
 			</div>
+			
+			
 			<div align="right" style = "position: fixed; bottom: 10px; right: 10px;">
 					<div id="my-timeline"></div>
 					</div>
