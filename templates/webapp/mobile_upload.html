@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Interact with users recordings as they sync up in time and space">
 
-<title>MDRS - Mobile Upload</title>
+<title>MDRS - Upload</title>
 
 <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
 <link rel="stylesheet" href="{% static "styles/side-menu.css" %}">
@@ -26,18 +26,37 @@
     {% include "navigation.html" %}
 
     <div id="main">
+    	<h1>Upload</h1>
+    	<div class="pure-g-r">
+    		<p>Here you can manually upload your recordings with their accompanying images and location 			information</p>
+    		
+    		
+    
+    
+    	</div>
+    </div>
+    
+    
         <div class="content">
-            <form class="pure-form pure-form-stacked" action="." method="post" enctype="multipart/form-data">
-                <br>
-                <legend>Files</legend>
+            <form class="pure-form pure-form-aligned" action="." method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                <br>
-                JSON: <input type="file" name="json_file" class="pure-button" size="30" max="150">
-                <br>
-                <br>
-                3GP: <input type="file" name="threeGP_file" class="pure-button" size="30" max="150">
-                </p>
-                <input type="submit" class="pure-button pure-input-1-2 pure-button-primary" value="Submit">
+                <fieldset>
+                	<div class="pure-control-group">
+                		<label for="file">Audio</label>
+                		<input type="file" name="threeGP_file" class="pure-button" size="30" max="150">
+                	</div>
+                	<div class="pure-control-group">
+                		<label for="file">Metadata</label>
+                		<input type="file" name="json_file" class="pure-button" size="30" max="150">
+                	</div>
+                	<div class="pure-control-group">
+                		<label for="file">Images</label>
+                		<input type="file" name="images_file" class="pure-button" size="30" max="150">
+                	</div>
+                	<div class="pure-controls">
+                		 <button type="submit" class="pure-button pure-button-primary">Submit</button>
+                	</div>
+                </fieldset>
             </form>
         </div>
     </div>     
