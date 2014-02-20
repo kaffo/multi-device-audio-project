@@ -13,15 +13,18 @@ $(document).ready(function() {
 		
 		function text(recs){
 			
-			var check_rec, check_id, check_name, check_desc;
+			var c_rec, c_id, c_name, c_desc, c_file;
 			
 			for(var i=0;i<recs.length;i++){
-				check_rec = recs[i];
-				check_id = check_rec.pk;
-				check_name = check_rec.fields.file_name;
-				check_desc = check_rec.fields.description;
+				c_rec = recs[i];
+				c_id = c_rec.pk;
+				c_name = c_rec.fields.file_name;
+				c_desc = c_rec.fields.description;
+				c_file = c_rec.fields.rec_file;
 				
-				Rdata += "<p> <button class='blue button' onclick=''>Play</button> Recording: " + check_name + "<br> ID: " + check_id + "<br>Description:<br>" + check_desc + "</p>";
+				Rdata += "<div style='float:left;'><button class='blue button' onclick='this.firstChild.play()'><audio src='../../static/data/" + c_file + "'></audio>Play</button><br>";
+				Rdata += "<form target='_blank' action='../../static/data/" + c_file + "'><input type='submit' value='Download' class='blue button'></form></div>";
+				Rdata += "<p> Recording: " + c_name + "<br> ID: " + c_id + "<br>Description:<br>" + c_desc + "</p>";
 
 			}
 			
@@ -30,14 +33,14 @@ $(document).ready(function() {
 			
 		}
 		
-		$.getJSON(
-			"/webapp/getRecs", // + user,
-			
-			function(data){
-				recs = data;
-				text(recs);
+			$.getJSON(
+				"/webapp/getRecs", // + user,
 				
-		});
+				function(data){
+					recs = data;
+					text(recs);
+					
+			});
 		
 		
 	function autoResizeDiv()

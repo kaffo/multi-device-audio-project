@@ -9,20 +9,20 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Interact with users recordings as they sync up in time and space">
-  
+
   <link rel="shortcut icon" href="/static/images/favicon.ico" type="image/x-icon" />
   <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
   <link rel="stylesheet" href="{% static "styles/side-menu.css" %}">
   <link rel="stylesheet" href="{% static "styles/user.css" %}">
   
-  
-  <!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAcCsb4_1FhEOP4bYPwm10FV_bGhjHBBH0&sensor=true"></script>
-  <script src="{% static "scripts/map-canvas.js" %}"></script> -->
   <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
   <script src="{% static "scripts/buzz.min.js" %}"></script>
   <script type="text/javascript" src="{% static "scripts/syncSound.js" %}"></script>
   <script type="text/javascript" src="{% static "build/js/storyjs-embed.js" %}"></script>
   <script type="text/javascript" src="{% static "scripts/tl.js" %}"></script>
+	<script type="text/javascript" src="{% static "scripts/InfoBubble.js" %}"></script>
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAcCsb4_1FhEOP4bYPwm10FV_bGhjHBBH0&sensor=true"></script>
+	<script src="{% static "scripts/map-canvas.js" %}"></script>
   
   <title>MDRS - User</title>
 
@@ -45,8 +45,6 @@
             <h1>{{ user.username }}</h1>
             {% if user.is_superuser %}
 			
-			<!-- <button id='play' onclick='playS(1);'>Play/Pause</button> -->
-			
             {% endif %}
             {% else %}
             <h1>User</h1>
@@ -56,6 +54,11 @@
 			
 			<div id="info" class="Ucontainer">
 			
+			<div class="Uinfo" id="map-content" style="height:200px;">
+			
+			
+			
+			</div>
 			
 			<div class="Uinfo">
 			
@@ -100,6 +103,8 @@
             )
             </script>-->
 			</div>
+			
+
 			
             {% else %}
             <h3>Please <a href={% url 'register' %}>Register</a> or <a href={% url 'login' %}>Login</a> to proceed</h3>

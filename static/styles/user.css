@@ -34,13 +34,14 @@
 .button {
 	display: inline-block;
 	float:left;
+	margin:2px;
 	outline: none;
 	cursor: pointer;
 	text-align: center;
 	text-decoration: none;
 	font: 14px/100% Arial, Helvetica, sans-serif;
 	font-weight:bold;
-	padding: .5em 2em .55em;
+	padding: .5em 1em .55em;
 	height:30px;
 	text-shadow: 0 1px 1px rgba(0,0,0,.3);
 	-webkit-border-radius: .5em; 
