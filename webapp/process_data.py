@@ -10,7 +10,7 @@ import subprocess as sp
 import os
 
 
-def process(json_file, threeGP_file, data, user):
+def process(json_file, threeGP_file, image_file, data, user):
 
     json_extn = json_file.name.split('.')[-1]
     threeGP_extn = threeGP_file.name.split('.')[-1]
