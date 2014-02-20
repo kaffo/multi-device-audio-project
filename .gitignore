@@ -10,4 +10,4 @@
 *.pyc
 
 /static/data/
-/static/script/data.json
+/static/scripts/data.json
