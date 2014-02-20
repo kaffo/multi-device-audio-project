@@ -10,7 +10,7 @@ import subprocess as sp
 import os
 
 
-def process(json_file, threeGP_file, data, user):
+def process(json_file, threeGP_file, image_file, data, user):
 
     json_extn = json_file.name.split('.')[-1]
     threeGP_extn = threeGP_file.name.split('.')[-1]
@@ -61,7 +61,7 @@ def process(json_file, threeGP_file, data, user):
         
     #this function call converts the file from .3gp to .ogg
     #below the new file name with an ogg extension is saved to the database
-    #simplifiedConvert(threeGP_file)
+    simplifiedConvert(threeGP_file)
 
     return HttpResponseRedirect('/webapp/submitsuccess')
 
