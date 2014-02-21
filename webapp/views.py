@@ -27,9 +27,9 @@ def getRecording(lat1, lon1, lat2, lon2):
 
     return data
 
-def getLocation(fn):
+def getLocation(id):
     data = Location.objects
-    data = data.filter(recording_assoc__file_name=fn)
+    data = data.filter(recording_assoc__file_ID=id)
     return data.order_by('loc_ID')
 
 def getRecId(id):
@@ -124,10 +124,10 @@ def getdata(request, lat1, lon1, lat2, lon2):
         data = serializers.serialize("json", data)
         return HttpResponse(data, "application/json")
 
-def getroute(request, fn):
+def getroute(request, id):
     context = RequestContext(request)
     if request.method == 'GET':
-        data = getLocation(fn)
+        data = getLocation(id)
         data = serializers.serialize("json", data)
         return HttpResponse(data, "application/json")
 

@@ -28,8 +28,6 @@ def process(json_file, threeGP_file, image_file, data, user):
         for chunk in threeGP_file.chunks():
             destination.write(chunk)
 			
-	if str(Recording.objects.filter(file_name=str(data[0]["title"]))) != "[]":
-		return HttpResponse("<h1>A file with this name has already been uploaded</h1>")
     rec = Recording(
         file_name = str(data[0]["title"]),
         description = str(data[0]["description"]),

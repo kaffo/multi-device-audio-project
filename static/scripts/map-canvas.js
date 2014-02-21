@@ -8,6 +8,7 @@ var homeMarker;
 var map;
 var pins = {
     			pin: [],
+    			fileID: [],
     			fileName: [],
     			description: [],
     			latLng: [],
@@ -20,6 +21,7 @@ var pins = {
 var selectedPins = {
     			pin: [],
     			fileName: [],
+    			fileID: [],
     			description: [],
     			latLng: [],
     			filePath: [],
@@ -138,8 +140,9 @@ function drawMarkers() {
 		function(data) {
 
 			for(var i = 0; i < pins.pin.length; i++) {
-					if(selectedPins.fileName.indexOf(pins.fileName[i]) != -1) {
-						var popIndex = selectedPins.fileName.indexOf(pins.fileName[i]);
+					if(selectedPins.fileID.indexOf(pins.fileID[i]) != -1) {
+						var popIndex = selectedPins.fileID.indexOf(pins.fileID[i]);
+						selectedPins.fileID.splice(popIndex, 1);
 						selectedPins.latLng.splice(popIndex, 1);
 						selectedPins.fileName.splice(popIndex, 1);
 						selectedPins.description.splice(popIndex, 1);
@@ -149,6 +152,7 @@ function drawMarkers() {
 						selectedPins.image.splice(popIndex, 1);
 						selectedPins.selected.splice(popIndex, 1);
 					}
+					selectedPins.fileID.push(pins.fileID[i]);
 					selectedPins.latLng.push(pins.latLng[i]);
 					selectedPins.fileName.push(pins.fileName[i]);
 					selectedPins.description.push(pins.description[i]);
@@ -173,8 +177,9 @@ function drawMarkers() {
     				pins.pin[i].setMap(null);
     			}
 
-    			if(selectedPins.fileName.indexOf(recordings[i].fields.file_name) != -1) {
-    				var index = selectedPins.fileName.indexOf(recordings[i].fields.file_name);
+    			if(selectedPins.fileID.indexOf(recordings[i].pk) != -1) {
+    				var index = selectedPins.fileID.indexOf(recordings[i].pk);
+    				pins.fileID[i] = selectedPins.fileID[index];
     				pins.latLng[i] = selectedPins.latLng[index];
 					pins.fileName[i] = selectedPins.fileName[index];
 					pins.description[i] = selectedPins.description[index];
@@ -188,6 +193,7 @@ function drawMarkers() {
     				lat = parseFloat(recordings[i].fields.lat);
 					lng = parseFloat(recordings[i].fields.lon);
 
+					pins.fileID[i] = recordings[i].pk;
 					pins.latLng[i] = new google.maps.LatLng(lat,lng);
 					pins.fileName[i] = recordings[i].fields.file_name; // The name of the recording
 					pins.description[i] = recordings[i].fields.description; // The description of the recording
@@ -210,7 +216,7 @@ function drawMarkers() {
     		}
     		// Adds a listener to each marker that activates on a mouse click
     		for (var i=0; i<numberOfPins; i++) {
-    			addPinListenerOnClick(i, pins.fileName[i], pins.description[i], pins.latLng[i], pins.filePath[i])
+    			addPinListenerOnClick(i, pins.fileID[i], pins.fileName[i], pins.description[i], pins.latLng[i], pins.filePath[i])
     		}
     	}
 	);
@@ -240,11 +246,13 @@ function deleteRouteFromMap(pinNum) {
 }
 
 // Function that queries the database for a route then attaches that route to a marker
-function addRouteToMarker(pinNum, fileName, latLng) {
+function addRouteToMarker(pinNum, fileID, latLng) {
 	var route = new Array(); // New array to store the co-ordinates of the route
 	route[0] = latLng; // The first co-ordinates of the route are obviously the co-ordinates of the marker
 
-    $.getJSON("/webapp/getroute:" + fileName, //Queries the database for locations using the name of the file
+	alert(fileID);
+
+    $.getJSON("/webapp/getroute:" + fileID, //Queries the database for locations using the name of the file
 		function(data) {
 	       	var locations = data; // Parses the data returned from the database
 	    	var locArraySize = locations.length; // Specifies the number of waypoints on the route
@@ -282,10 +290,10 @@ function addImageWindow(image_pin, image_file) {
 }
 
 // A function to attach a listener for a mouse click on a marker
-function addPinListenerOnClick(pinNum, fileName, description, latLng, filePath) {
+function addPinListenerOnClick(pinNum, fileID, fileName, description, latLng, filePath) {
 
     // creates a listener for a click action on the marker
-    google.maps.event.addListener(pins.pin[pinNum], 'click', (function(pinNum, fileName, description, filePath, latLng) {
+    google.maps.event.addListener(pins.pin[pinNum], 'click', (function(pinNum, fileID, fileName, description, filePath, latLng) {
 		return function() {
 			if(!pins.selected[pinNum]) {
 				alert("testing, testing, 123");
@@ -295,7 +303,7 @@ function addPinListenerOnClick(pinNum, fileName, description, latLng, filePath) 
 				if(!pins.infoWindow[pinNum].isOpen()) {
 					drawInfoWindow(pinNum, fileName, description, filePath); // If the marker is clicked an info window is opened
 				}
-	    		addRouteToMarker(pinNum, fileName, latLng); // If the marker is clicked the route is queried and drawn
+	    		addRouteToMarker(pinNum, fileID, latLng); // If the marker is clicked the route is queried and drawn
 	    	}
 	    	else {
 				pins.pin[pinNum].setIcon(pinImage);
@@ -304,7 +312,7 @@ function addPinListenerOnClick(pinNum, fileName, description, latLng, filePath) 
 				deleteRouteFromMap(pinNum); // If the marker is clicked an info window is opened
 	    	}
 		}
-    })(pinNum, fileName, description, filePath, latLng));
+    })(pinNum, fileID, fileName, description, filePath, latLng));
 }
 
 // A function that opens up an Info Window with all the details provided
