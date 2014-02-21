@@ -136,7 +136,7 @@ def simplifiedConvert(fileName):
 	fileName = path + path.split(".")[0].split("/")[-1] + '.3gp'
 	fileNew = path + path.split(".")[0].split("/")[-1] + '.ogg'
 
-	subprocess.call('ffmpeg -i' + fileName + ' -acodec vorbis ' + fileNew)
+	sp.call('ffmpeg -i' + fileName + ' -acodec vorbis ' + fileNew)
 
 
 
