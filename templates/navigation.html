@@ -9,12 +9,12 @@
       
       <li>
 	{% url 'index' as url %}
-	<a href={{ url }}{% if request.path == url %} class="pure-menu-selected"{% endif %}>Home</a>
+	<a href="{{ url }}"{% if request.path == url %} class="pure-menu-selected"{% endif %}>Home</a>
       </li>
       
       <li>
 	{% url 'user' as url %}
-	<a href={{ url }}{% if request.path == url %} class="pure-menu-selected"{% endif %}>
+	<a href="{{ url }}"{% if request.path == url %} class="pure-menu-selected"{% endif %}>
     {% if user.is_authenticated %}
     {{ user.username }}
     {% else %}
@@ -25,24 +25,24 @@
 				
       <li>
 	{% url 'upload' as url %}
-        <a href={{ url }}{% if request.path == url %} class="pure-menu-selected"{% endif %}>Upload</a>
+        <a href="{{ url }}"{% if request.path == url %} class="pure-menu-selected"{% endif %}>Upload</a>
       </li>
       {% if user.is_authenticated %}
       <li class="menu-item-divided">
 	{% url 'logout' as url %}
-        <a href={{ url }}{% if request.path == url %} class="pure-menu-selected"{% endif %}>Logout</a>
+        <a href="{{ url }}"{% if request.path == url %} class="pure-menu-selected"{% endif %}>Logout</a>
       </li>
 
       {% else %}
       
       <li class="menu-item-divided">	
 	{% url 'register' as url %}
-        <a href={{ url }}{% if request.path == url %} class="pure-menu-selected"{% endif %}>Register</a>
+        <a href="{{ url }}"{% if request.path == url %} class="pure-menu-selected"{% endif %}>Register</a>
       </li>
 
       <li>
 	{% url 'login' as url %}
-        <a href={{ url }}{% if request.path == url %} class="pure-menu-selected"{% endif %}>Login</a>
+        <a href="{{ url }}"{% if request.path == url %} class="pure-menu-selected"{% endif %}>Login</a>
       </li>
       {% endif %}
       {% url 'index' as url %}
@@ -52,10 +52,17 @@
       <li><br /></li>
       <li class="menu-item-divided" />
       <li>
-	<a href="javascript:selectAll();" title="Select All" id="s_all">Select All&nbsp&nbsp&nbsp<b>></b></a> <!-- stackoverflow is the best! -->
+	<a href="javascript:selectAll();" title="Select All" id="s_all">Select All&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<b>></b><b>></b></a> <!-- stackoverflow is the best! -->
       </li>
       <li>
-  <a href="javascript:deSelectAll();" title="De-Select All" id="d_all">De-Select All&nbsp&nbsp&nbsp<b>></b></a> <!-- stackoverflow is the best! -->
+  <a href="javascript:deSelectAll();" title="De-Select All" id="d_all">De-Select All&nbsp&nbsp&nbsp&nbsp&nbsp<b>></b><b>></b></a> <!-- stackoverflow is the best! -->
+      </li>
+      <li class="menu-item-divided" />
+      <li>
+  <a href="javascript:playSelected();" title="Select All" id="s_all">Play Selected &nbsp&nbsp&nbsp<b>></b><b>></b></a> 
+      </li>
+      <li>
+  <a href="javascript:stopSelected();" title="Select All" id="s_all">Stop Selected&nbsp&nbsp&nbsp<b>></b><b>></b></a> 
       </li>
       {% endif %}
 
