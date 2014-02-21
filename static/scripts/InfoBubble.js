@@ -210,7 +210,7 @@ InfoBubble.prototype.buildDom_ = function() {
   close.style['border'] = 0;
   close.style['zIndex'] = this.baseZIndex_ + 1;
   close.style['cursor'] = 'pointer';
-  close.src = 'http://maps.gstatic.com/intl/en_us/mapfiles/iw_close.gif';
+  close.src = '/static/images/close.gif';
 
   var that = this;
   google.maps.event.addDomListener(close, 'click', function() {
