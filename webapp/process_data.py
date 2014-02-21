@@ -136,7 +136,7 @@ def simplifiedConvert(fileName):
 	fileName = path + path.split(".")[0].split("/")[-1] + '.3gp'
 	fileNew = path + path.split(".")[0].split("/")[-1] + '.ogg'
 
-	p = sp.Popen([FFMPEG_BIN, "-i", fileName, "-acodec", "libvorbis", fileNew], stdout=subprocess.PIPE)
+	subprocess.call('ffmpeg -i' + fileName + ' -acodec vorbis ' + fileNew)
 
 
 
