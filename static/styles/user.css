@@ -1,5 +1,5 @@
 .Uinfo {
-	width:90%;
+	width:95%;
 	display:block;
 	margin-bottom:10px;
 	padding:10px;
@@ -15,16 +15,15 @@
 
 .Ucontainer {
 	padding:10px;
-	margin-bottom:10px;
-	margin-right:5px;
+	display:block;
 	overflow:scroll;
 	background-color:#ebf2f8;
 	color:#666; font-size:15px;
 	text-align:right;
-	float:left;
+	float:right;
 	position:fixed;
+	right:10px;
 	top: 135px;
-	left: 160px;
 	border: 1px solid #d3d7d9;
 	border-radius:12px;
 
