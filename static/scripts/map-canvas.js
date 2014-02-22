@@ -48,8 +48,7 @@ var myOptions = {
                     arrowPosition: 25,
                     backgroundClassName: 'phoney',
                     arrowStyle: 2,
-            		map: map,
-
+            		map: map
                 };
 
 var homeDotImage = {
@@ -346,28 +345,35 @@ function drawInfoWindow(pinNum, fileName, description, filePath, infoWindow) {
 
 // A function to select all the markers on the map
 function selectAll() {
+	alert("here");
 	// Iterates over the dictionary of pins and calls the select marker function on each marker
 	for(var i = 0; i < numberOfPins; i++) {
-		selectMarker(pins.pin[i]);
+		alert("but am i here");
+		selectMarker(i);
 	}
 }
 
 // A function that triggers a mock click on a single marker
-function selectMarker(pin) {
-    google.maps.event.trigger(pin, 'click', {});
+function selectMarker(pinNum) {
+	alert(!pins.selected[pinNum]);
+	if(!pins.selected[pinNum]) {
+    	google.maps.event.trigger(pins.pin[pinNum], 'click', {});
+    }
 }
 
 // A function to select all the markers on the map
 function deSelectAll() {
 	// Iterates over the dictionary of pins and calls the select marker function on each marker
 	for(var i = 0; i < numberOfPins; i++) {
-		google.maps.event.trigger(pins.infoWindow[i], 'closeclick', {});
+		deSelectMarker(i);
 	}
 }
 
 // A function that triggers a mock click on a single marker
-function deSelectMarker(infoWindow) {
-    google.maps.event.trigger(infoWindow, 'closeclick', {});
+function deSelectMarker(pinNum) {
+	if(pins.selected[pinNum]) {
+    	google.maps.event.trigger(pins.pin[pinNum], 'click', {});
+    }
 }
 
 // Set of Audio Functions
