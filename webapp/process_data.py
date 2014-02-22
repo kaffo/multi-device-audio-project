@@ -97,10 +97,15 @@ def export():
 				+ recording.description
 				+ "</p>", #HTML + IMG rec. description
 			"asset": {
+			
+				"media": "../../static/data/img1.png",
+				
+			'''
 				"media":"https://maps.google.com/?q="
 					+ str(recording.lat)
 					+ ","
 					+ str(recording.lon), #recording.rec_file.url, http://link_to_recording_file_music_player
+			'''
 				"caption":"ID"
 					+ str(recording.file_ID)
 			}
