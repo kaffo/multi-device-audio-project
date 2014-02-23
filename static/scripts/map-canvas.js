@@ -418,10 +418,12 @@ function playSelected() {
 			pinIDArray.push(pins.fileID[i]);
 		}
 	}
-	playSelected_Prototype(pinIDArray);
+	var syncedFiles = syncFileArray(pinIDArray);
+	syncedFiles.togglePlay();
 }
 
 function stopSelected() {
+	syncedFiles.togglePlay();
 }
 
 function setSelectedStartTime(dateObject) {
