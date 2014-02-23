@@ -154,7 +154,7 @@ def simplifiedConvert(path):
 	fn = fileName.replace('.3gp','')
 	fileNew = fn + '.ogg'
 
-	usageStr = 'avconv -i' + fileName + ' ' + fileNew
+	usageStr = 'avconv -i ' + fileName + ' ' + fileNew
 	
 	sp.call(usageStr, shell=True)
 
