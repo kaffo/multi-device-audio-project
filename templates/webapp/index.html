@@ -26,7 +26,23 @@
   		<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 		<script src="{% static "scripts/map-canvas.js" %}"></script>
 		<script src="{% static "scripts/buzz.min.js" %}"></script>
+ <script>
+$(function() {
+	var availableTags = [];
+	$.getJSON(
+		"/webapp/getRecs",
 
+		function(data) {
+			for(var i = 0; i < data.length; i++) {
+				availableTags.push(data[i].fields.file_name);
+			}
+		}
+	)
+	$( "#tags" ).autocomplete({
+		source: availableTags
+	});
+});
+</script>
 
     </head>
 	<body>
