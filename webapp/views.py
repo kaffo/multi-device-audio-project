@@ -70,7 +70,8 @@ def user(request):
 #    print user
 #    user.recs.add(data[0])
     #data.delete()
-    export(request.user)
+    if request.user is not None:
+        export(request.user)
     context = RequestContext(request)
     context_dict = {'boldmessage': "I am from context"}
     return render_to_response('webapp/user.html', context_dict, context)
