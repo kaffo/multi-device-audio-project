@@ -1,6 +1,7 @@
 from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
 import datetime, json
 from webapp.models import Event, Recording, Image, Location, UserAcc
+from django.contrib.auth.models import User
 from django.core.serializers.json import DjangoJSONEncoder
 import time
 
@@ -77,10 +78,21 @@ def test():
 
 #JSON export for timeline
 
-def export():
-	recs = []
+def export(username):
 
-	for recording in Recording.objects.all():
+	RECORDINGS = []
+	recs = []
+	
+	
+	if(username == 'all'):
+		RECORDINGS = Recording.objects.all()
+
+	else:
+		user = User.objects.get(username = username)
+		useracc = UserAcc.objects.filter(user__exact=user)[0]
+		RECORDINGS = useracc.recs.all()
+
+	for recording in RECORDINGS:
 
 		rec_data = {
 			"startDate":recording.start_time.strftime("%Y,%m,%d %H,%M"),

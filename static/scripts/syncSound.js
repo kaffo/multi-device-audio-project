@@ -3,7 +3,7 @@
 //jQuery.ajaxSetup({async:false});
 
 var s_group = new buzz.group([]);
-var user;
+var USER;
 
 //variables to store information for the current recording
 var curr_rec; //rec object
@@ -22,6 +22,16 @@ var info = "";
 var uRecs = "";
 
 var duration;
+
+function setUser(u){
+	USER = u;
+	//alert(USER);
+}
+
+
+function getUser(){
+	return USER;
+}
 
 //a function to sort the synchronisation array
 function compare(a,b){
@@ -152,6 +162,8 @@ function synchronise(id, user){
     alert("Your browser does not support .ogg audio format.");
 	}
 
+	
+
 	//get request for accessing current sound object attributes
 	$.getJSON("/webapp/playSound:" + id,
 		
@@ -165,7 +177,7 @@ function synchronise(id, user){
 
 	//get request for populating the recs array with database recording objects and process the data
 	$.getJSON(
-		"/webapp/getRecs", // + user,
+		"/webapp/getUserRecs:" + USER, // + user,
 		
 		function(data){
 			recs = data;
@@ -201,7 +213,7 @@ function syncArray(IDs){
 
 	
 	$.getJSON(
-		"/webapp/getRecs", // + user,
+		"/webapp/getUserRecs:" + USER, // + user,
 		
 		function(data){
 		

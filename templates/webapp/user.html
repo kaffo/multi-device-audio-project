@@ -43,6 +43,11 @@
 
             {% if user.is_authenticated %}
             <h1>{{ user.username }}</h1>
+			
+			<script>
+			setUser("{{ user.username }}");
+            </script> 
+			
             {% if user.is_superuser %}
 			
             {% endif %}
@@ -81,18 +86,6 @@
 			<div id="uRecs"></div>
 			</div>
 			
-			
-			
-            <!--<script>
-			var user = "{{ user.username }}";
-            $.get(
-                    "/webapp/getUserRecs:{{ user.username }}",
-                    function(data) {
-                        alert(data);
-                    }
-            )
-            </script> -->
-			</div>
 			
 			
 			<div align="right" style = "position: fixed; bottom: 10px; left: 160px;">

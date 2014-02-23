@@ -75,16 +75,24 @@ function autoResizeDiv()
 $(document).ready(function() {
 	createStoryJS({
 		type:       'timeline',
-		width:      (window.innerWidth - 400)*0.75,
+		width:      (window.innerWidth),
 		height:     (window.innerHeight - 160),
 		source:     '/static/scripts/data.json',
-		embed_id:   'my-timeline'
+		embed_id:   'my-timeline',
+		start_at_end:       false,                          
+		start_at_slide:     '1',                         
+		start_zoom_adjust:  '0',                          
+		hash_bookmark:      true,
+		gmap_key:			'AIzaSyAcCsb4_1FhEOP4bYPwm10FV_bGhjHBBH0',
+		font:               'Arvo-PTSans',            
+		debug:              true,                           
+		lang:               'en'
 	
 	});
 
 	
 	$.getJSON(
-		"/webapp/getRecs", // + user,
+		"/webapp/getUserRecs:" + getUser(), // + user,
 		
 		function(data){
 			recs = data;
