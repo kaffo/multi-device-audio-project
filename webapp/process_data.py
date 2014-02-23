@@ -60,7 +60,7 @@ def process(json_file, threeGP_file, image_file, data, user):
         
     #this function call converts the file from .3gp to .ogg
     #below the new file name with an ogg extension is saved to the database
-    simplifiedConvert(threeGP_file)
+    simplifiedConvert(path)
 
     return HttpResponseRedirect('/webapp/submitsuccess')
 
@@ -146,10 +146,9 @@ def export(username):
 
 #simplified convert
 # using ffmpeg default conversion settings
-def simplifiedConvert(fileName):
-	path = "../static/data/"
-	fileName = fileName.replace('.3gp','')
-	fileNew = fileName + '.ogg'
+def simplifiedConvert(path):
+	fileName = path.replace('.3gp','')
+	fileNew = path + '.ogg'
 
 	sp.call('avconv -i' + fileName + ' ' + fileNew)
 
