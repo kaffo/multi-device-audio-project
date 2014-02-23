@@ -34,11 +34,11 @@ $(function() {
 
 		function(data) {
 			for(var i = 0; i < data.length; i++) {
-				availableTags.push(data[i].fields.file_name);
+				availableTags.push(data[i].fields.file_name + ", " + data[i].pk);
 			}
 		}
 	)
-	$( "#tags" ).autocomplete({
+	$( "#searchbar" ).autocomplete({
 		source: availableTags
 	});
 });
@@ -78,7 +78,8 @@ $(function() {
 		<script>
     		$(function() {
     			$( "#datepicker" ).datepicker({
-    				onSelect: function() { 
+    				format: 'dd.mm.yyyy',
+    				onSelect: function() {
         				var dateObject = $(this).datepicker('getDate'); 
         				setSelectedStartTime(dateObject);
     				}

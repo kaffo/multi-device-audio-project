@@ -140,6 +140,13 @@ def getRecs(request):
         data = serializers.serialize("json", data)
         return HttpResponse(data,"application/json")
 
+def getrecbyid(request, id):
+    context = RequestContext(request)
+    if request.method == 'GET':
+        data = getRecId(id)
+        data = serializers.serialize("json", data)
+        return HttpResponse(data,"application/json")
+
 def getUserRecs(request, username):
     context = RequestContext(request)
     if request.method == 'GET':

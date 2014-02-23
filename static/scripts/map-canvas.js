@@ -431,3 +431,28 @@ function setSelectedStartTime(dateObject) {
 function setSelectedEndTime(dateObject) {
 	selectedEndTime = dateObject.getTime();
 }
+
+function zoomAndSelect() {
+
+	name = document.getElementById("searchbar").value;
+
+	if(name.indexOf(",") == -1) {
+		return;
+	}
+  	var fn = name.split(", ")[0];
+  	var pk = name.split(", ")[1];
+
+  	$.getJSON(
+  		"/webapp/getrecbyid:" + pk,
+
+  		function(data) {
+
+  			lat = parseFloat(data[0].fields.lat);
+			lng = parseFloat(data[0].fields.lon);
+
+			map.setCenter(new google.maps.LatLng(lat, lng));
+			map.setZoom(18);
+
+  		}
+  	);
+}

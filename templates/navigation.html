@@ -6,6 +6,8 @@
     <a class="pure-menu-heading" href={% url 'index' %}>MDRS</a>
     
     <ul>
+
+      
       
       <li>
 	{% url 'index' as url %}
@@ -50,11 +52,23 @@
       <li><br /></li>
       <li><br /></li>
       <li><br /></li>
+
       <li>
-        <label for="tags">Tags: </label>
-        <input id="tags">
+        &nbsp<input type="text" size="14" style="background-color: #242323; border-color: #242323; color: #AAAAAA" id="searchbar" name="searchbar">
       </li>
+      <li>
+  <a href="javascript:zoomAndSelect();" title="Select All" id="s_all">Find&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<b>></b><b>></b></a> <!-- stackoverflow is the best! -->
+      </li>
+      <p />
       <li class="menu-item-divided" />
+      <li>
+        <p />
+        &nbsp<input type="text" size="14" value="Start Date" style="background-color: #242323; border-color: #242323;" id="datepicker"> 
+      </li>
+      <li>
+        <p />
+        &nbsp<input type="text" size="14" value="End Date" style="background-color: #242323; border-color: #242323;" id="datepicker2"> 
+      </li>
       <li>
 	<a href="javascript:selectAll();" title="Select All" id="s_all">Select All&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<b>></b><b>></b></a> <!-- stackoverflow is the best! -->
       </li>
@@ -69,14 +83,8 @@
   <a href="javascript:stopSelected();" title="Select All" id="s_all">Stop Selected&nbsp&nbsp&nbsp<b>></b><b>></b></a> 
       </li>
       <li class="menu-item-divided" />
-      <li>
-        <p />
-        <input type="text" size="15" style="background-color: #242323" id="datepicker"> 
-      </li>
-      <li>
-        <p />
-        <input type="text" size="15" style="background-color: #242323" id="datepicker2"> 
-      </li>
+
+      
       {% endif %}
 
     </ul>
@@ -84,4 +92,5 @@
   </div>
   
 </div>
+
 
