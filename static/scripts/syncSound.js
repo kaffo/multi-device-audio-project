@@ -3,6 +3,7 @@
 //jQuery.ajaxSetup({async:false});
 
 var s_group = new buzz.group([]);
+var user;
 
 //variables to store information for the current recording
 var curr_rec; //rec object
@@ -130,7 +131,6 @@ function load_data(sync){
 	
 	//the script has now loaded successfully
 	loaded = 1;
-	
 	//display recording information before playback
 	//alert("Rec.: \t Sync at: \n" + info);
 
@@ -175,6 +175,76 @@ function synchronise(id, user){
 	
 
 }
+
+
+
+
+
+
+
+function syncArray(IDs){
+
+	//check if html5 audio tag is supported
+	if (!buzz.isSupported()) {
+    alert("You need to update your browser to view this content");
+	}
+	
+	//check if .OGG audio format is supported
+	if (!buzz.isOGGSupported()) {
+    alert("Your browser does not support .ogg audio format.");
+	}
+
+
+	
+	$.getJSON(
+		"/webapp/getRecs", // + user,
+		
+		function(data){
+		
+			var recs = data;
+			var r = "";
+			var arrInfo = new Array();
+			var toSync = new Array();
+			for(var i=0;i<IDs.length;i++){
+				for(var j=0;j<recs.length;j++){
+					r = recs[j];
+					if(IDs[i] == r.pk){
+						arrInfo.push(r);
+					}
+				}
+			}
+			
+			
+			arrInfo = arrInfo.sort(compare);
+			
+			curr_rec = arrInfo[arrInfo.length-1];
+			curr_start = new Date(curr_rec.fields.start_time);
+			curr_end= new Date(curr_rec.fields.end_time);
+			curr_s_obj = new buzz.sound("../../static/data/" + curr_rec.fields.rec_file);
+			
+
+			toSync = process_data(arrInfo);
+
+			load_data(toSync);
+			
+			s_group = new buzz.group(sync_group);
+			s_group.load();
+			
+		});
+
+	
+
+}
+
+
+//synchronise files in an array of id-s
+function syncFileArray(arr){
+	if(loaded==0){
+		syncArray(arr);
+	}
+	s_group.togglePlay();
+}
+
 
 
 //load function
