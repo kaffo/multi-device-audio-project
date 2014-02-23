@@ -47,6 +47,8 @@ function process_data(recs){
 	var check_name;
 	var check_file;
 	
+	sync = [];
+	
 	uRecs = ""; //uRecs -> null
 	
 	//populating the sync array with relevant recording objects
@@ -97,6 +99,8 @@ function load_data(sync){
 	
 	//buzz sound object
 	var s_obj;
+	
+	sync_group = [];
 	
 	//last object start/end time
 	var ls,le;
@@ -205,6 +209,7 @@ function syncArray(IDs){
 			var r = "";
 			var arrInfo = new Array();
 			var toSync = new Array();
+
 			for(var i=0;i<IDs.length;i++){
 				for(var j=0;j<recs.length;j++){
 					r = recs[j];
@@ -230,6 +235,8 @@ function syncArray(IDs){
 			s_group = new buzz.group(sync_group);
 			s_group.load();
 			
+			//alert(sync_group.length + "sync g");
+			
 		});
 
 	
@@ -242,8 +249,20 @@ function syncFileArray(arr){
 	if(loaded==0){
 		syncArray(arr);
 	}
+}
+
+function play(){
+	//alert(s_group.length);
 	s_group.togglePlay();
 }
+
+function stop(){
+	s_group.stop();
+	s_group = [];
+	loaded = 0;
+}
+
+
 
 
 
