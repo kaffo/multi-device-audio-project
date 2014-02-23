@@ -27,7 +27,7 @@ def process(json_file, threeGP_file, image_file, data, user):
     with open(path, 'wb+') as destination:
         for chunk in threeGP_file.chunks():
             destination.write(chunk)
-			
+
     rec = Recording(
         file_name = str(data[0]["title"]),
         description = str(data[0]["description"]),
@@ -97,9 +97,9 @@ def export():
 				+ recording.description
 				+ "</p>", #HTML + IMG rec. description
 			"asset": {
-			
+
 				"media": "../../static/data/img1.png",
-				
+
 			'''
 				"media":"https://maps.google.com/?q="
 					+ str(recording.lat)
@@ -136,10 +136,10 @@ def export():
 # using ffmpeg default conversion settings
 def simplifiedConvert(fileName):
 	path = "../static/data/"
-	fileName = path + path.split(".")[0].split("/")[-1] + '.3gp'
-	fileNew = path + path.split(".")[0].split("/")[-1] + '.ogg'
+	fileName = path + fileName.name.split(".")[0] + '.3gp'
+	fileNew = path + fileName.name.split(".")[0] + '.ogg'
 
-	sp.call('ffmpeg -i' + fileName + ' -acodec vorbis ' + fileNew)
+	sp.call('avconv -i' + fileName + ' ' + fileNew)
 
 
 

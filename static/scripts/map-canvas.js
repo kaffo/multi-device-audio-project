@@ -11,6 +11,8 @@ var pins = {
     			fileID: [],
     			fileName: [],
     			description: [],
+    			startTime: [],
+    			endTime: [],
     			latLng: [],
     			filePath: [],
     			route: [],
@@ -23,6 +25,8 @@ var selectedPins = {
     			fileName: [],
     			fileID: [],
     			description: [],
+    			startTime: [],
+    			endTime: [],
     			latLng: [],
     			filePath: [],
     			route: [],
@@ -48,8 +52,7 @@ var myOptions = {
                     arrowPosition: 25,
                     backgroundClassName: 'phoney',
                     arrowStyle: 2,
-            		map: map,
-
+            		map: map
                 };
 
 var homeDotImage = {
@@ -64,6 +67,9 @@ var pinImage = {
 var selectedPinImage = {
 	url: '/static/images/marker_selected.png'
 };
+
+var selectedStartTime = 0;
+var selectedEndTime = 0;
  	
 
 // Funuction to start map
@@ -146,6 +152,8 @@ function drawMarkers() {
 						selectedPins.latLng.splice(popIndex, 1);
 						selectedPins.fileName.splice(popIndex, 1);
 						selectedPins.description.splice(popIndex, 1);
+						selectedPins.startTime.splice(popIndex, 1);
+						selectedPins.endTime.splice(popIndex, 1);
 						selectedPins.filePath.splice(popIndex, 1);
 						selectedPins.route.splice(popIndex, 1);
 						selectedPins.infoWindow.splice(popIndex, 1);
@@ -156,6 +164,8 @@ function drawMarkers() {
 					selectedPins.latLng.push(pins.latLng[i]);
 					selectedPins.fileName.push(pins.fileName[i]);
 					selectedPins.description.push(pins.description[i]);
+					selectedPins.startTime.push(pins.startTime[i]);
+					selectedPins.endTime.push(pins.endTime[i]);
 					selectedPins.filePath.push(pins.filePath[i]);
 					selectedPins.route.push(pins.route[i]);
 					selectedPins.infoWindow.push(pins.infoWindow[i]);
@@ -183,6 +193,8 @@ function drawMarkers() {
     				pins.latLng[i] = selectedPins.latLng[index];
 					pins.fileName[i] = selectedPins.fileName[index];
 					pins.description[i] = selectedPins.description[index];
+					pins.startTime[i] = selectedPins.startTime[index];
+					pins.endTime[i] = selectedPins.endTime[index];
 					pins.filePath[i] = selectedPins.filePath[index];
 					pins.route[i] = selectedPins.route[index];
 					pins.infoWindow[i] = selectedPins.infoWindow[index];
@@ -197,6 +209,8 @@ function drawMarkers() {
 					pins.latLng[i] = new google.maps.LatLng(lat,lng);
 					pins.fileName[i] = recordings[i].fields.file_name; // The name of the recording
 					pins.description[i] = recordings[i].fields.description; // The description of the recording
+					pins.startTime[i] = (new Date(recordings[i].fields.start_time)).getTime();
+					pins.endTime[i] = (new Date(recordings[i].fields.end_time)).getTime();
 					pins.filePath[i] = "../" + recordings[i].fields.rec_file; // The file path on the server to the audio recording
 					pins.route[i] = null;
 					pins.infoWindow[i] = new InfoBubble(myOptions);
@@ -250,8 +264,6 @@ function addRouteToMarker(pinNum, fileID, latLng) {
 	var route = new Array(); // New array to store the co-ordinates of the route
 	route[0] = latLng; // The first co-ordinates of the route are obviously the co-ordinates of the marker
 
-	alert(fileID);
-
     $.getJSON("/webapp/getroute:" + fileID, //Queries the database for locations using the name of the file
 		function(data) {
 	       	var locations = data; // Parses the data returned from the database
@@ -296,7 +308,6 @@ function addPinListenerOnClick(pinNum, fileID, fileName, description, latLng, fi
     google.maps.event.addListener(pins.pin[pinNum], 'click', (function(pinNum, fileID, fileName, description, filePath, latLng) {
 		return function() {
 			if(!pins.selected[pinNum]) {
-				alert("testing, testing, 123");
 				pins.pin[pinNum].setIcon(selectedPinImage);
 				pins.image[pinNum] = selectedPinImage;
 				pins.selected[pinNum] = true;
@@ -348,26 +359,35 @@ function drawInfoWindow(pinNum, fileName, description, filePath, infoWindow) {
 function selectAll() {
 	// Iterates over the dictionary of pins and calls the select marker function on each marker
 	for(var i = 0; i < numberOfPins; i++) {
-		selectMarker(pins.pin[i]);
+		if((pins.startTime[i] > selectedStartTime && pins.startTime[i] < selectedEndTime) || 
+				(pins.endTime[i] < selectedEndTime && pins.endTime[i] > selectedStartTime) ||
+				(pins.startTime[i] < selectedStartTime && pins.endTime[i] > selectedEndTime)) {
+			
+			selectMarker(i);
+		}
 	}
 }
 
 // A function that triggers a mock click on a single marker
-function selectMarker(pin) {
-    google.maps.event.trigger(pin, 'click', {});
+function selectMarker(pinNum) {
+	if(!pins.selected[pinNum]) {
+    	google.maps.event.trigger(pins.pin[pinNum], 'click', {});
+    }
 }
 
 // A function to select all the markers on the map
 function deSelectAll() {
 	// Iterates over the dictionary of pins and calls the select marker function on each marker
 	for(var i = 0; i < numberOfPins; i++) {
-		google.maps.event.trigger(pins.infoWindow[i], 'closeclick', {});
+		deSelectMarker(i);
 	}
 }
 
 // A function that triggers a mock click on a single marker
-function deSelectMarker(infoWindow) {
-    google.maps.event.trigger(infoWindow, 'closeclick', {});
+function deSelectMarker(pinNum) {
+	if(pins.selected[pinNum]) {
+    	google.maps.event.trigger(pins.pin[pinNum], 'click', {});
+    }
 }
 
 // Set of Audio Functions
@@ -389,4 +409,25 @@ function stopAudio() {
 
 function playSync(){
     mySound.play();
+}
+
+function playSelected() {
+	pinIDArray = [];
+	for(var i = 0; i<numberOfPins; i++) {
+		if(pins.selected[i]) {
+			pinIDArray.push(pins.fileID[i]);
+		}
+	}
+	playSelected_Prototype(pinIDArray);
+}
+
+function stopSelected() {
+}
+
+function setSelectedStartTime(dateObject) {
+	selectedStartTime = dateObject.getTime();
+}
+
+function setSelectedEndTime(dateObject) {
+	selectedEndTime = dateObject.getTime();
 }
