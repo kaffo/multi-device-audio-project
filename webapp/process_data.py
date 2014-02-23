@@ -35,7 +35,7 @@ def process(json_file, threeGP_file, image_file, data, user):
         length = (int(data[0]["endTime"]) - int(data[0]["startTime"])),
         start_time = datetime.datetime.fromtimestamp(int(data[0]["startTime"])/1000),
         end_time = datetime.datetime.fromtimestamp(int(data[0]["endTime"])/1000),
-        rec_file = (str(data[0]["title"]) + ".3gp"),
+        rec_file = (str(data[0]["title"]) + ".ogg"),
         lon = data[1][0]["lon"],
         lat = data[1][0]["lat"]
     )
