@@ -70,7 +70,7 @@ def user(request):
 #    print user
 #    user.recs.add(data[0])
     #data.delete()
-    if request.user is not None:
+    if request.user.is_authenticated():
         export(request.user)
     context = RequestContext(request)
     context_dict = {'boldmessage': "I am from context"}
