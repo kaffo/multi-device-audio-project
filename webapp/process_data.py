@@ -136,8 +136,8 @@ def export():
 # using ffmpeg default conversion settings
 def simplifiedConvert(fileName):
 	path = "../static/data/"
-	fileName = path + path.split(".")[0].split("/")[-1] + '.3gp'
-	fileNew = path + path.split(".")[0].split("/")[-1] + '.ogg'
+	fileName = path + path.split(".")[0].split("/")[-1] + fileName + '.3gp'
+	fileNew = path + path.split(".")[0].split("/")[-1] + fileName + '.ogg'
 
 	sp.call('avconv -i' + fileName + ' ' + fileNew)
 
