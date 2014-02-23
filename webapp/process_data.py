@@ -137,7 +137,7 @@ def export():
 def simplifiedConvert(fileName):
 	path = "../static/data/"
 	fileName = path + fileName
-	fileNew = path + fileName + '.ogg'
+	fileNew = path + fileName.split(".")[0] + '.ogg'
 
 	sp.call('avconv -i' + fileName + ' ' + fileNew)
 
