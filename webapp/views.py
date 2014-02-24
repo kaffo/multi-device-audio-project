@@ -80,7 +80,7 @@ def convert(request, fN):
     context = RequestContext(request)
     ext = os.path.splitext(fN)[1]
     response = HttpResponse()
-    if(fN == '3gp' and os.path.isfile("../static/data/" + fN)):
+    if(fN == 'aac' and os.path.isfile("../static/data/" + fN)):
         simplifiedConvert(fN)
         response.write("Success!")
     else:
@@ -94,13 +94,13 @@ def submit(request):
     if request.method == 'POST':
         form = UploadFileForm(request.POST,request.FILES)
 
-        name = form['threeGP_file']
+        name = form['aac_file']
 
         if form.is_valid():
 
             #convert(request, name)
 
-            return process(request.FILES['json_file'], request.FILES['threeGP_file'], request.POST, request.user)
+            return process(request.FILES['json_file'], request.FILES['aac_file'], request.POST, request.user)
 
     return render_to_response('webapp/submit.html', {'form': form}, context)
 
@@ -115,7 +115,7 @@ def upload(request):
         form = UploadFileForm(request.POST,request.FILES)
         print(form)
         if form.is_valid():
-            return process(request.FILES['json_file'], request.FILES['threeGP_file'], request.FILES['images_file'], request.POST, request.user)
+            return process(request.FILES['json_file'], request.FILES['aac_file'], request.FILES['images_file'], request.POST, request.user)
     return render_to_response('webapp/upload.html', {'form': form}, context)
 
 def getdata(request, lat1, lon1, lat2, lon2):

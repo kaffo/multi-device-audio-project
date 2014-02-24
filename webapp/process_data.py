@@ -11,22 +11,22 @@ import subprocess as sp
 import os
 
 
-def process(json_file, threeGP_file, image_file, data, user):
+def process(json_file, aac_file, image_file, data, user):
 
     json_extn = json_file.name.split('.')[-1]
-    threeGP_extn = threeGP_file.name.split('.')[-1]
+    aac_extn = aac_file.name.split('.')[-1]
 
     if (json_extn != "json"):
         return  HttpResponse("<h1>Please upload an json file!</h1>")
-    if (threeGP_extn != "3gp"):
-        return HttpResponse("<h1>Please upload a 3gp file!</h1>")
+    if (aac_extn != "aac"):
+        return HttpResponse("<h1>Please upload an aac file!</h1>")
 
     data = json.load(json_file)
 
-    path = 'static/data/' + str(data[0]["title"]) + ".3gp"
+    path = 'static/data/' + str(data[0]["title"]) + ".aac"
     
     with open(path, 'wb+') as destination:
-        for chunk in threeGP_file.chunks():
+        for chunk in aac_file.chunks():
             destination.write(chunk)
 
     rec = Recording(
@@ -58,7 +58,7 @@ def process(json_file, threeGP_file, image_file, data, user):
         useracc = UserAcc.objects.filter(user__exact=user)[0]
         useracc.recs.add(rec)
         
-    #this function call converts the file from .3gp to .ogg
+    #this function call converts the file from .aac to .ogg
     #below the new file name with an ogg extension is saved to the database
     simplifiedConvert(path)
 
@@ -151,10 +151,10 @@ def simplifiedConvert(path):
 	dir = os.path.dirname(__file__)
 	relPath = os.path.join(dir, '../')
 	fileName = relPath + path
-	fn = fileName.replace('.3gp','')
+	fn = fileName.replace('.aac','')
 	fileNew = fn + '.ogg'
 
-	usageStr = 'avconv -i ' + fileName + ' ' + fileNew
+	usageStr = 'avconv -i ' + fileName + ' -acodec libvorbis ' + fileNew
 	
 	sp.call(usageStr, shell=True)
 

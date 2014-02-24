@@ -6,7 +6,7 @@ class UploadFileForm(forms.Form):
     #file_name = forms.CharField(max_length=50) #file name
     #description = forms.CharField(max_length=500)
     json_file = forms.FileField() #.ogg file uploaded in a directory according to the current date
-    threeGP_file = forms.FileField()
+    aac_file = forms.FileField()
     images_file = forms.FileField()
     #lon = forms.DecimalField(max_digits=50, decimal_places=20)
     #lat = forms.DecimalField(max_digits=50, decimal_places=20)
