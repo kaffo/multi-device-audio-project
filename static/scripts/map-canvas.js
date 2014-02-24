@@ -444,17 +444,11 @@ function zoomAndSelect() {
   	var fn = name.split(", ")[0];
   	var pk = name.split(", ")[1];
 
-  	alert("/webapp/getrecbyid:" + pk);
-
   	$.getJSON(
   		"/webapp/getrecbyid:" + pk,
 
   		function(data) {
-
-  			alert("am I here?");
-  			alert(lat);
-  			alert(lng);
-
+  			
   			lat = parseFloat(data[0].fields.lat);
 			lng = parseFloat(data[0].fields.lon);
 
