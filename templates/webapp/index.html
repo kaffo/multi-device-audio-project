@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 
 {% load static %}
 
@@ -15,8 +15,7 @@
 		<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
 		<link rel="stylesheet" href="{% static "styles/side-menu.css" %}">
 		<link rel="stylesheet" href="{% static "styles/user.css" %}">
-		<link rel="stylesheet" href="{% static "styles/mainstyles.css" %}">
-		<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+		<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
 		<script type="text/javascript" src="{% static "build/js/storyjs-embed.js" %}"></script>
 		<script type="text/javascript" src="{% static "scripts/tl.js" %}"></script>
@@ -48,10 +47,30 @@ $(function() {
 	<body>
 
     		{% include "navigation.html" %}
-
+			
     		<div id="main"> 
-    			<div class="content">
+
         			<div id="map-content" style="position: absolute; left: 0; top: 0;"></div>
+        			<div style="position:fixed; height:300px; width:320px; left:160px; background-color:#232424; border-radius:12px; overflow:hidden;" id="control_box">
+        				<div style="position:relative; margin:10px;">
+        <fieldset>
+        	<legend>Select In Range</legend>
+        <span>Start Date: <input type="text" size="14" value="Start Date" style="background-color: #303030; border-color: #242323;" id="datepicker" /></span>     
+        <span>End Date: &nbsp<input type="text" size="14" value="End Date" style="background-color: #303030; border-color: #242323;" id="datepicker2" /></span>       
+  		<input id="select_all" type="button" value="Select All" class="pure-button pure-button-primary" onclick="selectAll();"/>
+  		<input id="de_select_all" type="button" value="De-Select All" class="pure-button pure-button-primary" onclick="deSelectAll();"/>
+  	</fieldset>
+  	<fieldset>
+        	<legend>Audio Controls</legend>
+  		<input id="play_selected" type="button" value="Play Selected" class="pure-button pure-button-primary" onclick="playSelected();"/>
+  		<input id="stop_selected" type="button" value="Stop Selected" class="pure-button pure-button-primary" onclick="stopSelected();"/>
+  		</fieldset>
+  		<input id="find_and_zoom" type="button" value="Find" class="pure-button pure-button-primary" onclick="zoomAndSelect();"/>
+      
+        <input type="text" size="14" style="background-color: #303030; border-color: #242323; color: #AAAAAA" id="searchbar" name="searchbar" />
+      </div>
+        			</div>
+        			<div class="content" style="position:relative;">
 					<div align="right" class="hline">
 					<div style="position:relative; height:195px;"><div id="my-timeline" style="position: absolute; bottom: 0; left: 0;"></div></div>
 					</div>
@@ -76,7 +95,9 @@ $(function() {
         		autoResizeDiv();
 		</script>
 		<script>
+		$("#control_box").toggle();
 		var x = 0;
+		var y=0;
     		$(function() {
     			$( "#datepicker" ).datepicker({
     				format: 'dd.mm.yyyy',
@@ -106,6 +127,19 @@ $(function() {
             		}
         		});
     		});
+    		$(document).ready(
+    		function(){
+        		$("#toggle_controls").click(function () {
+        			y = y + 1;
+            		$("#control_box").toggle();
+            		if((y%2) == 1) {
+            			$("#toggle_controls").text("Close Controls");
+            		} else {
+            			$("#toggle_controls").text("Open Controls");
+            		}
+        		});
+    		});
+    		
 		</script>
         
 	</body>
