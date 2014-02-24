@@ -76,6 +76,7 @@ $(function() {
         		autoResizeDiv();
 		</script>
 		<script>
+		var x = 0;
     		$(function() {
     			$( "#datepicker" ).datepicker({
     				format: 'dd.mm.yyyy',
@@ -93,6 +94,18 @@ $(function() {
     				}
     			});
   			});
+  			$(document).ready(
+    		function(){
+        		$("#toggle_timeline").click(function () {
+        			x = x + 1;
+            		$("#my-timeline").toggle();
+            		if((x%2) == 1) {
+            			$("#toggle_timeline").text("Show Timeline");
+            		} else {
+            			$("#toggle_timeline").text("Hide Timeline");
+            		}
+        		});
+    		});
 		</script>
         
 	</body>
