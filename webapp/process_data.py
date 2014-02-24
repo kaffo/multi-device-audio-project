@@ -60,7 +60,7 @@ def process(json_file, aac_file, image_file, data, user):
         
     #this function call converts the file from .aac to .ogg
     #below the new file name with an ogg extension is saved to the database
-    #simplifiedConvert(path)
+    simplifiedConvert(path)
 
     return HttpResponseRedirect('/webapp/submitsuccess')
 
