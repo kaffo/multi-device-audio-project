@@ -436,10 +436,7 @@ function setSelectedEndTime(dateObject) {
 
 function zoomAndSelect() {
 
-	alert("start");
 	name = document.getElementById("searchbar").value;
-
-	alert(name);
 
 	if(name.indexOf(",") == -1) {
 		return;
@@ -447,14 +444,14 @@ function zoomAndSelect() {
   	var fn = name.split(", ")[0];
   	var pk = name.split(", ")[1];
 
-  	alert("here");
+  	alert("/webapp/getrecbyid:" + pk);
 
   	$.getJSON(
   		"/webapp/getrecbyid:" + pk,
 
   		function(data) {
 
-  			alert("ami I here?");
+  			alert("am I here?");
   			alert(lat);
   			alert(lng);
 
