@@ -35,7 +35,7 @@ def process(json_file, aac_file, image_file, data, user):
             
 
     rec = Recording(
-        file_name = fn,
+        file_name = str(data[0]["title"]),
         description = str(data[0]["description"]),
         length = (int(data[0]["endTime"]) - int(data[0]["startTime"])),
         start_time = datetime.datetime.fromtimestamp(int(data[0]["startTime"])/1000),
