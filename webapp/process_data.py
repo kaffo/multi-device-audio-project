@@ -103,9 +103,7 @@ def export(username):
 			"startDate":recording.start_time.strftime("%Y,%m,%d %H,%M"),
 			"endDate":recording.end_time.strftime("%Y,%m,%d %H,%M"),
 			"headline":recording.file_name,
-			"text":"<button class='button blue' onclick='playS("
-				+ str(recording.file_ID)
-				+ ");'> Play/Pause </button> <p>Length: "
+			"text":"<p>Length: "
 				+ str(recording.length)
 				+ "\n"
 				+ "Event: "
