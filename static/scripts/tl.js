@@ -86,7 +86,8 @@ $(document).ready(function() {
 		gmap_key:			'AIzaSyAcCsb4_1FhEOP4bYPwm10FV_bGhjHBBH0',
 		font:               'Arvo-PTSans',            
 		debug:              true,                           
-		lang:               'en'
+		lang:               'en',
+		start_at_end:       'true'
 	
 	});
 
