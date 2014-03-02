@@ -79,7 +79,6 @@ $(document).ready(function() {
 		height:     (window.innerHeight - 160),
 		source:     '/static/scripts/data.json',
 		embed_id:   'my-timeline',
-		start_at_end:       false,                          
 		start_at_slide:     '1',                         
 		start_zoom_adjust:  '0',                          
 		hash_bookmark:      true,
