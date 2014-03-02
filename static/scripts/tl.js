@@ -1,15 +1,31 @@
 var selected = [];
+var all = false
 
 function selectRec(){
 	
 	var rows = document.getElementsByName('rec');
 	selected = [];
 	
-	if(rows[0].checked){
+	if(rows[0].checked && !all){
 		for (var i = 1, l = rows.length; i < l; i++) {
 			selected.push(rows[i].id);
 			rows[i].checked = true;
 		}
+		
+		all = true;
+		alert(selected.length);
+	}
+	
+	else if(!rows[0].checked && all){
+	
+		selected = [];
+		
+		for (var i = 1, l = rows.length; i < l; i++) {
+			rows[i].checked = false;
+		}
+		
+		all = false;
+		alert(selected.length);
 	}
 	
 	else{
@@ -18,6 +34,7 @@ function selectRec(){
 				selected.push(rows[i].id);
 			}
 		}
+		alert(selected.length);
 	}
 	
 	//alert(selected.length);
