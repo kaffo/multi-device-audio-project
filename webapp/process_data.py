@@ -22,23 +22,24 @@ def process(json_file, aac_file, image_file, data, user):
         return HttpResponse("<h1>Please upload an aac file!</h1>")
 
     data = json.load(json_file)
+    
+    fn = str(data[0]["title"])
+    fn = fn.replace (" ", "_")
 
-    path = 'static/data/' + str(data[0]["title"]) + ".aac"
+    path = 'static/data/' + fn + ".aac"
     
     with open(path, 'wb+') as destination:
         for chunk in aac_file.chunks():
             destination.write(chunk)
             
-    fn = str(data[0]["title"])
-    fn = fn.replace (" ", "_")
 
     rec = Recording(
-        file_name = fn,
+        file_name = str(data[0]["title"]),
         description = str(data[0]["description"]),
         length = (int(data[0]["endTime"]) - int(data[0]["startTime"])),
         start_time = datetime.datetime.fromtimestamp(int(data[0]["startTime"])/1000),
         end_time = datetime.datetime.fromtimestamp(int(data[0]["endTime"])/1000),
-        rec_file = (str(data[0]["title"]) + ".ogg"),
+        rec_file = (fn + ".ogg"),
         lon = data[1][0]["lon"],
         lat = data[1][0]["lat"]
     )
