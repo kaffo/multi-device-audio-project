@@ -28,9 +28,12 @@ def process(json_file, aac_file, image_file, data, user):
     with open(path, 'wb+') as destination:
         for chunk in aac_file.chunks():
             destination.write(chunk)
+            
+    fn = str(data[0]["title"])
+    fn = fn.replace (" ", "_")
 
     rec = Recording(
-        file_name = str(data[0]["title"]),
+        file_name = fn,
         description = str(data[0]["description"]),
         length = (int(data[0]["endTime"]) - int(data[0]["startTime"])),
         start_time = datetime.datetime.fromtimestamp(int(data[0]["startTime"])/1000),
