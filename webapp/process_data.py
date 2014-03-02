@@ -3,6 +3,7 @@ import datetime, json
 from webapp.models import Event, Recording, Image, Location, UserAcc
 from django.contrib.auth.models import User
 from django.core.serializers.json import DjangoJSONEncoder
+from django.template.defaultfilters import slugify
 import time
 
 FFMPEG_BIN = "ffmpeg"
@@ -24,7 +25,7 @@ def process(json_file, aac_file, image_file, data, user):
     data = json.load(json_file)
     
     fn = str(data[0]["title"])
-    fn = fn.replace (" ", "_")
+    fn = slugify(fn)
 
     path = 'static/data/' + fn + ".aac"
     
@@ -34,7 +35,7 @@ def process(json_file, aac_file, image_file, data, user):
             
 
     rec = Recording(
-        file_name = str(data[0]["title"]),
+        file_name = fn,
         description = str(data[0]["description"]),
         length = (int(data[0]["endTime"]) - int(data[0]["startTime"])),
         start_time = datetime.datetime.fromtimestamp(int(data[0]["startTime"])/1000),
