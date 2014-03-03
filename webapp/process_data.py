@@ -104,8 +104,8 @@ def export(username):
 			"endDate":recording.end_time.strftime("%Y,%m,%d %H,%M"),
 			"headline":recording.file_name,
 			"text":"<p>Length: "
-				+ str(recording.length)
-				+ "\n"
+				+ str(recording.end_time - recording.start_time)
+				+ " sec. \n"
 				+ "Event: "
 				+ str(recording.event_assoc)
 				+ "\n"
