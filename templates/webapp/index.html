@@ -17,13 +17,15 @@
 		<link rel="stylesheet" href="{% static "styles/user.css" %}">
 		<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 		<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static "styles/jquery.timepicker.css" %}">
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
 		<script type="text/javascript" src="{% static "build/js/storyjs-embed.js" %}"></script>
 		<script type="text/javascript" src="{% static "scripts/tl.js" %}"></script>
 		<script type="text/javascript" src="{% static "scripts/InfoBubble.js" %}"></script>
 		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAcCsb4_1FhEOP4bYPwm10FV_bGhjHBBH0&sensor=true"></script>
 		<script src="//code.jquery.com/jquery-1.9.1.js"></script>
-  		<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+  	<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    <script src="{% static "scripts/jquery.timepicker.js" %}"></script>
 		<script src="{% static "scripts/map-canvas.js" %}"></script>
 		<script src="{% static "scripts/buzz.min.js" %}"></script>
  <script>
@@ -62,10 +64,17 @@ $(function() {
   			<div style="position:relative; margin:10px;">
           <fieldset>
             <legend>Select In Range</legend>
-            <div>Start Date: <input type="text" size="14" value="Start Date" style="background-color: #303030; border-color: #242323;" id="datepicker" /></div>     
-            <div>End Date: &nbsp<input type="text" size="14" value="End Date" style="background-color: #303030; border-color: #242323;" id="datepicker2" /></div>
-            <br />       
-  	        <div>
+            <div>
+              Start Date: 
+              <input type="text" size="12" value="" style="background-color: #303030; border-color: #242323;" id="datepicker" />
+              <input type="text" size="6" value="" style="background-color: #303030; border-color: #242323;" id="timepicker" />
+            </div>     
+            <div style="margin-top:5px;">
+              End Date:&nbsp
+              <input type="text" size="12" value="" style="background-color: #303030; border-color: #242323;" id="datepicker2" />
+              <input type="text" size="6" value="" style="background-color: #303030; border-color: #242323;" id="timepicker2" />
+            </div>   
+  	        <div style="margin-top:10px;">
               <input id="select_all" type="button" value="Select All" class="pure-button pure-button-primary" style="font-size:13px;" onclick="selectAll();"/>&nbsp
  		          <input id="de_select_all" type="button" value="De-Select All" class="pure-button pure-button-primary" style="font-size:13px;" onclick="deSelectAll();"/>
             </div>
@@ -123,7 +132,7 @@ $(function() {
         				var dateObject = $(this).datepicker('getDate'); 
         				setSelectedStartTime(dateObject);
     				}
-				});
+				  });
   			});
   			$(function() {
     			$( "#datepicker2" ).datepicker({
@@ -133,6 +142,20 @@ $(function() {
     				}
     			});
   			});
+
+        $(function() {
+          $("#timepicker").timepicker({
+            'showDuration': true,
+            'timeFormat': 'g:ia'
+          });
+        });
+
+        $(function() {
+          $("#timepicker2").timepicker({
+            'showDuration': true,
+            'timeFormat': 'g:ia'
+          });
+        });
 
   			$(document).ready(
     		function(){
