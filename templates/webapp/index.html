@@ -56,7 +56,8 @@ $(function() {
   	<div id="map-content" style="position: absolute; left: 0; top: 0; z-index:1;"></div>
 
       {% include "control_box.html" %}
-      
+      {% include "recording_box.html" %}
+
 			<div class="content" style="position:relative; z-index:2;"id="timeline">
 			  <div align="right" class="hline">
 				  <div  style="position:relative; height:195px;"><div id="my-timeline" style="position: absolute; bottom: 0; left: 0;">
@@ -157,6 +158,13 @@ $(function() {
               $("#toggle_controls").text("Open Controls");
               $("#control_box").toggle();
               y = y + 1;
+            });
+          });
+        $(document).ready(
+          function(){
+            $("#recording_close_button").click(function() {
+              $("#recording_box").toggle();
+              recording_box = false;
             });
           });
     		

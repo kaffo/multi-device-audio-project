@@ -1,0 +1,12 @@
+{% load base_extras %}
+{% load static %}
+
+<div style="position:fixed; height:150px; width:150px; right:20px; background-color:#232424; border-radius:12px; overflow:hidden; z-index:4;" id="recording_box">
+  <div style="position: absolute; top: 0; right: 5px; cursor: pointer;" id="recording_close_button">
+    <img src="{% static "images/close.gif" %}">
+  </div>
+  <div id="content" style="position:relative; margin:10px;">
+  	<h3 id="title"></h3>
+  	<p id="description"></p>
+  </div>
+ </div>

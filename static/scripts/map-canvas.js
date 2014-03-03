@@ -315,9 +315,7 @@ function addPinListenerOnClick(pinNum, fileID, fileName, description, latLng, fi
 				pins.pin[pinNum].setIcon(selectedPinImage);
 				pins.image[pinNum] = selectedPinImage;
 				pins.selected[pinNum] = true;
-				if(!pins.infoWindow[pinNum].isOpen()) {
-					drawInfoWindow(pinNum, fileName, description, filePath); // If the marker is clicked an info window is opened
-				}
+				drawInfoWindow(pinNum, fileName, description, filePath); // If the marker is clicked an info window is opened
 	    		addRouteToMarker(pinNum, fileID, latLng); // If the marker is clicked the route is queried and drawn
 	    	}
 	    	else {
@@ -325,6 +323,7 @@ function addPinListenerOnClick(pinNum, fileID, fileName, description, latLng, fi
 				pins.image[pinNum] = pinImage;
 				pins.selected[pinNum] = false;
 				deleteRouteFromMap(pinNum); // If the marker is clicked an info window is opened
+				drawInfoWindow(pinNum, fileName, description, filePath); // If the marker is clicked an info window is opened
 	    	}
 		}
     })(pinNum, fileID, fileName, description, filePath, latLng));
@@ -336,35 +335,18 @@ function drawInfoWindow(pinNum, fileName, description, filePath, infoWindow) {
 	// Loads a new sound using buzz
     mySound = new buzz.sound(filePath);
 
-    // opens an info window with the title and description of that file
-    pins.infoWindow[pinNum].setContent('<div style="margin-left:20px;"">' +
-                    					'<h2>' + 
-			  							fileName + 
-			  							'</div>' +
-			  							'</h2>' +
-			  							'<div style="margin-left:20px; margin-right:20px; max-height:100px; overflow:auto;">' +
-			  							'<p style="line-height:normal; margin-right:3px">' +
-			  							description +
-			  							'</div>' +
-			  							'<div style="min-width:230px; margin-left:20px; margin-right:20px; max-height:15px;">' +
-			  							'</p>' +
-			  							'<input id="play" type="button" value="Play" class="pure-button pure-button-primary" onclick="playAudio();"/>' +
-			  							'&nbsp' +
-			  							'<input id="pause" type="button" value="Pause" class="pure-button pure-button-primary" onclick="pauseAudio();" />' +
-			  							'&nbsp' +
-			  							'<input id="stop" type="button" value="Stop" class="pure-button pure-button-primary" onclick="stopAudio();" />' +
-										'</div>');
-
-	pins.infoWindow[pinNum].open(map, pins.pin[pinNum]);
-
+	document.getElementById("title").innerHTML=fileName;
+	document.getElementById("description").innerHTML=description;
+	if(recording_box == false) {
+		$("#recording_box").toggle();
+		recording_box = true;
+	}
 }
 
 // A function to select all the markers on the map
 function selectAll() {
 	var selectedStartTime = selectedRange.startDate + selectedRange.startTime;
 	var selectedEndTime = selectedRange.endDate + selectedRange.endTime;
-	alert(selectedStartTime);
-	alert(selectedEndTime);
 	// Iterates over the dictionary of pins and calls the select marker function on each marker
 	for(var i = 0; i < numberOfPins; i++) {
 		if((pins.startTime[i] > selectedStartTime && pins.startTime[i] < selectedEndTime) || 
