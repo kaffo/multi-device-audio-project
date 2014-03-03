@@ -53,9 +53,9 @@ $(function() {
 			
   <div id="main"> 
 
-  	<div id="map-content" style="position: absolute; left: 0; top: 0;"></div>
+  	<div id="map-content" style="position: absolute; left: 0; top: 0; z-index:1;"></div>
 
-  		<div style="position:fixed; height:350px; width:330px; left:160px; background-color:#232424; border-radius:12px; overflow:hidden;" id="control_box">
+  		<div style="position:fixed; height:350px; width:330px; left:160px; background-color:#232424; border-radius:12px; overflow:hidden; z-index:4;" id="control_box">
 
         <div style="position: absolute; top: 0; right: 5px; cursor: pointer;" id="close_button">
           <img src="{% static "images/close.gif" %}">
@@ -95,7 +95,7 @@ $(function() {
 			</div>
 
 
-			<div class="content" style="position:relative;"id="timeline">
+			<div class="content" style="position:relative; z-index:2;"id="timeline">
 			  <div align="right" class="hline">
 				  <div  style="position:relative; height:195px;"><div id="my-timeline" style="position: absolute; bottom: 0; left: 0;">
         </div>
