@@ -113,7 +113,7 @@ $(function() {
         $(function() {
           $("#timepicker").timepicker({
             'showDuration': true,
-            'timeFormat': 'g:ia'
+            'timeFormat': 'G:i'
           });
           $('#timepicker').on('changeTime', function() {
               var timeObject = $("#timepicker").timepicker('getSecondsFromMidnight'); 
@@ -124,7 +124,7 @@ $(function() {
         $(function() {
           $("#timepicker2").timepicker({
             'showDuration': true,
-            'timeFormat': 'g:ia',
+            'timeFormat': 'G:i',
           });
           $('#timepicker2').on('changeTime', function() {
               var timeObject = $("#timepicker2").timepicker('getSecondsFromMidnight'); 
