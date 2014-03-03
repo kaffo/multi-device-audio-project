@@ -105,7 +105,9 @@ def submit(request):
     return render_to_response('webapp/submit.html', {'form': form}, context)
 
 def submit_success(request):
-    return render_to_response('webapp/submitsuccess.html')
+    context = RequestContext(request)
+    context_dict = {'boldmessage': "I am from context"}
+    return render_to_response('webapp/submitsuccess.html', context_dict, context)
 
 def upload(request):
     context = RequestContext(request)
