@@ -1,12 +1,15 @@
 {% load base_extras %}
 {% load static %}
 
-<div style="position:fixed; height:150px; width:150px; right:20px; background-color:#232424; border-radius:12px; overflow:hidden; z-index:4;" id="recording_box">
+<div style="position:fixed; height:145px; width:260px; right:20px; background-color:#232424; border-radius:12px; overflow:hidden; z-index:4;" id="recording_box">
   <div style="position: absolute; top: 0; right: 5px; cursor: pointer;" id="recording_close_button">
     <img src="{% static "images/close.gif" %}">
   </div>
   <div id="content" style="position:relative; margin:10px;">
-  	<h3 id="title"></h3>
-  	<p id="description"></p>
+  	<h3 id="title">&nbsp</h3>
+  	<p id="description">&nbsp</p>
+  	<input id="play" type="button" value="Play" class="pure-button pure-button-primary" style="font-size:13px;" onclick="playAudio();"/>
+  	<input id="pause" type="button" value="Pause" class="pure-button pure-button-primary" style="font-size:13px;" onclick="pauseAudio();" />
+  	<input id="stop" type="button" value="Stop" class="pure-button pure-button-primary" style="font-size:13px;" onclick="stopAudio();" />
   </div>
  </div>
