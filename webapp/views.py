@@ -115,7 +115,6 @@ def upload(request):
         form = UploadFileForm()
     if request.method == 'POST':
         form = UploadFileForm(request.POST,request.FILES)
-        print(form)
         if form.is_valid():
             return process(request.FILES['json_file'], request.FILES['aac_file'], request.FILES['images_file'], request.POST, request.user)
     return render_to_response('webapp/upload.html', {'form': form}, context)
