@@ -58,18 +58,26 @@ def process(json_file, aac_file, image_file, data, user):
         )
 
         loc.save()
-
     if user.is_authenticated():
         useracc = UserAcc.objects.filter(user__exact=user)[0]
         useracc.recs.add(rec)
     #this function call converts the file from .aac to .ogg
     #below the new file name with an ogg extension is saved to the database
     simplifiedConvert(path)
-    
+
 	with open('static/data/' + image_file.name, 'wb+') as destination:
 		for chunk in image_file.chunks():
 			destination.write(chunk)
-	extract('static/data/' + image_file.name, "recording")
+
+	number_of_pictures = extract('static/data/' + image_file.name, str(data[0]["title"]))
+
+	for i in range(1, number_of_pictures):
+		img = Image(
+			recording_assoc = rec,
+			file_name = str(data[0]["title"]) + "_" + str(i) + ".jpg"
+		)
+		img.save()
+
 	return HttpResponseRedirect('/webapp/submitsuccess')
 
 
@@ -204,13 +212,14 @@ def convertOGG(fileName):
 	audio.astype("int16").tofile(self.proc.stdin)
 
 def extract(tar_url, file_name):
-	item_number = 0
+	item_number = 1
 	tar = tarfile.open(tar_url, 'r')
 	for item in tar:
 		tar.extract(item, "static/data")
 		os.rename("static/data/" + item.name, "static/data/" + file_name + "_" + str(item_number) + ".jpg")
 		item_number = item_number + 1
 
+	return item_number
 '''
 OLD PYMEDIA METHOD
 
