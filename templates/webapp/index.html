@@ -54,6 +54,11 @@ $(function() {
   	<div id="map-content" style="position: absolute; left: 0; top: 0;"></div>
 
   		<div style="position:fixed; height:350px; width:330px; left:160px; background-color:#232424; border-radius:12px; overflow:hidden;" id="control_box">
+
+        <div style="position: absolute; top: 0; right: 5px; cursor: pointer;" id="close_button">
+          <img src="{% static "images/close.gif" %}">
+        </div>
+
   			<div style="position:relative; margin:10px;">
           <fieldset>
             <legend>Select In Range</legend>
@@ -128,6 +133,7 @@ $(function() {
     				}
     			});
   			});
+
   			$(document).ready(
     		function(){
         		$("#toggle_timeline").click(function () {
@@ -152,6 +158,14 @@ $(function() {
             		}
         		});
     		});
+        $(document).ready(
+          function(){
+            $("#close_button").click(function() {
+              $("#toggle_controls").text("Open Controls");
+              $("#control_box").toggle();
+              y = y + 1;
+            });
+          });
     		
 		</script>
         
