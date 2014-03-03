@@ -1,7 +1,7 @@
 {% load base_extras %}
 {% load static %}
 
-<div style="position:fixed; height:350px; width:340px; left:160px; background-color:#232424; border-radius:12px; overflow:hidden; z-index:4;" id="control_box">
+<div style="position:fixed; height:350px; width:340px; left:160px; background-color:#232424; border-radius:12px; overflow:hidden; z-index:4; border-color: #333333; border-style:solid; border-width:2px;" id="control_box">
   <div style="position: absolute; top: 0; right: 5px; cursor: pointer;" id="close_button">
     <img src="{% static "images/close.gif" %}">
   </div>
@@ -10,13 +10,13 @@
       <legend>Select In Range</legend>
       <div>
         Start Date: 
-        <input type="text" size="12" value="" style="background-color: #303030; border-color: #242323; color: #CCCCCC;" id="datepicker" />
-        <input type="text" size="6" value="" style="background-color: #303030; border-color: #242323; color: #CCCCCC;" id="timepicker" />
+        <input type="text" size="11" value="" style="background-color: #303030; border-color: #242323; color: #CCCCCC; text-align: center; cursor: pointer;" id="datepicker" />
+        <input type="text" size="6" value="" style="background-color: #303030; border-color: #242323; color: #CCCCCC; text-align: center; cursor: pointer;" id="timepicker" />
       </div>     
       <div style="margin-top:5px;">
         End Date:&nbsp
-        <input type="text" size="12" value="" style="background-color: #303030; border-color: #242323; color: #CCCCCC;" id="datepicker2" />
-        <input type="text" size="6" value="" style="background-color: #303030; border-color: #242323; color: #CCCCCC;" id="timepicker2" />
+        <input type="text" size="11" value="" style="background-color: #303030; border-color: #242323; color: #CCCCCC; text-align: center; cursor: pointer;" id="datepicker2" />
+        <input type="text" size="6" value="" style="background-color: #303030; border-color: #242323; color: #CCCCCC; text-align: center; cursor: pointer;" id="timepicker2" />
       </div>   
       <div style="margin-top:10px;">
         <input id="select_all" type="button" value="Select All" class="pure-button pure-button-primary" style="font-size:13px;" onclick="selectAll();"/>&nbsp
