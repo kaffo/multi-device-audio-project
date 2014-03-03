@@ -345,8 +345,14 @@ function drawInfoWindow(pinNum, fileName, description, filePath, infoWindow) {
 
 // A function to select all the markers on the map
 function selectAll() {
-	var selectedStartTime = selectedRange.startDate + selectedRange.startTime;
-	var selectedEndTime = selectedRange.endDate + selectedRange.endTime;
+	selectedRange.startTime = document.getElementById("timepicker").value;
+	selectedRange.endTime = document.getElementById("timepicker2").value;
+	selectedRange.startDate = document.getElementById("datepicker").value;
+	selectedRange.endDate = document.getElementById("datepicker2").value;
+	var selectedStartTime = (new Date(selectedRange.startDate + " " + selectedRange.startTime)).getTime();
+	var selectedEndTime = (new Date(selectedRange.endDate + " " + selectedRange.endTime)).getTime();
+	alert(selectedStartTime);
+	alert(selectedEndTime);
 	// Iterates over the dictionary of pins and calls the select marker function on each marker
 	for(var i = 0; i < numberOfPins; i++) {
 		if((pins.startTime[i] > selectedStartTime && pins.startTime[i] < selectedEndTime) || 
@@ -414,23 +420,6 @@ function playSelected() {
 
 function stopSelected() {
 	syncedFiles.togglePlay();
-}
-
-function setSelectedStartDate(dateObject) {
-	selectedRange.startDate = dateObject.getTime();
-}
-
-function setSelectedEndDate(dateObject) {
-	selectedRange.endDate = dateObject.getTime();
-}
-
-function setSelectedStartTime(timeObject) {
-	selectedRange.startTime = timeObject*1000;
-
-}
-
-function setSelectedEndTime(timeObject) {
-	selectedRange.endTime = timeObject*1000;
 }
 
 function zoomAndSelect() {
