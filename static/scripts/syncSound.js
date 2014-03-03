@@ -241,6 +241,12 @@ function syncArray(IDs){
 			
 
 			toSync = process_data(arrInfo);
+			
+			
+			//if there are no overlapping recordings in the array selection, notify the user
+			if (toSync.length == 0){
+				alert("The selected recordings do not overlap.");
+			}
 
 			load_data(toSync);
 			
