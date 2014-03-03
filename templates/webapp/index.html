@@ -130,7 +130,7 @@ $(function() {
     				format: 'dd.mm.yyyy',
     				onSelect: function() {
         				var dateObject = $(this).datepicker('getDate'); 
-        				setSelectedStartTime(dateObject);
+        				setSelectedStartDate(dateObject);
     				}
 				  });
   			});
@@ -138,7 +138,7 @@ $(function() {
     			$( "#datepicker2" ).datepicker({
     				onSelect: function() { 
         				var dateObject = $(this).datepicker('getDate'); 
-        				setSelectedEndTime(dateObject);
+        				setSelectedEndDate(dateObject);
     				}
     			});
   			});
@@ -148,12 +148,20 @@ $(function() {
             'showDuration': true,
             'timeFormat': 'g:ia'
           });
+          $('#timepicker').on('changeTime', function() {
+              var timeObject = $("#timepicker").timepicker('getSecondsFromMidnight'); 
+              setSelectedStartTime(timeObject);
+          });
         });
 
         $(function() {
           $("#timepicker2").timepicker({
             'showDuration': true,
-            'timeFormat': 'g:ia'
+            'timeFormat': 'g:ia',
+          });
+          $('#timepicker2').on('changeTime', function() {
+              var timeObject = $("#timepicker2").timepicker('getSecondsFromMidnight'); 
+              setSelectedEndTime(timeObject);
           });
         });
 

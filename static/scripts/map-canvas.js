@@ -68,8 +68,12 @@ var selectedPinImage = {
 	url: '/static/images/marker_selected.png'
 };
 
-var selectedStartTime = 0;
-var selectedEndTime = 0;
+var selectedRange = {
+	startDate: 0,
+	startTime: 0,
+	endDate: 0,
+	endTime: 0
+};
  	
 
 // Funuction to start map
@@ -357,6 +361,10 @@ function drawInfoWindow(pinNum, fileName, description, filePath, infoWindow) {
 
 // A function to select all the markers on the map
 function selectAll() {
+	var selectedStartTime = selectedRange.startDate + selectedRange.startTime;
+	var selectedEndTime = selectedRange.endDate + selectedRange.endTime;
+	alert(selectedStartTime);
+	alert(selectedEndTime);
 	// Iterates over the dictionary of pins and calls the select marker function on each marker
 	for(var i = 0; i < numberOfPins; i++) {
 		if((pins.startTime[i] > selectedStartTime && pins.startTime[i] < selectedEndTime) || 
@@ -426,12 +434,21 @@ function stopSelected() {
 	syncedFiles.togglePlay();
 }
 
-function setSelectedStartTime(dateObject) {
-	selectedStartTime = dateObject.getTime();
+function setSelectedStartDate(dateObject) {
+	selectedRange.startDate = dateObject.getTime();
 }
 
-function setSelectedEndTime(dateObject) {
-	selectedEndTime = dateObject.getTime();
+function setSelectedEndDate(dateObject) {
+	selectedRange.endDate = dateObject.getTime();
+}
+
+function setSelectedStartTime(timeObject) {
+	selectedRange.startTime = timeObject*1000;
+
+}
+
+function setSelectedEndTime(timeObject) {
+	selectedRange.endTime = timeObject*1000;
 }
 
 function zoomAndSelect() {
