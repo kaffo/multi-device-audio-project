@@ -13,7 +13,7 @@ function selectRec(){
 		}
 		
 		all = true;
-		alert(selected.length);
+		//alert(selected.length);
 	}
 	
 	else if(!rows[0].checked && all){
@@ -25,7 +25,7 @@ function selectRec(){
 		}
 		
 		all = false;
-		alert(selected.length);
+		alert("No recordings are selected.");
 	}
 	
 	else{
@@ -34,7 +34,7 @@ function selectRec(){
 				selected.push(rows[i].id);
 			}
 		}
-		alert(selected.length);
+		//alert(selected.length);
 	}
 	
 	//alert(selected.length);
