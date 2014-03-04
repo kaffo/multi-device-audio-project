@@ -1,7 +1,7 @@
 {% load base_extras %}
 {% load static %}
 
-<div style="position:fixed; height:145px; width:260px; right:20px; background-color:#232424; border-radius:12px; border-color: #333333; border-style:solid; border-width:2px; overflow:hidden; z-index:4;" id="recording_box">
+<div style="position:fixed; height:175px; width:260px; right:20px; background-color:#232424; border-radius:12px; border-color: #333333; border-style:solid; border-width:2px; overflow:hidden; z-index:4;" id="recording_box">
   <div style="position: absolute; top: 0; right: 5px; cursor: pointer;" id="recording_close_button">
     <img src="{% static "images/close.gif" %}">
   </div>
@@ -11,5 +11,6 @@
   	<input id="play" type="button" value="Play" class="pure-button pure-button-primary" style="font-size:13px;" onclick="playAudio();"/>
   	<input id="pause" type="button" value="Pause" class="pure-button pure-button-primary" style="font-size:13px;" onclick="pauseAudio();" />
   	<input id="stop" type="button" value="Stop" class="pure-button pure-button-primary" style="font-size:13px;" onclick="stopAudio();" />
+  	<div id="view_pictures" style="margin-top:10px;"></div>
   </div>
  </div>

@@ -18,13 +18,14 @@
 		<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 		<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
     <link rel="stylesheet" href="{% static "styles/jquery.timepicker.css" %}">
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 		<script type="text/javascript" src="{% static "build/js/storyjs-embed.js" %}"></script>
 		<script type="text/javascript" src="{% static "scripts/tl.js" %}"></script>
 		<script type="text/javascript" src="{% static "scripts/InfoBubble.js" %}"></script>
 		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAcCsb4_1FhEOP4bYPwm10FV_bGhjHBBH0&sensor=true"></script>
 		<script src="//code.jquery.com/jquery-1.9.1.js"></script>
   	<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    <script src="{% static "scripts/jquery.slides.min.js" %}"></script>
     <script src="{% static "scripts/jquery.timepicker.js" %}"></script>
 		<script src="{% static "scripts/map-canvas.js" %}"></script>
 		<script src="{% static "scripts/buzz.min.js" %}"></script>
@@ -49,6 +50,11 @@ $(function() {
 div.ui-datepicker{
  font-size:11px;
 }
+.custom-navigation { padding: 0; margin: 0; }
+.custom { list-style: none; float: left; margin-right: .25em;  }
+.custom { display: block; background: #0078e7; padding: .25em 1em; color: #fff; text-decoration: none; border-radius: 0 0 .25em .25em; font-size:13px;}
+.custom-prev { display: block; background: #0078e7; padding: .25em 1em; color: #fff; text-decoration: none; border-radius: 0 0 .25em .25em; font-size:13px;}
+.custom-next { display: block; background: #0078e7; padding: .25em 1em; color: #fff; text-decoration: none; border-radius: 0 0 .25em .25em; font-size:13px;}
 </style>
   </head>
 	<body>
@@ -61,6 +67,7 @@ div.ui-datepicker{
 
       {% include "control_box.html" %}
       {% include "recording_box.html" %}
+      {% include "picture_box.html" %}
 
 			<div class="content" style="position:relative; z-index:2;"id="timeline">
 			  <div align="right" class="hline">
@@ -91,8 +98,10 @@ div.ui-datepicker{
 		<script>
 		$("#control_box").toggle();
     $("#recording_box").toggle();
+    $("#picture_box").toggle();
     $( "#control_box" ).draggable();
     $( "#recording_box" ).draggable();
+    $( "#picture_box" ).draggable();
     recording_box = false;
 		var x = 0;
 		var y=0;
@@ -167,7 +176,6 @@ div.ui-datepicker{
               recording_box = false;
             });
           });
-    		
 		</script>
         
 	</body>

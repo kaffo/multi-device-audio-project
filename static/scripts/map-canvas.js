@@ -315,7 +315,7 @@ function addPinListenerOnClick(pinNum, fileID, fileName, description, latLng, fi
 				pins.pin[pinNum].setIcon(selectedPinImage);
 				pins.image[pinNum] = selectedPinImage;
 				pins.selected[pinNum] = true;
-				drawInfoWindow(pinNum, fileName, description, filePath); // If the marker is clicked an info window is opened
+				drawInfoWindow(pinNum, fileID, fileName, description, filePath); // If the marker is clicked an info window is opened
 	    		addRouteToMarker(pinNum, fileID, latLng); // If the marker is clicked the route is queried and drawn
 	    	}
 	    	else {
@@ -323,24 +323,26 @@ function addPinListenerOnClick(pinNum, fileID, fileName, description, latLng, fi
 				pins.image[pinNum] = pinImage;
 				pins.selected[pinNum] = false;
 				deleteRouteFromMap(pinNum); // If the marker is clicked an info window is opened
-				drawInfoWindow(pinNum, fileName, description, filePath); // If the marker is clicked an info window is opened
+				drawInfoWindow(pinNum, fileID, fileName, description, filePath); // If the marker is clicked an info window is opened
 	    	}
 		}
     })(pinNum, fileID, fileName, description, filePath, latLng));
 }
 
 // A function that opens up an Info Window with all the details provided
-function drawInfoWindow(pinNum, fileName, description, filePath, infoWindow) {
+function drawInfoWindow(pinNum, fileID, fileName, description, filePath, infoWindow) {
 
 	// Loads a new sound using buzz
     mySound = new buzz.sound(filePath);
 
 	document.getElementById("title").innerHTML=fileName;
 	document.getElementById("description").innerHTML=description;
+	
 	if(recording_box == false) {
 		$("#recording_box").toggle();
 		recording_box = true;
 	}
+	document.getElementById("view_pictures").innerHTML="<input id=\"view_pictures\" type=\"button\" value=\"View Pictures\" class=\"pure-button pure-button-primary\" style=\"font-size:13px;\" onclick=\"viewImages(" + fileID + ");\" />";
 }
 
 // A function to select all the markers on the map
@@ -445,4 +447,46 @@ function zoomAndSelect() {
 
   		}
   	);
+}
+
+function viewImages(fileID) {
+	var image_slides = "";
+	$.getJSON("/webapp/getImagesByID:" + fileID, //Queries the database for locations using the name of the file
+		function(data) {
+	       	var images = [];
+	    	for(var i = 0; i < data.length; i++) {
+	    		images.push("../static/data/" + data[i].fields.file_name);
+	    	}
+	    	for(var i = 0; i < data.length; i++) {
+	    		image_slides = image_slides + ("<img src=" + images[i] + " style=\"height:200px; width:200px;\" alt=\"\">\n");
+	    	}
+	    	document.getElementById("slides").innerHTML=image_slides;
+	    	$(function(){
+      			$("#slides").slidesjs({
+        			pagination: {
+      					active: false
+      				},
+      				callback: {
+        				loaded: function(){
+          					// hide navigation and pagination
+          					$('.slidesjs-pagination, .slidesjs-navigation').hide(0); 
+        				}
+    				}
+      			});
+      			$('.custom-next').click(function(e) {
+  					e.preventDefault();
+  					// emulate next click
+  					$('.slidesjs-next').click();
+				});
+				$('.custom-prev').click(function(e) {
+  					e.preventDefault();
+  					// emulate previous click
+  					$('.slidesjs-previous').click();
+				});
+    		});
+		}
+
+	);
+    
+	$("#picture_box").toggle();
 }

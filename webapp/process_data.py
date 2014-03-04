@@ -64,13 +64,10 @@ def process(json_file, aac_file, image_file, data, user):
     #this function call converts the file from .aac to .ogg
     #below the new file name with an ogg extension is saved to the database
     simplifiedConvert(path)
-
-	with open('static/data/' + image_file.name, 'wb+') as destination:
-		for chunk in image_file.chunks():
-			destination.write(chunk)
-
+    with open('static/data/' + image_file.name, 'wb+') as destination:
+    	for chunk in image_file.chunks():
+    		destination.write(chunk)
 	number_of_pictures = extract('static/data/' + image_file.name, str(data[0]["title"]))
-
 	for i in range(1, number_of_pictures):
 		img = Image(
 			recording_assoc = rec,

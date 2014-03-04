@@ -8,7 +8,7 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response
 from .form import UploadFileForm, UserForm
 from .process_data import process
-from webapp.models import Recording, Location, UserAcc
+from webapp.models import Recording, Location, UserAcc, Image
 from process_data import export
 from process_data import simplifiedConvert
 import os
@@ -140,6 +140,14 @@ def getRecs(request):
         data = Recording.objects.all()
         data = serializers.serialize("json", data)
         return HttpResponse(data,"application/json")
+
+def getImagesByID(request, id):
+    context = RequestContext(request)
+    if request.method == 'GET':
+        data = Image.objects.all()
+        exp = data.filter(recording_assoc__file_ID=id)
+        data = serializers.serialize("json", data)
+        return HttpResponse(data, "application/json")
 
 def getrecbyid(request, id):
     context = RequestContext(request)

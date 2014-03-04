@@ -61,10 +61,11 @@ class Image(models.Model):
 
     file_name = models.CharField(max_length=50) #f. name
     file_ID =  models.AutoField(primary_key=True) #file id
-    file = models.FileField(upload_to='/images/%Y/%m/%d') #profile picture
-    time_taken = models.DateTimeField() #time stamp
-    event_assoc = models.ForeignKey(Event)
     recording_assoc = models.ForeignKey(Recording)
+    
+    #file = models.FileField(upload_to='/images/%Y/%m/%d') #profile picture
+    #time_taken = models.DateTimeField() #time stamp
+    #event_assoc = models.ForeignKey(Event)
     #event_assoc = models.OneToMany(Event, related_name='event+') #event name and image association/ 1 event mult images
     #location = models. location_field /open src on github project>> https://github.com/codasus/django-location-field
 
