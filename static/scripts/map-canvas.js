@@ -291,7 +291,7 @@ function addRouteToMarker(pinNum, fileID, latLng) {
 		}
 	);
 }
-
+/*
 // Function that creates the window for the image
 function addImageWindow(image_pin, image_file) {    
     var imageInfoWindow = new google.maps.InfoWindow(); // The window for the image is created
@@ -304,6 +304,7 @@ function addImageWindow(image_pin, image_file) {
 	    }
     })(image_pin, image_file));
 }
+*/
 
 // A function to attach a listener for a mouse click on a marker
 function addPinListenerOnClick(pinNum, fileID, fileName, description, latLng, filePath) {
@@ -329,11 +330,12 @@ function addPinListenerOnClick(pinNum, fileID, fileName, description, latLng, fi
     })(pinNum, fileID, fileName, description, filePath, latLng));
 }
 
+
 // A function that opens up an Info Window with all the details provided
 function drawInfoWindow(pinNum, fileID, fileName, description, filePath, infoWindow) {
 
 	// Loads a new sound using buzz
-    mySound = new buzz.sound(filePath);
+    mySound = new buzz.sound("../" + filePath + "/" + fileName + ".ogg");
 
 	document.getElementById("title").innerHTML=fileName;
 	document.getElementById("description").innerHTML=description;
@@ -345,6 +347,7 @@ function drawInfoWindow(pinNum, fileID, fileName, description, filePath, infoWin
 	document.getElementById("view_pictures").innerHTML="<input id=\"view_pictures\" type=\"button\" value=\"View Pictures\" class=\"pure-button pure-button-primary\" style=\"font-size:13px;\" onclick=\"viewImages(" + fileID + ");\" />";
 }
 
+
 // A function to select all the markers on the map
 function selectAll() {
 	selectedRange.startTime = document.getElementById("timepicker").value;
@@ -353,8 +356,6 @@ function selectAll() {
 	selectedRange.endDate = document.getElementById("datepicker2").value;
 	var selectedStartTime = (new Date(selectedRange.startDate + " " + selectedRange.startTime)).getTime();
 	var selectedEndTime = (new Date(selectedRange.endDate + " " + selectedRange.endTime)).getTime();
-	alert(selectedStartTime);
-	alert(selectedEndTime);
 	// Iterates over the dictionary of pins and calls the select marker function on each marker
 	for(var i = 0; i < numberOfPins; i++) {
 		if((pins.startTime[i] > selectedStartTime && pins.startTime[i] < selectedEndTime) || 
@@ -455,7 +456,7 @@ function viewImages(fileID) {
 		function(data) {
 	       	var images = [];
 	    	for(var i = 0; i < data.length; i++) {
-	    		images.push("../static/data/" + data[i].fields.file_name);
+	    		images.push("../" + data[i].fields.file_name);
 	    	}
 	    	for(var i = 0; i < data.length; i++) {
 	    		image_slides = image_slides + ("<img src=" + images[i] + " style=\"height:200px; width:200px;\" alt=\"\">\n");

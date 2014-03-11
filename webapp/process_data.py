@@ -13,65 +13,83 @@ import os, tarfile
 
 
 def process(json_file, aac_file, image_file, data, user):
+
+	json_extn = json_file.name.split('.')[-1]
+	aac_extn = aac_file.name.split('.')[-1]
+	if (json_extn != "json"):
+		return HttpResponse("<h1>Please upload an json file!</h1>")
+	if (aac_extn != "aac"):
+		return HttpResponse("<h1>Please upload an aac file!</h1>")
+	data = json.load(json_file)
+
+	fn = str(data[0]["title"])
+	fn = slugify(fn)
 	
-    json_extn = json_file.name.split('.')[-1]
-    aac_extn = aac_file.name.split('.')[-1]
+	
 
-    if (json_extn != "json"):
-        return  HttpResponse("<h1>Please upload an json file!</h1>")
-    if (aac_extn != "aac"):
-        return HttpResponse("<h1>Please upload an aac file!</h1>")
+	rec = Recording(
+		file_name = str(data[0]["title"]),
+		description = str(data[0]["description"]),
+		length = (int(data[0]["endTime"]) - int(data[0]["startTime"])),
+		start_time = datetime.datetime.fromtimestamp(int(data[0]["startTime"])/1000),
+		end_time = datetime.datetime.fromtimestamp(int(data[0]["endTime"])/1000),
+		rec_file = (""),
+		lon = data[1][0]["lon"],
+		lat = data[1][0]["lat"]
+		)
+	rec.save()
 
-    data = json.load(json_file)
-    
-    fn = str(data[0]["title"])
-    fn = slugify(fn)
+	# Creates any folders necessary if it does not exist in the File Tree 
+	date = str(datetime.date.today())
+	path = date.replace("-", "/")
+	path = "static/data/" + path + "/" + str(rec.pk)
+	pathArray = path.split("/")
+	tempPath = ""
+	for i in pathArray:
+		tempPath = tempPath + i
+		if(not(os.path.isdir(tempPath))):
+			os.mkdir(tempPath)
+		tempPath = tempPath + "/"
+	
 
-    path = 'static/data/' + fn + ".aac"
-    
-    with open(path, 'wb+') as destination:
-        for chunk in aac_file.chunks():
-            destination.write(chunk)
-            
+	rec.rec_file = path 
+	rec.save()
 
-    rec = Recording(
-        file_name = str(data[0]["title"]),
-        description = str(data[0]["description"]),
-        length = (int(data[0]["endTime"]) - int(data[0]["startTime"])),
-        start_time = datetime.datetime.fromtimestamp(int(data[0]["startTime"])/1000),
-        end_time = datetime.datetime.fromtimestamp(int(data[0]["endTime"])/1000),
-        rec_file = (fn + ".ogg"),
-        lon = data[1][0]["lon"],
-        lat = data[1][0]["lat"]
-    )
+	
+	for i in range(1, len(data[1])):
+		loc = Location(
+			recording_assoc = rec,
+			lon = data[1][i]["lon"],
+			lat = data[1][i]["lat"],
+			image = "",
+			alt = data[1][i]["altitude"],
+			time = datetime.datetime.fromtimestamp(int(data[1][i]["time"])/1000)
+			)
+		loc.save()
+	
 
-    rec.save()
+	if user.is_authenticated():
+		useracc = UserAcc.objects.filter(user__exact=user)[0]
+		useracc.recs.add(rec)
+	
+	
+	aacPath = path + "/" + fn + ".aac"
+	with open(aacPath, 'wb+') as destination:
+		for chunk in aac_file.chunks():
+			destination.write(chunk)
+	#this function call converts the file from .aac to .ogg
+	#below the new file name with an ogg extension is saved to the database
+	simplifiedConvert(aacPath)
 
-    for i in range(1, len(data[1])):
-        loc = Location(
-            recording_assoc = rec,
-            lon = data[1][i]["lon"],
-            lat = data[1][i]["lat"],
-            image = "",
-            alt = data[1][i]["altitude"],
-            time = datetime.datetime.fromtimestamp(int(data[1][i]["time"])/1000)
-        )
-
-        loc.save()
-    if user.is_authenticated():
-        useracc = UserAcc.objects.filter(user__exact=user)[0]
-        useracc.recs.add(rec)
-    #this function call converts the file from .aac to .ogg
-    #below the new file name with an ogg extension is saved to the database
-    simplifiedConvert(path)
-    with open('static/data/' + image_file.name, 'wb+') as destination:
-    	for chunk in image_file.chunks():
-    		destination.write(chunk)
-	number_of_pictures = extract('static/data/' + image_file.name, str(data[0]["title"]))
+	imagePath = path + "/" + image_file.name
+	with open(imagePath, 'wb+') as destination:
+		for chunk in image_file.chunks():
+			destination.write(chunk)
+	number_of_pictures = extract(imagePath, rec.file_name)
 	for i in range(1, number_of_pictures):
 		img = Image(
-			recording_assoc = rec,
-			file_name = str(data[0]["title"]) + "_" + str(i) + ".jpg"
+		recording_assoc = rec,
+		file_name = path + "/" + rec.file_name + "_" + str(i) + ".jpg"
 		)
 		img.save()
 
@@ -85,28 +103,22 @@ def test():
 	#json_serializer = serializers.get_serializer("json")()
 	json_serializer = serializers.get_serializer("json")()
 	with open("../static/scripts/data.json", "w") as out:
-			json_serializer.serialize(Recording.objects.all(), stream=out)
-			#HttpResponse(simplejson.dumps(items_list),'application/json'))
+		json_serializer.serialize(Recording.objects.all(), stream=out)
+		#HttpResponse(simplejson.dumps(items_list),'application/json'))
 
 
 #JSON export for timeline
 
 def export(username):
-
 	RECORDINGS = []
 	recs = []
-	
-	
 	if(username == 'all'):
 		RECORDINGS = Recording.objects.all()
-
 	else:
 		user = User.objects.get(username = username)
 		useracc = UserAcc.objects.filter(user__exact=user)[0]
 		RECORDINGS = useracc.recs.all()
-
 	for recording in RECORDINGS:
-
 		rec_data = {
 			"startDate":recording.start_time.strftime("%Y,%m,%d %H,%M"),
 			"endDate":recording.end_time.strftime("%Y,%m,%d %H,%M"),
@@ -123,12 +135,12 @@ def export(username):
 
 				"media": "../../static/data/img1.png",
 
-			'''
-				"media":"https://maps.google.com/?q="
+				'''
+					"media":"https://maps.google.com/?q="
 					+ str(recording.lat)
 					+ ","
 					+ str(recording.lon), #recording.rec_file.url, http://link_to_recording_file_music_player
-			'''
+				'''
 				"caption":"ID"
 					+ str(recording.file_ID)
 			}
@@ -137,36 +149,32 @@ def export(username):
 		recs.append(rec_data)
 
 
-	serialized = {
-		"timeline":
-		{
-			"headline":"MDAP timeline",
-			"type":"default",
-			"text":"<p>Here is your personal MDAP timeline. You can browse your recordings and play them simultaneously if they overlap.</p>",
-			"asset": {
-				"media":"/static/images/tl.jpg",
-				"caption":"Multi Device Recording System V1.0"
-			},
-			"date": recs
+		serialized = {
+			"timeline": {
+				"headline":"MDAP timeline",
+				"type":"default",
+				"text":"<p>Here is your personal MDAP timeline. You can browse your recordings and play them simultaneously if they overlap.</p>",
+				"asset": {
+					"media":"/static/images/tl.jpg",
+					"caption":"Multi Device Recording System V1.0"
+				},
+				"date": recs
 
+			}
 		}
-	}
 
-	with open('./static/scripts/data.json', 'w') as outp:
-		json.dump(serialized, outp)
+		with open('./static/scripts/data.json', 'w') as outp:
+			json.dump(serialized, outp)
 
 #simplified convert
 # using ffmpeg default conversion settings
 def simplifiedConvert(path):
 
-	dir = os.path.dirname(__file__)
-	relPath = os.path.join(dir, '../')
-	fileName = relPath + path
-	fn = fileName.replace('.aac','')
+	fn = path.replace('.aac','')
 	fileNew = fn + '.ogg'
 
-	usageStr = 'avconv -i ' + fileName + ' -acodec libvorbis ' + fileNew
-	
+	usageStr = 'avconv -i ' + path + ' -acodec libvorbis ' + fileNew
+
 	sp.call(usageStr, shell=True)
 
 
@@ -181,62 +189,65 @@ def convertOGG(fileName):
 	fileNew = path + os.path.splitext(fileName)[0] + '.ogg'
 
 	data = sp.Popen([ FFMPEG_BIN,
-        '-i', fileName,
-        '-f', 's16le',
-        '-acodec', 'libamr_nb',
-        '-ar', '44100', # o 44100 Hz
-        '-ac', '2', # channels
-        '-'],
-        stdin=sp.PIPE, stdout=sp.PIPE, stderr=sp.PIPE)
+		'-i', fileName,
+		'-f', 's16le',
+		'-acodec', 'libamr_nb',
+		'-ar', '44100', # o 44100 Hz
+		'-ac', '2', # channels
+	'-'],
+	stdin=sp.PIPE, stdout=sp.PIPE, stderr=sp.PIPE)
 
 	raw = data.proc.stdout.read(88200*4) #save audio
 	audio = numpy.fromstring(raw, dtype="int16")
 	audio = audio.reshape((len(audio)/2,2)) #reorganize
 
 	data = sp.Popen([ FFMPEG_BIN,
-       '-y', # overwrite if such name exists
-       "-f", 's16le', # 16bit
-       "-acodec", "libamr_nb", # raw
-       '-r', "44100", # 44100 Hz
-       '-ac','2', #2 channels
-       '-i', '-', # pipe input
-       '-vn', # no video
-       '-acodec', "libvorbis" # output audio codec
-       '-b', "3000k", # output bitrate (=quality). Here, 3000kb/second
-       fileNew ],
-        stdin=sp.PIPE,stdout=sp.PIPE, stderr=sp.PIPE)
+		'-y', # overwrite if such name exists
+		"-f", 's16le', # 16bit
+		"-acodec", "libamr_nb", # raw
+		'-r', "44100", # 44100 Hz
+		'-ac','2', #2 channels
+		'-i', '-', # pipe input
+		'-vn', # no video
+		'-acodec', "libvorbis" # output audio codec
+		'-b', "3000k", # output bitrate (=quality). Here, 3000kb/second
+	fileNew ],
+	stdin=sp.PIPE,stdout=sp.PIPE, stderr=sp.PIPE)
 
 	audio.astype("int16").tofile(self.proc.stdin)
 
 def extract(tar_url, file_name):
 	item_number = 1
 	tar = tarfile.open(tar_url, 'r')
+	tarPath = tar_url.split("/")
+	del tarPath[-1]
+	tarPath = "/".join(tarPath)
 	for item in tar:
-		tar.extract(item, "static/data")
-		os.rename("static/data/" + item.name, "static/data/" + file_name + "_" + str(item_number) + ".jpg")
+		tar.extract(item, tarPath)
+		os.rename(tarPath + "/" + item.name, tarPath + "/" + file_name + "_" + str(item_number) + ".jpg")
 		item_number = item_number + 1
-
 	return item_number
+
 '''
 OLD PYMEDIA METHOD
 
 def convertOGG(fileName):
-	sample_rate = 16000;
-	params = {
- 		'id': acodec.getCodecID('ogg'),
-		'bitrate': 16000,
-		'sample_rate': sample_rate,
-		'ext': 'ogg',
-		'channels': 1
-	}
-	ENCODE = acodec.Encoder(params)
+sample_rate = 16000;
+params = {
+'id': acodec.getCodecID('ogg'),
+'bitrate': 16000,
+'sample_rate': sample_rate,
+'ext': 'ogg',
+'channels': 1
+}
+ENCODE = acodec.Encoder(params)
 
-	D = ''
-	# fill D with encoded vorbis.ogg object
-	#D = OGG()
-	F= ENCODE.encode(D)
-	FILE = file('./static/data/'+fileName+'.ogg', 'rb') # read binary file under linux
-	for frame in F: FILE.write(frame)
-	FILE.close()
+D = ''
+# fill D with encoded vorbis.ogg object
+#D = OGG()
+F= ENCODE.encode(D)
+FILE = file('./static/data/'+fileName+'.ogg', 'rb') # read binary file under linux
+for frame in F: FILE.write(frame)
+FILE.close()
 
 '''
