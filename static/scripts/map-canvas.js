@@ -309,6 +309,10 @@ function addImageWindow(image_pin, image_file) {
 // A function to attach a listener for a mouse click on a marker
 function addPinListenerOnClick(pinNum, fileID, fileName, description, latLng, filePath) {
 
+	hyperlink = "<a href=\"#" + pinNum + "\">view on timeline</a>";
+
+	document.getElementById("pin_link").innerHTML=hyperlink;
+
     // creates a listener for a click action on the marker
     google.maps.event.addListener(pins.pin[pinNum], 'click', (function(pinNum, fileID, fileName, description, filePath, latLng) {
 		return function() {
@@ -341,7 +345,7 @@ function drawInfoWindow(pinNum, fileID, fileName, description, filePath, infoWin
 	document.getElementById("description").innerHTML=description;
 	
 	if(recording_box == false) {
-		$("#recording_box").toggle();
+		$("#recording_box").toggle({easing: "easeOutBack"});
 		recording_box = true;
 	}
 	document.getElementById("view_pictures").innerHTML="<input id=\"view_pictures\" type=\"button\" value=\"View Pictures\" class=\"pure-button pure-button-primary\" style=\"font-size:13px;\" onclick=\"viewImages(" + fileID + ");\" />";
@@ -489,5 +493,5 @@ function viewImages(fileID) {
 
 	);
     
-	$("#picture_box").toggle();
+	$("#picture_box").toggle({easing: "easeOutBack"});
 }
