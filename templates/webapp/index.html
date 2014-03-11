@@ -153,7 +153,7 @@ div.ui-datepicker{
     		function(){
         		$("#toggle_controls").click(function () {
         			y = y + 1;
-            		$("#control_box").toggle();
+            		$("#control_box").toggle({easing: "easeOutBack"});
             		if((y%2) == 1) {
             			$("#toggle_controls").text("Close Controls");
             		} else {
@@ -165,15 +165,22 @@ div.ui-datepicker{
           function(){
             $("#close_button").click(function() {
               $("#toggle_controls").text("Open Controls");
-              $("#control_box").toggle();
+              $("#control_box").toggle({easing: "easeOutBack"});
               y = y + 1;
             });
           });
         $(document).ready(
           function(){
             $("#recording_close_button").click(function() {
-              $("#recording_box").toggle();
+              $("#recording_box").toggle({easing: "easeOutBack"});
               recording_box = false;
+            });
+          });
+        $(document).ready(
+          function(){
+            $("#picture_close_button").click(function() {
+              $("#picture_box").toggle({easing: "easeOutBack"});
+              picture_box = false;
             });
           });
 		</script>
