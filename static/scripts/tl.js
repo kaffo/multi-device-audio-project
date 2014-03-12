@@ -69,6 +69,8 @@ function text(recs){
 		Rdata += "<div class='comp'><audio controls src='../../static/data/" + c_file + "'>Your user agent does not support the HTML5 Audio element.</audio><br><br>";
 		//download button
 		Rdata += "<form target='_blank' action='../../static/data/" + c_file + "'><input type='submit' value='Download' class='blue button'></form></div>"
+		//view on timeline button
+		Rdata += "<form action='/#" + (i+1) + "'><input type='submit' value='View on Timeline' class='blue button'></form></div>"
 		//Rdata += "<div style='float:left;'><button class='blue button' onclick='this.firstChild.play()'><audio src='../../static/data/" + c_file + "'></audio>Play</button>";
 		//recording metadata - id, name, description
 		Rdata += "<p><b>ID:</b> " + c_id + "<br><b>Recording:</b> " + c_name + "<br><br><b>Description:</b><br>"  + c_desc + "</p>";
