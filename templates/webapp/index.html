@@ -98,7 +98,6 @@ div.ui-datepicker{
 		<script>
 		$("#control_box").toggle();
     $("#recording_box").toggle();
-    $("#picture_box").toggle();
     $( "#control_box" ).draggable();
     $( "#recording_box" ).draggable();
     $( "#picture_box" ).draggable();
@@ -179,8 +178,7 @@ div.ui-datepicker{
         $(document).ready(
           function(){
             $("#picture_close_button").click(function() {
-              $("#picture_box").toggle({easing: "easeOutBack"});
-              picture_box = false;
+              $("#picture_box").css("z-index", 0);
             });
           });
 		</script>

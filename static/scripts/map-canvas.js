@@ -459,6 +459,11 @@ function viewImages(fileID) {
 	$.getJSON("/webapp/getImagesByID:" + fileID, //Queries the database for locations using the name of the file
 		function(data) {
 	       	var images = [];
+
+	       	if($("#picture_box").css("z-index") == 0) {
+        		$("#picture_box").css("z-index", 4);
+        	}
+
 	    	for(var i = 0; i < data.length; i++) {
 	    		images.push("../" + data[i].fields.file_name);
 	    	}
@@ -490,11 +495,7 @@ function viewImages(fileID) {
       				}
     			}
     		});
-
+        	
     		slideVersion = slideVersion + 1;
 		});
-
-	
-    
-	//$("#picture_box").toggle({easing: "easeOutBack"});
 }
