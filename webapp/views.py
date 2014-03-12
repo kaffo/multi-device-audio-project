@@ -146,8 +146,8 @@ def getImagesByID(request, id):
     if request.method == 'GET':
         data = Image.objects.all()
         exp = data.filter(recording_assoc__file_ID=id)
-        data = serializers.serialize("json", data)
-        return HttpResponse(data, "application/json")
+        exp = serializers.serialize("json", exp)
+        return HttpResponse(exp, "application/json")
 
 def getrecbyid(request, id):
     context = RequestContext(request)
