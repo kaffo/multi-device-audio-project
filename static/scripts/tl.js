@@ -64,11 +64,11 @@ function text(recs){
 		c_file = c_rec.fields.rec_file;
 		
 		//recording id checkbox
-		Rdata += "<div class='Uinfo'><input type='checkbox' name='rec' id='" + c_id + "' onclick='selectRec();'/>"
+		Rdata += "<div class='Uinfo'><input type='checkbox' name='rec' id='" + c_id + "' onclick='selectRec();'/>";
 		//single recording playback
 		Rdata += "<div class='comp'><audio controls src='../../static/data/" + c_file + "'>Your user agent does not support the HTML5 Audio element.</audio><br><br>";
 		//download button
-		Rdata += "<form target='_blank' action='../../static/data/" + c_file + "'><input type='submit' value='Download' class='blue button'></form></div>"
+		Rdata += "<form target='_blank' action='../../static/data/" + c_file + "'><input type='submit' value='Download' class='blue button'></form></div>";
 		//view on timeline button
 		Rdata += "<form action='#" + (i+1) + "'><input type='submit' value='View on Timeline' class='blue button'></form>";
 		//Rdata += "<div style='float:left;'><button class='blue button' onclick='this.firstChild.play()'><audio src='../../static/data/" + c_file + "'></audio>Play</button>";
