@@ -17,12 +17,16 @@ timeline_visible = true;
 
 // Function to initialize datepicker on the input box
 $(function() {
-  $( "#datepicker" ).datepicker();
+  $( "#datepicker" ).datepicker({
+    "dateFormat": "dd/mm/yy"
+  });
 });
 
 // Function to initialize datepicker on the input box
 $(function() {
-  $( "#datepicker2" ).datepicker();
+  $( "#datepicker2" ).datepicker({
+    "dateFormat": "dd/mm/yy"
+  });
 });
 
 // Function to initialize the timepicker with the timeformat set
