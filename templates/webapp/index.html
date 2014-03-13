@@ -2,34 +2,37 @@
 
 {% load static %}
 
-
-
 <html lang="en">
 	<head>
-    	<meta charset="utf-8">
+    <meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="description" content="Interact with users recordings as they sync up in time and space">
 
-    	<title>MDRS</title>
-    	<link rel="shortcut icon" href="/static/images/favicon.ico" type="image/x-icon" />
-		<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
+    <title>MDRS</title>
+    
+    <!-- Custom Icon for browsers -->
+    <link rel="shortcut icon" href="/static/images/favicon.ico" type="image/x-icon" />
+
+    <!-- CSS -->		
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 		<link rel="stylesheet" href="{% static "styles/side-menu.css" %}">
 		<link rel="stylesheet" href="{% static "styles/user.css" %}">
-		<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-		<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
     <link rel="stylesheet" href="{% static "styles/jquery.timepicker.css" %}">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-		<script type="text/javascript" src="{% static "build/js/storyjs-embed.js" %}"></script>
-		<script type="text/javascript" src="{% static "scripts/tl.js" %}"></script>
-		<script type="text/javascript" src="{% static "scripts/InfoBubble.js" %}"></script>
-		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAcCsb4_1FhEOP4bYPwm10FV_bGhjHBBH0&sensor=true"></script>
-		<script src="//code.jquery.com/jquery-1.9.1.js"></script>
-  	<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-    <script src="{% static "scripts/jquery.slides.min.js" %}"></script>
-    <script src="{% static "scripts/jquery.timepicker.js" %}"></script>
 
+    <!-- JS -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAcCsb4_1FhEOP4bYPwm10FV_bGhjHBBH0&sensor=true"></script>
+    <script src="//code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    <script src="{% static "scripts/jquery.timepicker.js" %}"></script>
+    <script src="{% static "scripts/jquery.slides.min.js" %}"></script>
+		<script type="text/javascript" src="{% static "build/js/storyjs-embed.js" %}"></script>
+		<script type="text/javascript" src="{% static "scripts/tl.js" %}"></script>    
 		<script src="{% static "scripts/map-canvas.js" %}"></script>
 		<script src="{% static "scripts/buzz.min.js" %}"></script>
+
  <script>
 $(function() {
 	var availableTags = [];
@@ -47,6 +50,7 @@ $(function() {
 	});
 });
 </script>
+
 <style>
 div.ui-datepicker{
  font-size:11px;
@@ -83,23 +87,7 @@ div.ui-datepicker{
 
 		<script src="{% static "scripts/ui.js" %}"></script>
     <script src="{% static "scripts/jquery.boxes.js" %}"></script>
-
-		<script language="javascript">
-    		    function autoResizeDiv()
-        		{
-					var mheight = (window.innerHeight) +'px'; //-301
-					var mwidth = (window.innerWidth) +'px';
-					var tlwidth = (window.innerWidth - 170) + 'px';
-            	    document.getElementById('map-content').style.height = mheight;
-		    document.getElementById('map-content').style.width = mwidth;
-					document.getElementById('my-timeline').style.width = tlwidth;
-        		}
-        		window.onresize = autoResizeDiv;
-        		autoResizeDiv();
-		</script>
-		<script>
-
-		</script>
+    <script src="{% static "scripts/div-resize.js" %}"></script>
         
 	</body>
     

@@ -135,37 +135,11 @@ function drawMarkers() {
 		"/webapp/getdata:" + swLat + ":" + swLng + ":" + neLat + ":" + neLng,
 	
 		function(data) {
-			/*
-			// Checks
-			for(var i = 0; i < pins.pin.length; i++) {
-				if(selectedPins.fileID.indexOf(pins.fileID[i]) != -1) {
-					var popIndex = selectedPins.fileID.indexOf(pins.fileID[i]);
-					selectedPins.fileID.splice(popIndex, 1);
-					selectedPins.latLng.splice(popIndex, 1);
-					selectedPins.fileName.splice(popIndex, 1);
-					selectedPins.description.splice(popIndex, 1);
-					selectedPins.startTime.splice(popIndex, 1);
-					selectedPins.endTime.splice(popIndex, 1);
-					selectedPins.filePath.splice(popIndex, 1);
-					selectedPins.route.splice(popIndex, 1);
-					selectedPins.image.splice(popIndex, 1);
-					selectedPins.selected.splice(popIndex, 1);
-				}
-				selectedPins.fileID.push(pins.fileID[i]);
-				selectedPins.latLng.push(pins.latLng[i]);
-				selectedPins.fileName.push(pins.fileName[i]);
-				selectedPins.description.push(pins.description[i]);
-				selectedPins.startTime.push(pins.startTime[i]);
-				selectedPins.endTime.push(pins.endTime[i]);
-				selectedPins.filePath.push(pins.filePath[i]);
-				selectedPins.route.push(pins.route[i]);
-				selectedPins.image.push(pins.image[i]);
-				selectedPins.selected.push(pins.selected[i]);
-			}
-			alert(selectedPins.fileID);
-  */
 
+			// Iterates through each of the pins in the previous frame to check for any changes in selected status
   			for(var i = 0; i < pins.fileID.length; i++) {
+
+  				// Checks if a pin was selected in the previous frame if so it adds it to the selectedpins array
   				if((pins.selected[i] == true) && (selectedPins.indexOf(pins.fileID[i]) == -1)) {
   					selectedPins.fileID.push(pins.fileID[i]);
 					selectedPins.latLng.push(pins.latLng[i]);
@@ -178,6 +152,8 @@ function drawMarkers() {
 					selectedPins.image.push(pins.image[i]);
 					selectedPins.selected.push(pins.selected[i]);
   				}
+
+  				// Checks if a pin was de-selected in the previous frame if so it deletes it from the selected pins array
   				if((pins.selected[i] == false) && (selectedPins.indexOf(pins.fileID[i]) != -1)) {
 					var popIndex = selectedPins.fileID.indexOf(pins.fileID[i]);
 					selectedPins.fileID.splice(popIndex, 1);
