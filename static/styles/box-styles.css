@@ -1,0 +1,81 @@
+/* MDRS - custom css for boxes and stuff inside them*/
+/* Author - Gordon Adam */
+
+/* styles for boxes */ 
+#control_box {
+	position:fixed; 
+	height:350px; 
+	width:340px; 
+	left:160px; 
+	background-color:#232424; 
+	border-radius:12px; 
+	overflow:hidden; 
+	z-index:4; 
+	border-color: #333333; 
+	border-style:solid; 
+	border-width:2px;
+}
+#recording_box {
+	position:fixed; 
+	height:175px; 
+	width:260px; 
+	right:20px; 
+	background-color:#232424; 
+	border-radius:12px; 
+	border-color: #333333; 
+	border-style:solid; 
+	border-width:2px; 
+	overflow:hidden; 
+	z-index:4;
+}
+#picture_box {
+	position:fixed; 
+	height:240px; 
+	width:300px; 
+	right:400px; 
+	background-color:#232424; 
+	border-radius:12px; 
+	border-color: #333333; 
+	border-style:solid; 
+	border-width:2px; 
+	overflow:hidden; 
+	z-index:0;
+}
+
+/* styles for slider navigation in picture box*/
+.custom-navigation { 
+	padding: 0; 
+	margin: 0; 
+}
+.custom { 
+	list-style: none; 
+	float: left; 
+	margin-right: .25em;  
+}
+.custom { 
+	display: block; 
+	background: #0078e7; 
+	padding: .25em 1em; 
+	color: #fff; 
+	text-decoration: none; 
+	border-radius: 0 0 .25em .25em; 
+	font-size:13px;
+}
+.custom-prev { 
+	display: block; 
+	background: #0078e7; 
+	padding: .25em 1em; 
+	color: #fff; 
+	text-decoration: none; 
+	border-radius: 0 0 .25em .25em; 
+	font-size:13px;
+}
+.custom-next { 
+	display: block; 
+	background: #0078e7; 
+	padding: .25em 1em; 
+	color: #fff; 
+	text-decoration: none; 
+	border-radius: 0 0 .25em .25em; 
+	font-size:13px;
+}
