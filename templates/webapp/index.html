@@ -27,6 +27,7 @@
   	<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
     <script src="{% static "scripts/jquery.slides.min.js" %}"></script>
     <script src="{% static "scripts/jquery.timepicker.js" %}"></script>
+
 		<script src="{% static "scripts/map-canvas.js" %}"></script>
 		<script src="{% static "scripts/buzz.min.js" %}"></script>
  <script>
@@ -81,6 +82,7 @@ div.ui-datepicker{
 
 
 		<script src="{% static "scripts/ui.js" %}"></script>
+    <script src="{% static "scripts/jquery.boxes.js" %}"></script>
 
 		<script language="javascript">
     		    function autoResizeDiv()
@@ -96,91 +98,7 @@ div.ui-datepicker{
         		autoResizeDiv();
 		</script>
 		<script>
-		$("#control_box").toggle();
-    $("#recording_box").toggle();
-    $( "#control_box" ).draggable();
-    $( "#recording_box" ).draggable();
-    $( "#picture_box" ).draggable();
-    recording_box = false;
-		var x = 0;
-		var y=0;
-    		$(function() {
-    			$( "#datepicker" ).datepicker({
-    				format: 'dd.mm.yyyy',
-    				onSelect: function() {
-        				var dateObject = $(this).datepicker('getDate'); 
-        				setSelectedStartDate(dateObject);
-    				}
-				  });
-  			});
-  			$(function() {
-    			$( "#datepicker2" ).datepicker({
-    				onSelect: function() { 
-        				var dateObject = $(this).datepicker('getDate'); 
-        				setSelectedEndDate(dateObject);
-    				}
-    			});
-  			});
 
-        $(function() {
-          $("#timepicker").timepicker({
-            'showDuration': true,
-            'timeFormat': 'G:i'
-          });
-        });
-
-        $(function() {
-          $("#timepicker2").timepicker({
-            'showDuration': true,
-            'timeFormat': 'G:i',
-          });
-        });
-
-  			$(document).ready(
-    		function(){
-        		$("#toggle_timeline").click(function () {
-        			x = x + 1;
-            		$("#timeline").toggle();
-            		if((x%2) == 1) {
-            			$("#toggle_timeline").text("Show Timeline");
-            		} else {
-            			$("#toggle_timeline").text("Hide Timeline");
-            		}
-        		});
-    		});
-    		$(document).ready(
-    		function(){
-        		$("#toggle_controls").click(function () {
-        			y = y + 1;
-            		$("#control_box").toggle({easing: "easeOutBack"});
-            		if((y%2) == 1) {
-            			$("#toggle_controls").text("Close Controls");
-            		} else {
-            			$("#toggle_controls").text("Open Controls");
-            		}
-        		});
-    		});
-        $(document).ready(
-          function(){
-            $("#close_button").click(function() {
-              $("#toggle_controls").text("Open Controls");
-              $("#control_box").toggle({easing: "easeOutBack"});
-              y = y + 1;
-            });
-          });
-        $(document).ready(
-          function(){
-            $("#recording_close_button").click(function() {
-              $("#recording_box").toggle({easing: "easeOutBack"});
-              recording_box = false;
-            });
-          });
-        $(document).ready(
-          function(){
-            $("#picture_close_button").click(function() {
-              $("#picture_box").css("z-index", 0);
-            });
-          });
 		</script>
         
 	</body>
