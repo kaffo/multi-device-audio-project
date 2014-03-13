@@ -377,6 +377,10 @@ function selectAll() {
 		selectedRange.endTime = "23:59"
 	}
 
+	// Turns the dates into american style
+	selectedRange.startDate = (selectedRange.startDate.split("/")[1] + "/" + selectedRange.startDate.split("/")[0] + "/" + selectedRange.startDate.split("/")[2]);
+	selectedRange.endDate = (selectedRange.endDate.split("/")[1] + "/" + selectedRange.endDate.split("/")[0] + "/" + selectedRange.endDate.split("/")[2]);
+
 	// converts the date and time into milliseconds since epoch
 	var selectedStartTime = (new Date(selectedRange.startDate + " " + selectedRange.startTime)).getTime();
 	var selectedEndTime = (new Date(selectedRange.endDate + " " + selectedRange.endTime)).getTime();
