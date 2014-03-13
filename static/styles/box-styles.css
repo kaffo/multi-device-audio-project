@@ -4,7 +4,7 @@
 /* styles for boxes */ 
 #control_box {
 	position:fixed; 
-	height:350px; 
+	height:340px; 
 	width:340px; 
 	left:160px; 
 	background-color:#232424; 
@@ -17,7 +17,7 @@
 }
 #recording_box {
 	position:fixed; 
-	height:175px; 
+	height:250px; 
 	width:260px; 
 	right:20px; 
 	background-color:#232424; 
@@ -30,7 +30,7 @@
 }
 #picture_box {
 	position:fixed; 
-	height:240px; 
+	height:250px; 
 	width:300px; 
 	right:400px; 
 	background-color:#232424; 
@@ -78,4 +78,71 @@
 	text-decoration: none; 
 	border-radius: 0 0 .25em .25em; 
 	font-size:13px;
+}
+
+/* custom style for close button */
+.box-content {
+	position:relative; 
+	margin:10px;
+}
+.close-button {
+	position: absolute; 
+	top: 0; 
+	right: 5px; 
+	cursor: pointer;
+}
+
+/*container for slideshow, not including pager*/
+#picture-content {
+	position:relative;
+	margin-top:20px; 
+	margin-bottom:2px; 
+	margin-left:15px; 
+	margin-right:15px;
+}
+
+/* Input for date, time and search in control box also buttons */
+.control-box-input {
+	background-color: #303030; 
+	border-color: #242323; 
+	color: #CCCCCC; 
+	text-align: center; 
+	cursor: pointer;
+}
+
+.button-size {
+	font-size:12px;
+}
+
+#searchbar {
+	background-color: #303030; 
+	border-color: #242323; 
+	color: #CCCCCC;
+}
+
+/**/
+#description {
+	overflow-y: scroll;
+	height: 90px;
+	width: 240px;
+	border-style: solid;
+	border-width: 2px;
+	border-radius: 5px;
+	border-color: #333333;
+	margin-bottom:15px;
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+ 
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(20, 20, 20, 0.2); 
+    border-radius: 10px;
+}
+ 
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: rgba(0, 120, 231, 0.8);
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 120, 231, 0.8); 
 }

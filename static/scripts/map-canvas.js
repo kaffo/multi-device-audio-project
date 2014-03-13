@@ -336,7 +336,7 @@ function drawRecordingBox(pinNum, fileID, fileName, description, filePath) {
 
     // Sets the title and description in the box
 	document.getElementById("title").innerHTML=fileName;
-	document.getElementById("description").innerHTML=description;
+	document.getElementById("description-container").innerHTML=description;
 	
 	// Checks if the recording box is closed, if it is then it's opened
 	if(recording_box == false) {
@@ -353,10 +353,10 @@ function drawRecordingBox(pinNum, fileID, fileName, description, filePath) {
 function selectAll() {
 
 	// Retrieves the values from the text boxes
-	selectedRange.startTime = document.getElementById("timepicker").value;
-	selectedRange.endTime = document.getElementById("timepicker2").value;
-	selectedRange.startDate = document.getElementById("datepicker").value;
-	selectedRange.endDate = document.getElementById("datepicker2").value;
+	selectedRange.startTime = document.getElementById("start_time").value;
+	selectedRange.endTime = document.getElementById("end_time").value;
+	selectedRange.startDate = document.getElementById("start_date").value;
+	selectedRange.endDate = document.getElementById("end_date").value;
 
 	/* 
 	If a start date is not entered it will default to the epoch start date.

@@ -2,14 +2,14 @@
 {% load static %}
 
 <div id="picture_box">
-  <div style="position: absolute; top: 0; right: 5px; cursor: pointer;" id="picture_close_button">
+  <div class="close-button" id="picture_close_button">
     <img src="{% static "images/close.gif" %}">
   </div>
-  <div id="picture_content" style="position:relative; margin:15px; margin-bottom:2px;">
+  <div id="picture-content">
   	<div id="slides">
     </div>
   </div>
-  <div style="position:relative; margin-left:15px;">
+  <div style="position:relative; margin-left:15px; margin-top:15px;">
     <ul class="custom-navigation">
         <li class="custom"><a class="custom-prev" href="#" title="Previous">prev</a></li>
         <li class="custom"><a class="custom-next" href="#" title="Next">next</a></li>

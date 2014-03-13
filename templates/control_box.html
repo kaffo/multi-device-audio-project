@@ -4,38 +4,38 @@
 
 
 <div id="control_box">
-  <div style="position: absolute; top: 0; right: 5px; cursor: pointer;" id="close_button">
+  <div id="close_button" class="close-button" >
     <img src="{% static "images/close.gif" %}">
   </div>
-  <div style="position:relative; margin:10px;">
+  <div class="box-content">
     <fieldset>
       <legend>Select In Range</legend>
       <div>
         Start Date: 
-        <input type="text" size="11" value="" style="background-color: #303030; border-color: #242323; color: #CCCCCC; text-align: center; cursor: pointer;" id="datepicker" />
-        <input type="text" size="6" value="" style="background-color: #303030; border-color: #242323; color: #CCCCCC; text-align: center; cursor: pointer;" id="timepicker" />
+        <input id="start_date" class="control-box-input" type="text" size="11" value=""/>
+        <input id="start_time" class="control-box-input" type="text" size="6" value=""/>
       </div>     
       <div style="margin-top:5px;">
         End Date:&nbsp
-        <input type="text" size="11" value="" style="background-color: #303030; border-color: #242323; color: #CCCCCC; text-align: center; cursor: pointer;" id="datepicker2" />
-        <input type="text" size="6" value="" style="background-color: #303030; border-color: #242323; color: #CCCCCC; text-align: center; cursor: pointer;" id="timepicker2" />
+        <input id="end_date" class="control-box-input" type="text" size="11" value=""/>
+        <input id="end_time" class="control-box-input" type="text" size="6" value=""/>
       </div>   
       <div style="margin-top:10px;">
-        <input id="select_all" type="button" value="Select All" class="pure-button pure-button-primary" style="font-size:13px;" onclick="selectAll();"/>&nbsp
- 	      <input id="de_select_all" type="button" value="De-Select All" class="pure-button pure-button-primary" style="font-size:13px;" onclick="deSelectAll();"/>
+        <input id="select_all" class="pure-button pure-button-primary button-size" type="button" value="Select All" onclick="selectAll();"/>&nbsp
+ 	      <input id="de_select_all" class="pure-button pure-button-primary button-size" type="button" value="De-Select All" onclick="deSelectAll();"/>
       </div>
     </fieldset>
     <br />
     <fieldset>
       <legend>Audio Controls</legend>
-      <input id="play_selected" type="button" value="Play Selected" class="pure-button pure-button-primary" style="font-size:13px;" onclick="playSelected();"/>&nbsp
-      <input id="stop_selected" type="button" value="Stop" class="pure-button pure-button-primary" style="font-size:13px;" onclick="stopSelected();"/>
+      <input id="play_selected" class="pure-button pure-button-primary button-size" type="button" value="Play Selected" onclick="playSelected();"/>&nbsp
+      <input id="stop_selected" class="pure-button pure-button-primary button-size" type="button" value="Stop Selected" onclick="stopSelected();"/>
     </fieldset>
     <br />
     <fieldset>
       <legend>Search</legend>
-      <input type="text" size="14" style="background-color: #303030; border-color: #242323; color: #CCCCCC;" id="searchbar" name="searchbar" />
-      <input id="find_and_zoom" type="button" value="Find" class="pure-button pure-button-primary" style="font-size:12px;" onclick="findAndZoom();" />
+      <input id="searchbar" type="text" size="14" name="searchbar" />
+      <input type="button" value="Find" class="pure-button pure-button-primary button-size" onclick="findAndZoom();" />
     </fieldset>
   </div>
 </div>

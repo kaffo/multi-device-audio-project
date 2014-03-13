@@ -17,21 +17,21 @@ timeline_visible = true;
 
 // Function to initialize datepicker on the input box
 $(function() {
-  $( "#datepicker" ).datepicker({
+  $( "#start_date" ).datepicker({
     "dateFormat": "dd/mm/yy"
   });
 });
 
 // Function to initialize datepicker on the input box
 $(function() {
-  $( "#datepicker2" ).datepicker({
+  $( "#end_date" ).datepicker({
     "dateFormat": "dd/mm/yy"
   });
 });
 
 // Function to initialize the timepicker with the timeformat set
 $(function() {
-  $("#timepicker").timepicker({
+  $("#start_time").timepicker({
     'showDuration': true,
     'timeFormat': 'G:i'
   });
@@ -39,7 +39,7 @@ $(function() {
 
 // Function to initialize the timepicker with the timeformat set
 $(function() {
-  $("#timepicker2").timepicker({
+  $("#end_time").timepicker({
     'showDuration': true,
     'timeFormat': 'G:i',
   });
