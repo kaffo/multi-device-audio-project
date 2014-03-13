@@ -120,7 +120,7 @@
 	color: #CCCCCC;
 }
 
-/**/
+/* Styles for items inside the recording box*/
 #description {
 	overflow-y: scroll;
 	height: 90px;
@@ -131,16 +131,17 @@
 	border-color: #333333;
 	margin-bottom:15px;
 }
-
+#description-container {
+	margin:5px;
+}
+/* Scroll bar inside description box */
 ::-webkit-scrollbar {
     width: 12px;
 }
- 
 ::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(20, 20, 20, 0.2); 
     border-radius: 10px;
 }
- 
 ::-webkit-scrollbar-thumb {
     border-radius: 10px;
     background-color: rgba(0, 120, 231, 0.8);

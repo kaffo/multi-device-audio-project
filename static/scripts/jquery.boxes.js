@@ -1,4 +1,5 @@
 // MDRS - JQuery for controlling the behaviour of the popup boxes 
+// Included is the behaviour of the opening and closing of the popup boxes and also the slideviewer
 // Author - Gordon Adam
 
 // Hides the boxes to start with
@@ -106,3 +107,43 @@ $(document).ready(
     });
   }
 );
+
+
+// Slideviewer jquery
+var slideArray = [];
+slideVersion = 0;
+
+$(function(){
+  
+  slideArray[0] = $("<div />")
+    .appendTo($("#picture_content"));
+  
+  $("<img />")
+        .attr("src", "http://placehold.it/150x100")
+        .appendTo(slideArray[0]);
+
+  slideArray[0].slidesjs({
+    width: 150,
+    height: 100,
+    pagination: {
+      active: false
+    },
+    callback: {
+      loaded: function(){
+        // hide navigation and pagination
+        $('.slidesjs-pagination, .slidesjs-navigation').hide(0); 
+      }
+    }
+  });
+
+  $('.custom-next').click(function(e) {
+    e.preventDefault();
+    // emulate next click
+    $('.slidesjs-next').click();
+  });
+  $('.custom-prev').click(function(e) {
+    e.preventDefault();
+    // emulate previous click
+    $('.slidesjs-previous').click();
+  });
+});
