@@ -3,6 +3,11 @@
 var selected = []; //an array of file ids to be synchronised
 var all = false //check the current status of the select all checkbox
 
+//used to set the array of selected files
+function setSelected(s){
+	selected = s;	
+}
+
 
 //function to add the selected file ids to the array
 function selectRec(){
