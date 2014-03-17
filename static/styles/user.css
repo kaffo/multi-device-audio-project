@@ -1,3 +1,20 @@
+
+/*
+
+	- this file contains the css styling classes for
+	the user page and the timeline on the project home page
+	
+	Author: P. Yordanov (v2)
+
+*/
+
+
+/*
+
+audio playback using HTML5 tags styling
+
+*/
+
 audio {
 	position:absolute;
 	width:70%;
@@ -9,6 +26,9 @@ audio {
 .comp {
 	float:left;
 }
+
+
+/* user page side panel styling */
 
 .Uinfo {
 	width:95%;
@@ -24,6 +44,8 @@ audio {
 	border-radius:12px;
 
 }	
+
+/* user large container class */
 
 .Ucontainer {
 	padding:10px;
@@ -41,6 +63,8 @@ audio {
 
 }
 
+
+/* sync/play/pause/stop button styling */
 
 .button {
 	display: inline-block;
@@ -91,9 +115,15 @@ audio {
 	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#0078a5', endColorstr='#00adee');
 }
 
+
+/* timeline homepage class style */
+
 .hline{
 	position: fixed; left:160px; bottom: 10px; right: 10px; height:195px; overflow:hidden; border: 1px solid #d3d7d9; border-radius:12px;
 }
+
+
+/* timeline user page class style */
 
 .userTimeline{
 	z-index:99; display:block; position: fixed; bottom: 10px; left: 160px; visibility:visible;
