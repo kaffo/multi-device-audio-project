@@ -94,3 +94,7 @@ audio {
 .hline{
 	position: fixed; left:160px; bottom: 10px; right: 10px; height:195px; overflow:hidden; border: 1px solid #d3d7d9; border-radius:12px;
 }
+
+.userTimeline{
+	z-index:99; display:block; position: fixed; bottom: 10px; left: 160px; visibility:visible;
+}
