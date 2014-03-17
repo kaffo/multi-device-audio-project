@@ -449,9 +449,13 @@ function playSelected() {
 		}
 	}
 	
-	setSelected(pinIDArray);
-	
-	syncSide();play();
+	if(pinIDArray.length == 0){
+		setSelected(pinIDArray);
+		syncSide();play();
+	}
+	else{
+		alert("No recordings have been selected.") //alert the user
+	}
 	
 	/*
 
