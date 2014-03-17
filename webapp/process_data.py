@@ -123,12 +123,13 @@ def export(username):
 			"startDate":recording.start_time.strftime("%Y,%m,%d %H,%M"),
 			"endDate":recording.end_time.strftime("%Y,%m,%d %H,%M"),
 			"headline":recording.file_name,
-			"text":"<p>Length: "
+			"text":"<p>Duration: "
 				+ str(recording.end_time - recording.start_time)
-				+ " sec. \n"
+				+ "<br>"
 				+ "Event: "
 				+ str(recording.event_assoc)
-				+ "\n"
+				+ "<br>"
+				+ "Description: "
 				+ recording.description
 				+ "</p>", #HTML + IMG rec. description
 			"asset": {
