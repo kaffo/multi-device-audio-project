@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 
 {% load static %}
@@ -59,31 +60,24 @@
             {% if user.is_authenticated %}
             
             
-			
+			<!-- if the user is logged in, initialize the timeline and user recording side list -->
 			<div id="info" class="Ucontainer">
 			
+			
+			<!-- initialize the map -->
 			<div class="Uinfo" id="map-content" style="height:250px;">
 			
 			
 			
 			</div>
 			
-			<!--
-			<div class="Uinfo">
-			
-			<b>Sync at:</b>
-			</br>
-			
-			<div id="tl"></div>
-			</div>
-			
-			-->
-			
 			
 			<div class="Uinfo">
 			<b>User recordings:</b>
 			<br>
 			<br>
+			
+			<!-- Initialize synchronization play/ pause button, the stop button, and timeline -->
 			Select all:<input type='checkbox' name='rec' id='-1' onclick='selectRec();'/>
 			
 			<input type='button' class='blue button' onclick='syncSide();play();' value='Play/Pause Sync'/>
