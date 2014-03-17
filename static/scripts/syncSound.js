@@ -174,10 +174,18 @@ function synchronise(id, user){
 			curr_s_obj = new buzz.sound("../../static/data/" + curr_rec[0].fields.rec_file);
 		});
 		
+	var request = "";
+	
+	if(USER == null){
+		request = "/webapp/getRecs";
+	}
+	else{
+		request = "/webapp/getUserRecs:" + USER;
+	}
 
 	//get request for populating the recs array with database recording objects and process the data
 	$.getJSON(
-		"/webapp/getUserRecs:" + USER, // + user,
+		request, // + user,
 		
 		function(data){
 			recs = data;
@@ -211,11 +219,18 @@ function syncArray(IDs){
 	}
 	
 	
-
+	var request = "";
+	
+	if(USER == null){
+		request = "/webapp/getRecs";
+	}
+	else{
+		request = "/webapp/getUserRecs:" + USER;
+	}
 
 	
 	$.getJSON(
-		"/webapp/getUserRecs:" + USER, // + user,
+		request, // + user,
 		
 		function(data){
 		
@@ -254,7 +269,7 @@ function syncArray(IDs){
 			
 			s_group = new buzz.group(sync_group);
 			s_group.load();
-			alert USER;
+			//alert USER;
 			//alert(sync_group.length + "sync g");
 			
 		});
