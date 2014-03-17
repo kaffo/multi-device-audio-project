@@ -449,7 +449,7 @@ function playSelected() {
 		}
 	}
 	
-	if(pinIDArray.length == 0){
+	if(pinIDArray.length != 0){
 		setSelected(pinIDArray);
 		syncSide();play();
 	}
