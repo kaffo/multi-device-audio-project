@@ -209,6 +209,8 @@ function syncArray(IDs){
 	if (!buzz.isOGGSupported()) {
     alert("Your browser does not support .ogg audio format.");
 	}
+	
+	
 
 
 	
@@ -252,7 +254,7 @@ function syncArray(IDs){
 			
 			s_group = new buzz.group(sync_group);
 			s_group.load();
-			
+			alert USER;
 			//alert(sync_group.length + "sync g");
 			
 		});
