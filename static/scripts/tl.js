@@ -1,9 +1,18 @@
-//pyordanov v2
+/*
+
+	- Timeline initialization
+	- Auto-resize functions for timeline and user page side containers
+	- Initialization of recording list and synchronization buttons on user page
+	
+	Author: pyordanov (v3)
+	
+*/
 
 var selected = []; //an array of file ids to be synchronised
 var all = false //check the current status of the select all checkbox
 
 //used to set the array of selected files
+// from external javascript files
 function setSelected(s){
 	selected = s;	
 }
@@ -46,11 +55,11 @@ function selectRec(){
 				selected.push(rows[i].id);
 			}
 		}
-		//alert(selected.length);
+
 	}
 	
-	//alert(selected.length);
-	syncSide(selected); //synchronize the recordings
+	//recording synchronization depending on user selection
+	syncSide(selected);
 	
 }
 
@@ -79,7 +88,7 @@ function text(recs){
 		Rdata += "<p><b>ID:</b> " + c_id + "<br><b>Recording:</b> " + c_name + "<br>";
 		Rdata += "<a href='#" + (i+1) + "' title='View on timeline'>View on timeline</a><br><b>Description:</b><br>"  + c_desc + "</p>";
 		
-		Rdata += "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</div>";
+		Rdata += "</div>";
 	}
 	
 	//populate the div with id uRecs with the relevant html code
@@ -111,17 +120,41 @@ function autoResizeDiv()
 //timeline initialization function
 $(document).ready(function() {
 	createStoryJS({
+		
+		// specify the component type and make it recognizable by the timeline script
 		type:       'timeline',
+		
+		//timeline width 
 		width:      (window.innerWidth),
+		
+		//timeline height configuration
 		height:     (window.innerHeight - 160),
+		
+		//timeline data source, a dynamically generated json file containing recording metadata
 		source:     '/static/scripts/data.json',
+		
+		//my-timeline - embed id which can be changed
 		embed_id:   'my-timeline',
-		start_zoom_adjust:  '0',                          
+		
+		//zoom adjust to make it more convenient to distinguish difference in recording times
+		start_zoom_adjust:  '0',
+		
+		//enable hash linking so that recording objects could be shared and accessed from different pages on the website
 		hash_bookmark:      true,
+		
+		//add Google Maps API key to enable geo - tagging
 		gmap_key:			'AIzaSyAcCsb4_1FhEOP4bYPwm10FV_bGhjHBBH0',
-		font:               'Arvo-PTSans',            
+		
+		//specify text font
+		font:               'Arvo-PTSans',
+		
+		//show errors in the console log to enable easy debugging
 		debug:              true,                           
+		
+		//English
 		lang:               'en',
+		
+		//always initialize the timeline at the latest recording object
 		start_at_end:       'true'
 	
 	});
