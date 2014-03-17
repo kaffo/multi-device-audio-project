@@ -17,7 +17,7 @@
 }
 #recording_box {
 	position:fixed; 
-	height:250px; 
+	height:265px; 
 	width:260px; 
 	right:20px; 
 	background-color:#232424; 
@@ -30,7 +30,7 @@
 }
 #picture_box {
 	position:fixed; 
-	height:270px; 
+	height:250px; 
 	width:300px; 
 	right:400px; 
 	background-color:#232424; 
