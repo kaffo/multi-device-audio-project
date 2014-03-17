@@ -1,6 +1,16 @@
-//pyordanov v3.0
 
-//jQuery.ajaxSetup({async:false});
+/*
+
+	- audio synchronization functions (using Buzz!)
+	- user recording ajax requests getting metadata from the database (using Django's views)
+	- recording overlap checking functions
+	
+	Author: P. Yordanov (v3.0)
+
+*/
+
+
+
 
 var s_group = new buzz.group([]);
 var USER;
@@ -25,7 +35,6 @@ var duration;
 
 function setUser(u){
 	USER = u;
-	//alert(USER);
 }
 
 
@@ -42,10 +51,14 @@ function compare(a,b){
 	return 0;
 }
 
-/*initial data processing function filtering recordings
+/*
+
+initial data processing function filtering recordings
 that are to be synchronised depending on recording times
 (takes an array of recordings from the database as input parameter)
+
 */
+
 function process_data(recs){
 	
 	//variables to store array recording objects
@@ -73,10 +86,15 @@ function process_data(recs){
 		check_file = check_rec.fields.rec_file;
 	
 		
-		//start-end time comparison check
-		if((curr_start.getTime() <= check_start.getTime() && check_end.getTime()<= curr_end.getTime()) || 
-			(curr_start.getTime()>=check_start.getTime() && curr_start.getTime()<=check_end.getTime()) || 
+		//start-end time comparison check (three different overlap options)
+		if(
+			
+			(curr_start.getTime() <= check_start.getTime() && check_end.getTime()<= curr_end.getTime()) ||
+			
+			(curr_start.getTime()>=check_start.getTime() && curr_start.getTime()<=check_end.getTime()) ||
+			
 			(curr_end.getTime()>=check_start.getTime() && curr_end.getTime()<=check_end.getTime())
+			
 		)
 		
 		{
@@ -85,9 +103,6 @@ function process_data(recs){
 			sync.push(check_rec);
 		}
 		
-		
-		//uRecs += "<p> <button class='blue button' onclick=''>Play</button>" + check_name + " " + check_id + "<br>" + check_desc + "</p>";
-
 	}
 	
 	//sort the array according to start times
@@ -96,9 +111,13 @@ function process_data(recs){
 	
 }
 
-/*using the array with relevant recording objects create buzz! sound objects,
+/*
+
+using the array with relevant recording objects create buzz! sound objects,
 set their times accordingly, and populate the group array sync_group
+
 */
+
 function load_data(sync){
 	
 	//store the time difference between start times
@@ -219,9 +238,16 @@ function syncArray(IDs){
 	}
 	
 	
-	var request = "";
+	/*
 	
-	if(USER == null){
+	a request string to initialize a GET request to the database
+	depending on whether the user is logged in or not 
+	
+	*/
+	
+	var request = ""; 
+	
+	if(USER == null){ //check
 		request = "/webapp/getRecs";
 	}
 	else{
@@ -267,10 +293,8 @@ function syncArray(IDs){
 
 			load_data(toSync);
 			
-			s_group = new buzz.group(sync_group);
-			s_group.load();
-			//alert USER;
-			//alert(sync_group.length + "sync g");
+			s_group = new buzz.group(sync_group); // initialize the s_group using the sync_group array
+			s_group.load(); //load the grouped recording objects
 			
 		});
 
@@ -350,15 +374,3 @@ function stopS(){
 	sync_group = new Array();
 	synchronise(id);
 }
-
-
-/*
-group.bind("timeupdate", function(e){
-	if(group.getTime()>duration){
-		group.stop();
-	}
-	alert("go");
-	console.log(group.getTime());
-});
-
-*/
