@@ -448,10 +448,18 @@ function playSelected() {
 			pinIDArray.push(pins.fileID[i]);
 		}
 	}
+	
+	setSelected(pinIDArray);
+	
+	syncSide();play();
+	
+	/*
 
 	// Calls the function in syncSound to create the buzz object and plays it
 	var syncedFiles = syncFileArray(pinIDArray);
 	syncedFiles.togglePlay();
+	
+	*/
 }
 
 // Stops the selected recordings that are currently playing
