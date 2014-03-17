@@ -449,6 +449,7 @@ function playSelected() {
 		}
 	}
 	
+	/*
 	if(pinIDArray.length != 0){
 		setSelected(pinIDArray);
 		syncSide();play();
@@ -456,6 +457,8 @@ function playSelected() {
 	else{
 		alert("No recordings have been selected.") //alert the user
 	}
+	
+	*/
 	
 	/*
 
