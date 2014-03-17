@@ -8,7 +8,7 @@ import time
 
 FFMPEG_BIN = "ffmpeg"
 import subprocess as sp
-#import numpy
+
 import os, tarfile
 
 
@@ -97,17 +97,18 @@ def process(json_file, aac_file, image_file, data, user):
 
 
 
-#hurts
-
-def test():
-	#json_serializer = serializers.get_serializer("json")()
-	json_serializer = serializers.get_serializer("json")()
-	with open("../static/scripts/data.json", "w") as out:
-		json_serializer.serialize(Recording.objects.all(), stream=out)
-		#HttpResponse(simplejson.dumps(items_list),'application/json'))
-
-
 #JSON export for timeline
+
+'''
+
+	a template for exporting information and
+	dynamically load it on the timeline
+	
+	- depending ont the input parameter username recordings of a specific user are exported 
+	or all the database objects are loaded 
+	(this is how the script distinguishes between the home page and the user page) 
+
+'''
 
 def export(username):
 	RECORDINGS = []
@@ -228,27 +229,3 @@ def extract(tar_url, file_name):
 		os.rename(tarPath + "/" + item.name, tarPath + "/" + file_name + "_" + str(item_number) + ".jpg")
 		item_number = item_number + 1
 	return item_number
-
-'''
-OLD PYMEDIA METHOD
-
-def convertOGG(fileName):
-sample_rate = 16000;
-params = {
-'id': acodec.getCodecID('ogg'),
-'bitrate': 16000,
-'sample_rate': sample_rate,
-'ext': 'ogg',
-'channels': 1
-}
-ENCODE = acodec.Encoder(params)
-
-D = ''
-# fill D with encoded vorbis.ogg object
-#D = OGG()
-F= ENCODE.encode(D)
-FILE = file('./static/data/'+fileName+'.ogg', 'rb') # read binary file under linux
-for frame in F: FILE.write(frame)
-FILE.close()
-
-'''
