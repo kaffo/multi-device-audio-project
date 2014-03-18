@@ -332,7 +332,7 @@ function addPinListenerOnClick(pinNum, fileID, fileName, description, latLng, fi
 function drawRecordingBox(pinNum, fileID, fileName, description, filePath) {
 
 	// Loads a new sound using buzz
-    mySound = new buzz.sound("../" + filePath + "/" + fileName + ".ogg");
+    mySound = new buzz.sound(filePath + "/" + fileName + ".ogg");
 
     // Sets the title and description in the box
 	document.getElementById("title").innerHTML=fileName;
@@ -524,7 +524,7 @@ function viewImages(fileID) {
 
         	// Creates an array of images that will be in the slideshow
 	    	for(var i = 0; i < data.length; i++) {
-	    		images.push(data[i].fields.file_name);
+	    		images.push("../" + data[i].fields.file_name);
 	    	}
 
         	slideArray[slideVersion].remove(); // removes previous slides
