@@ -524,14 +524,14 @@ function viewImages(fileID) {
 
         	// Creates an array of images that will be in the slideshow
 	    	for(var i = 0; i < data.length; i++) {
-	    		images.push("../" + data[i].fields.file_name);
+	    		images.push(data[i].fields.file_name);
 	    	}
 
         	slideArray[slideVersion].remove(); // removes previous slides
 
         	// Creates the new empty div for the slideshow
         	slideArray[slideVersion + 1] = $("<div />")
-        		.appendTo($("#picture_content"));
+        		.appendTo($("#picture-content"));
 
         	// From the array add each image to the slideshow
         	for(var i = 0; i < data.length; i++) {
