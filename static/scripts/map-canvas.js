@@ -308,8 +308,6 @@ function addPinListenerOnClick(pinNum, fileID, fileName, description, latLng, fi
     google.maps.event.addListener(pins.pin[pinNum], 'click', (function(pinNum, fileID, fileName, description, filePath, latLng) {
 		return function() {
 
-			window.location = '#' + (pinNum+1);
-
 			// If the pin is not selected already then this body is executed
 			if(!pins.selected[pinNum]) {
 				pins.pin[pinNum].setIcon(selectedPinImage); // sets the icon to the selected pin image
@@ -348,6 +346,8 @@ function drawRecordingBox(pinNum, fileID, fileName, description, filePath) {
 
 	// Creates the button to view pictures sending the fileid to the viewimages function
 	document.getElementById("view_pictures").innerHTML="<input id=\"view_pictures\" type=\"button\" value=\"View Pictures\" class=\"pure-button pure-button-primary\" style=\"font-size:13px;\" onclick=\"viewImages(" + fileID + ");\" />";
+	//view on timeline button added
+	document.getElementById("view_timeline").innerHTML="<input id=\"view_timeline\" type=\"button\" value=\"View on Timeline\" class=\"pure-button pure-button-primary\" style=\"font-size:13px;\" onclick=\"window.location='#" + (pinNum + 1) + "'\" />";
 }
 
 
@@ -535,15 +535,15 @@ function viewImages(fileID) {
 
         	// From the array add each image to the slideshow
         	for(var i = 0; i < data.length; i++) {
-        		$("<img />")
+        		$("<img width=\"150\" height=\"280\" style=\"border-radius:5px;\"/>")
         			.attr("src", images[i])
         			.appendTo(slideArray[slideVersion + 1]);
         	}
 
         	// Initiate the new slideshow
         	slideArray[slideVersion + 1].slidesjs({
+        		height: 160,
         		width: 150,
-        		height: 100,
         		pagination: {
       				active: false
     			},
