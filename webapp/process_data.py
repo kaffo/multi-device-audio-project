@@ -22,13 +22,24 @@ def process(json_file, aac_file, image_file, data, user):
 		return HttpResponse("<h1>Please upload an aac file!</h1>")
 	data = json.load(json_file)
 
-	fn = str(data[0]["title"])
-	fn = slugify(fn)
-	
 	
 
+	special_chars = ["!\"$%^&*()-_=+[];'#,./{}:@~<>/?\\|`"]
+	temp_file_name = str(data[0]["title"])
+
+	for c in special_chars:
+		if c in temp_file_name:
+			temp_file_name = temp_file_name.replace(c, "")
+	
+	temp_file_name = temp_file_name.replace(" ", "-")
+	while temp_file_name.endswith("-"):
+		temp_file_name = temp_file_name[:-1]
+
+	fn = temp_file_name
+	fn = slugify(fn)
+
 	rec = Recording(
-		file_name = str(data[0]["title"]),
+		file_name = temp_file_name,
 		description = str(data[0]["description"]),
 		length = (int(data[0]["endTime"]) - int(data[0]["startTime"])),
 		start_time = datetime.datetime.fromtimestamp(int(data[0]["startTime"])/1000),
