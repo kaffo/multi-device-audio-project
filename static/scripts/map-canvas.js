@@ -308,6 +308,8 @@ function addPinListenerOnClick(pinNum, fileID, fileName, description, latLng, fi
     google.maps.event.addListener(pins.pin[pinNum], 'click', (function(pinNum, fileID, fileName, description, filePath, latLng) {
 		return function() {
 
+			window.location = '#' + (pinNum+1);
+
 			// If the pin is not selected already then this body is executed
 			if(!pins.selected[pinNum]) {
 				pins.pin[pinNum].setIcon(selectedPinImage); // sets the icon to the selected pin image
@@ -346,8 +348,6 @@ function drawRecordingBox(pinNum, fileID, fileName, description, filePath) {
 
 	// Creates the button to view pictures sending the fileid to the viewimages function
 	document.getElementById("view_pictures").innerHTML="<input id=\"view_pictures\" type=\"button\" value=\"View Pictures\" class=\"pure-button pure-button-primary\" style=\"font-size:13px;\" onclick=\"viewImages(" + fileID + ");\" />";
-	//view on timeline button added
-	document.getElementById("view_timeline").innerHTML="<input id=\"view_timeline\" type=\"button\" value=\"View on Timeline\" class=\"pure-button pure-button-primary\" style=\"font-size:13px;\" onclick=\"window.location='#" + (pinNum + 1) + "'\" />";
 }
 
 
