@@ -11,6 +11,8 @@
 var selected = []; //an array of file ids to be synchronised
 var all = false //check the current status of the select all checkbox
 
+var choice = 1; //showcase user recordings by default
+
 //used to set the array of selected files
 // from external javascript files
 function setSelected(s){
@@ -60,6 +62,47 @@ function selectRec(){
 	
 	//recording synchronization depending on user selection
 	syncSide(selected);
+	
+}
+
+
+function display(){
+
+	var rb = document.getElementsByName('recordings');
+	
+	var request = "";
+
+	if(rb[0].checked && choice == 1){
+		
+		request = "/webapp/getUserRecs:" + getUser();
+		
+		choice = 0;
+		
+	}
+	
+	else if(rb[1].checked && choice == 0){
+	
+		request = "/webapp/getRecs:";
+		
+		choice = 1;
+	
+	}
+	
+	else{
+	
+		alert("Error()");
+		
+	}
+	
+	$.getJSON(
+		request,
+		
+		function(data){
+			var recs = data;
+			text(recs);
+			
+	});	
+
 	
 }
 
@@ -160,14 +203,10 @@ $(document).ready(function() {
 	});
 
 	
-	$.getJSON(
-		"/webapp/getUserRecs:" + getUser(), // + user,
-		
-		function(data){
-			recs = data;
-			text(recs);
-			
-	});
+	
+	display();
+	
+	
 		
 	window.onresize = autoResizeDiv;
 	autoResizeDiv();
