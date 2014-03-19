@@ -12,5 +12,5 @@
 
 /static/data/
 /static/scripts/data.json
-
+static/scripts/data.json
 /venv
