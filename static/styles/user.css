@@ -126,5 +126,5 @@ audio {
 /* timeline user page class style */
 
 .userTimeline{
-	z-index:99; display:block; position: fixed; bottom: 10px; left: 160px; visibility:visible;
+	z-index:99; display:block; position: fixed; bottom: 10px; left: 160px; margin-right:10px; visibility:visible;
 }
