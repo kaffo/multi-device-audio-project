@@ -174,7 +174,7 @@ $(document).ready(function() {
 		type:       'timeline',
 		
 		//timeline width 
-		width:      (window.innerWidth),
+		width:      (window.innerWidth - 400),
 		
 		//timeline height configuration
 		height:     (window.innerHeight - 160),
