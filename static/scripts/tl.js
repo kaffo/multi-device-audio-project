@@ -68,10 +68,13 @@ function selectRec(){
 
 function display(){
 
+	//add the radio button objects to an array
 	var rb = document.getElementsByName('recordings');
 	
+	//request string to be constructed and used when making the side recordings list
 	var request = "";
 
+	//display user recordings
 	if(rb[0].checked && choice == 1){
 		
 		request = "/webapp/getUserRecs:" + getUser();
@@ -80,6 +83,7 @@ function display(){
 		
 	}
 	
+	//dislay all database recordings
 	else if(rb[1].checked && choice == 0){
 	
 		request = "/webapp/getRecs:";
@@ -88,12 +92,14 @@ function display(){
 	
 	}
 	
+	//should never happen  - error
 	else{
 	
 		alert("Error()");
 		
 	}
 	
+	//generate recording list based on request variable
 	$.getJSON(
 		request,
 		
