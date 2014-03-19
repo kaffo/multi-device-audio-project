@@ -129,9 +129,9 @@ function text(recs){
 		//recording id checkbox
 		Rdata += "<div class='Uinfo'><input type='checkbox' name='rec' id='" + c_id + "' onclick='selectRec();'/>";
 		//single recording playback
-		Rdata += "<div class='comp'><audio controls src='../../static/data/" + c_file + "/" + c_name + ".ogg" + "'>Your user agent does not support the HTML5 Audio element.</audio><br><br>";
+		Rdata += "<div class='comp'><audio controls src='../../" + c_file + "/" + c_name + ".ogg" + "'>Your user agent does not support the HTML5 Audio element.</audio><br><br>";
 		//download button
-		Rdata += "<form target='_blank' action='../../static/data/" + c_file + "'><input type='submit' value='Download' class='blue button'></form></div>";
+		Rdata += "<form target='_blank' action='../../" + c_file + "/" + c_name + ".ogg" + "'><input type='submit' value='Download' class='blue button'></form></div>";
 		//Rdata += "<div style='float:left;'><button class='blue button' onclick='this.firstChild.play()'><audio src='../../static/data/" + c_file + "'></audio>Play</button>";
 		//recording metadata - id, name, description
 		Rdata += "<p><b>ID:</b> " + c_id + "<br><b>Recording:</b> " + c_name + "<br>";
