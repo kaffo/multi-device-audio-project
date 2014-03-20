@@ -150,7 +150,7 @@ def upload(request):
             uploaded = True
 
         else:
-          print ("form errors: " + upload_form.errors)
+          print upload_form.errors
 
     else:
       print("Not a POST request. Returning blank forms.")
