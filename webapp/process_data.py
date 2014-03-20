@@ -142,10 +142,12 @@ def export(username):
 		images = Image.objects.filter(recording_assoc = recording.file_ID)
 		
 		
+		
 		if(images):
 		
-			image = images[0]
+			image = images.order_by('?')[0]
 			image = image.file_name
+			
 			image = image.replace('media/', '')
 	
 		rec_data = {
