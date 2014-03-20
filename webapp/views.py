@@ -118,7 +118,7 @@ def upload(request):
         print("Recieved POST request")
 
         upload_form = UploadFileForm(data=request.POST)
-
+        print upload_form
         #Checking validity of form and if files are there.
         if upload_form.is_valid():
             print("Upload form is valid")
