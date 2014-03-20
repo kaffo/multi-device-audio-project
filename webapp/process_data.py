@@ -35,6 +35,8 @@ def process(json_file, aac_file, image_file, data, user):
 	while temp_file_name.endswith("-"):
 		temp_file_name = temp_file_name[:-1]
 
+	temp_file_name = temp_file_name.lower()
+
 	fn = temp_file_name
 	fn = slugify(fn)
 

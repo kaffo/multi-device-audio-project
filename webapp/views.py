@@ -11,6 +11,7 @@ from .process_data import process
 from webapp.models import Recording, Location, UserAcc, Image
 from process_data import export
 from process_data import simplifiedConvert
+from django.views.decorators.csrf import csrf_exempt
 import os
 
 def getRecording(lat1, lon1, lat2, lon2):
@@ -109,6 +110,7 @@ def submit_success(request):
     context_dict = {'boldmessage': "I am from context"}
     return render_to_response('webapp/submitsuccess.html', context_dict, context)
 
+@csrf_exempt
 def upload(request):
     context = RequestContext(request)
     if request.method == 'GET':

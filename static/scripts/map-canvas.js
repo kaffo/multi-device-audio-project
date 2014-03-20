@@ -140,7 +140,7 @@ function drawMarkers() {
   			for(var i = 0; i < pins.fileID.length; i++) {
 
   				// Checks if a pin was selected in the previous frame if so it adds it to the selectedpins array
-  				if((pins.selected[i] == true) && (selectedPins.indexOf(pins.fileID[i]) == -1)) {
+  				if((pins.selected[i] == true) && (selectedPins.fileID.indexOf(pins.fileID[i]) == -1)) {
   					selectedPins.fileID.push(pins.fileID[i]);
 					selectedPins.latLng.push(pins.latLng[i]);
 					selectedPins.fileName.push(pins.fileName[i]);
@@ -154,7 +154,7 @@ function drawMarkers() {
   				}
 
   				// Checks if a pin was de-selected in the previous frame if so it deletes it from the selected pins array
-  				if((pins.selected[i] == false) && (selectedPins.indexOf(pins.fileID[i]) != -1)) {
+  				if((pins.selected[i] == false) && (selectedPins.fileID.indexOf(pins.fileID[i]) != -1)) {
 					var popIndex = selectedPins.fileID.indexOf(pins.fileID[i]);
 					selectedPins.fileID.splice(popIndex, 1);
 					selectedPins.latLng.splice(popIndex, 1);
@@ -308,8 +308,6 @@ function addPinListenerOnClick(pinNum, fileID, fileName, description, latLng, fi
     google.maps.event.addListener(pins.pin[pinNum], 'click', (function(pinNum, fileID, fileName, description, filePath, latLng) {
 		return function() {
 
-			window.location = '#' + (pinNum+1);
-
 			// If the pin is not selected already then this body is executed
 			if(!pins.selected[pinNum]) {
 				pins.pin[pinNum].setIcon(selectedPinImage); // sets the icon to the selected pin image
@@ -347,7 +345,9 @@ function drawRecordingBox(pinNum, fileID, fileName, description, filePath) {
 	}
 
 	// Creates the button to view pictures sending the fileid to the viewimages function
-	document.getElementById("view_pictures").innerHTML="<input id=\"view_pictures\" type=\"button\" value=\"View Pictures\" class=\"pure-button pure-button-primary\" style=\"font-size:13px;\" onclick=\"viewImages(" + fileID + ");\" />";
+	document.getElementById("view_pictures").innerHTML="<button id=\"view_pictures\" type=\"button\" class=\"pure-button pure-button-primary button-size\" style=\"margin-left: 15px\" onclick=\"viewImages(" + fileID + ");\"> <i class=\"fa fa-picture-o\"></i> </button>";
+	//view on timeline button added
+	document.getElementById("view_timeline").innerHTML="<input id=\"view_timeline\" type=\"button\" value=\"View on Timeline\" class=\"pure-button pure-button-primary button-size\" style=\"font-size:13px; margin-top: 15px\" onclick=\"window.location='#" + (pinNum + 1) + "'\" />";
 }
 
 
@@ -535,15 +535,15 @@ function viewImages(fileID) {
 
         	// From the array add each image to the slideshow
         	for(var i = 0; i < data.length; i++) {
-        		$("<img />")
+        		$("<img width=\"150\" height=\"280\" style=\"border-radius:5px;\"/>")
         			.attr("src", images[i])
         			.appendTo(slideArray[slideVersion + 1]);
         	}
 
         	// Initiate the new slideshow
         	slideArray[slideVersion + 1].slidesjs({
+        		height: 160,
         		width: 150,
-        		height: 100,
         		pagination: {
       				active: false
     			},
