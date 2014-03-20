@@ -451,6 +451,11 @@ function playSelected() {
 		}
 	}
 	
+	if(pinIDArray.length>0){
+		setMapSrc();
+		syncSide(pinIDArray);
+	}
+	
 	/*
 	if(pinIDArray.length != 0){
 		setSelected(pinIDArray);
@@ -473,7 +478,7 @@ function playSelected() {
 
 // Stops the selected recordings that are currently playing
 function stopSelected() {
-	syncedFiles.togglePlay();
+	stop();
 }
 
 // A function that finds a marker then zooms in on it

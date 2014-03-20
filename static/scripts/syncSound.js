@@ -33,6 +33,8 @@ var uRecs = "";
 
 var duration;
 
+var mapSrc = 0;
+
 function setUser(u){
 	USER = u;
 }
@@ -40,6 +42,10 @@ function setUser(u){
 
 function getUser(){
 	return USER;
+}
+
+function setMapSrc(){
+	mapSrc = 1;
 }
 
 //a function to sort the synchronisation array
@@ -294,7 +300,12 @@ function syncArray(IDs){
 				load_data(toSync);
 				
 				s_group = new buzz.group(sync_group); // initialize the s_group using the sync_group array
-				s_group.load(); //load the grouped recording objects				
+				s_group.load(); //load the grouped recording objects
+
+				if(mapSrc == 1){
+					mapSrc = 0;
+					s_group.play();
+				}
 				
 			}
 			
