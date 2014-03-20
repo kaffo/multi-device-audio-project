@@ -144,12 +144,8 @@ def export(username):
 		
 		
 		if(images):
-		
-			image = images.order_by('?')[0]
-			image = image.file_name
-			
-			image = image.replace('media/', '')
-	
+			image = recording.file_name + '_1'
+
 		rec_data = {
 			"startDate":recording.start_time.strftime("%Y,%m,%d %H,%M"),
 			"endDate":recording.end_time.strftime("%Y,%m,%d %H,%M"),
