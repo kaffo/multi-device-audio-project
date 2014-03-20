@@ -140,7 +140,7 @@ function drawMarkers() {
   			for(var i = 0; i < pins.fileID.length; i++) {
 
   				// Checks if a pin was selected in the previous frame if so it adds it to the selectedpins array
-  				if((pins.selected[i] == true) && (selectedPins.indexOf(pins.fileID[i]) == -1)) {
+  				if((pins.selected[i] == true) && (selectedPins.fileID.indexOf(pins.fileID[i]) == -1)) {
   					selectedPins.fileID.push(pins.fileID[i]);
 					selectedPins.latLng.push(pins.latLng[i]);
 					selectedPins.fileName.push(pins.fileName[i]);
@@ -154,7 +154,7 @@ function drawMarkers() {
   				}
 
   				// Checks if a pin was de-selected in the previous frame if so it deletes it from the selected pins array
-  				if((pins.selected[i] == false) && (selectedPins.indexOf(pins.fileID[i]) != -1)) {
+  				if((pins.selected[i] == false) && (selectedPins.fileID.indexOf(pins.fileID[i]) != -1)) {
 					var popIndex = selectedPins.fileID.indexOf(pins.fileID[i]);
 					selectedPins.fileID.splice(popIndex, 1);
 					selectedPins.latLng.splice(popIndex, 1);
