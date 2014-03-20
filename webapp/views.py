@@ -120,7 +120,7 @@ def upload(request):
         upload_form = UploadFileForm(data=request.POST)
 
         #Checking validity of form and if files are there.
-        if form.is_valid():
+        if upload_form.is_valid():
             print("Upload form is valid")
 
             upload = upload_form.save(commit=False)
