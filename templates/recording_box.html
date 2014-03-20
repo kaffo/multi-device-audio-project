@@ -14,14 +14,21 @@
     <img src="{% static "images/close.gif" %}">
   </div>
   <div class="box-content">
-  	<h3 id="title">&nbsp</h3>
+  	<h3 id="title" style="color:#bbb">&nbsp</h3>
     <div id="description">
-  	 <p id="description-container">&nbsp</p>
+  	 <p id="description-container" style="color:#bbb">&nbsp</p>
     </div>
-  	<input id="play" type="button" value="Play" class="pure-button pure-button-primary button-size" onclick="playAudio();"/>
-  	<input id="pause" type="button" value="Pause" class="pure-button pure-button-primary button-size" onclick="pauseAudio();" />
-  	<input id="stop" type="button" value="Stop" class="pure-button pure-button-primary button-size" onclick="stopAudio();" />
-  	<div id="view_pictures" style="margin-top:3px;"></div>
-  	<div id="view_timeline" style="margin-top:3px;"></div>
+    
+  	<button id="play" type="button" class="pure-button pure-button-primary button-size beside" onclick="playAudio();">
+      <i class="fa fa-play"></i>
+    </button>
+  	<button id="pause" type="button" class="pure-button pure-button-primary button-size beside" onclick="pauseAudio();">
+      <i class="fa fa-pause"></i>
+    </button>
+  	<button id="stop" type="button" class="pure-button pure-button-primary button-size beside"  onclick="stopAudio();">
+      <i class="fa fa-stop"></i>
+    </button>
+  	<div id="view_pictures"></div>
+  	<div id="view_timeline"></div>
   </div>
  </div>

@@ -345,9 +345,9 @@ function drawRecordingBox(pinNum, fileID, fileName, description, filePath) {
 	}
 
 	// Creates the button to view pictures sending the fileid to the viewimages function
-	document.getElementById("view_pictures").innerHTML="<input id=\"view_pictures\" type=\"button\" value=\"View Pictures\" class=\"pure-button pure-button-primary\" style=\"font-size:13px;\" onclick=\"viewImages(" + fileID + ");\" />";
+	document.getElementById("view_pictures").innerHTML="<button id=\"view_pictures\" type=\"button\" class=\"pure-button pure-button-primary button-size\" style=\"margin-left: 15px\" onclick=\"viewImages(" + fileID + ");\"> <i class=\"fa fa-picture-o\"></i> </button>";
 	//view on timeline button added
-	document.getElementById("view_timeline").innerHTML="<input id=\"view_timeline\" type=\"button\" value=\"View on Timeline\" class=\"pure-button pure-button-primary\" style=\"font-size:13px;\" onclick=\"window.location='#" + (pinNum + 1) + "'\" />";
+	document.getElementById("view_timeline").innerHTML="<input id=\"view_timeline\" type=\"button\" value=\"View on Timeline\" class=\"pure-button pure-button-primary button-size\" style=\"font-size:13px; margin-top: 15px\" onclick=\"window.location='#" + (pinNum + 1) + "'\" />";
 }
 
 
