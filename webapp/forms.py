@@ -13,3 +13,11 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserAcc
         fields = ('website', 'avatar')
+
+class UploadFileForm(forms.Form):
+    json_file = forms.FileField() #metadata
+    aac_file = forms.FileField() #audiofile
+    images_file = forms.FileField() #images folder
+
+    class Meta:
+      fields = ('aac_file', 'json_file', 'images_file')

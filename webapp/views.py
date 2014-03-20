@@ -1,19 +1,18 @@
+import os
 import datetime, json
 from django.core import serializers
 from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 from django.template import RequestContext
 from django.shortcuts import render_to_response
-from .form import UploadFileForm, UserForm
-from .process_data import process
+from form import UploadFileForm, UserForm
+from process_data import process, export, simplifiedConvert
 from webapp.models import Recording, Location, UserAcc, Image
-from process_data import export
-from process_data import simplifiedConvert
-from django.views.decorators.csrf import csrf_exempt
-import os
 
+# Get recording with a specific start and end time.
 def getRecording(lat1, lon1, lat2, lon2):
     data = Recording.objects
     data = data.filter(
@@ -28,20 +27,22 @@ def getRecording(lat1, lon1, lat2, lon2):
 
     return data
 
+# Get the location of a recording based on its id.
 def getLocation(id):
     data = Location.objects
     data = data.filter(recording_assoc__file_ID=id)
     return data.order_by('loc_ID')
 
+# Get a recording's file based on its id.
 def getRecId(id):
     data = Recording.objects
     r = data.filter(file_ID = id)
     return r
 
+# Render the index page, exporting all recordings to JSON for the page to show.
 def index(request):
     context = RequestContext(request)
-    context_dict = {'boldmessage': "I am from context"}
-    #export(getRecs(request))
+    context_dict = {}
     export('all')
     return render_to_response('webapp/index.html', context_dict, context)
 
@@ -53,30 +54,25 @@ def tester(request):
 #   return HttpResponse("<h3>This is MDRS' testing page.</h3>")
 ############################################################
 
+# Render settings page
 def settings(request):
     context = RequestContext(request)
-    context_dict = {'boldmessage': "I am from context"}
+    context_dict = {}
     return render_to_response('webapp/settings.html', context_dict, context)
 
+# Render the about page. Just a straight HttpResonse. Low priority.
 def about(request):
    return HttpResponse("<h3>This is MDRS' about page.</h3>")
 
+# Render the user's page, checking if a user is currently logged in.
 def user(request):
-#Hilarious code for deleteing stuff from the database since it's hard yo
-#    data = Recording.objects
-#    data = data.filter(file_name__exact="Test")
-#    print data
-#    print UserAcc.objects
-#    user = UserAcc.objects.filter(user__exact=request.user)[0]
-#    print user
-#    user.recs.add(data[0])
-    #data.delete()
     if request.user.is_authenticated():
         export(request.user)
     context = RequestContext(request)
     context_dict = {'boldmessage': "I am from context"}
     return render_to_response('webapp/user.html', context_dict, context)
 
+# Takes a file name and converts it from .AAC to .OGG
 def convert(request, fN):
     context = RequestContext(request)
     ext = os.path.splitext(fN)[1]
@@ -87,6 +83,7 @@ def convert(request, fN):
     else:
 	    response.write("Error!")
     return response
+
 
 def submit(request):
     context = RequestContext(request)
@@ -113,13 +110,58 @@ def submit_success(request):
 @csrf_exempt
 def upload(request):
     context = RequestContext(request)
-    if request.method == 'GET':
-        form = UploadFileForm()
+
+    uploaded = False
+
+    #If the request is a POST
     if request.method == 'POST':
-        form = UploadFileForm(request.POST,request.FILES)
+        print("Recieved POST request")
+
+        upload_form = UploadFileForm(data=request.POST)
+
+        #Checking validity of form and if files are there.
         if form.is_valid():
-            return process(request.FILES['json_file'], request.FILES['aac_file'], request.FILES['images_file'], request.POST, request.user)
-    return render_to_response('webapp/upload.html', {'form': form}, context)
+            print("Upload form is valid")
+
+            upload = upload_form.save(commit=False)
+
+            if 'aac_file' in request.FILES:
+              print("Audio file detected in POST. Adding to upload_form")
+              upload.aac_file = request.FILES['aac_file']
+
+            if 'json_file' in request.FILES:
+              print("JSON file detected in POST. Adding to upload_form")
+              upload.json_file = request.FILES['json_file']
+
+            if 'images_file' in request.FILES:
+              print("Images file detected in POST. Adding to upload_form")
+              upload.images_file = request.FILES['images_file']
+
+            print("Entering process() from upload()")
+            # A function to process the 3 files and save them to the database.
+            process(request.FILES['json_file'],
+                    request.FILES['aac_file'],
+                    request.FILES['images_file'],
+                    request.POST,
+                    request.user)
+
+            upload.save()
+
+            uploaded = True
+
+        else:
+          print ("form errors: " + upload_form.errors)
+
+    else:
+      print("Not a POST request. Returning blank forms.")
+      upload_form = UploadFileForm()
+
+    if (uploaded == True):
+      return render_to_response("webapp/submitsuccess.html",
+                                {'uploaded':uploaded},
+                                context)
+
+    return render_to_response('webapp/upload.html', {}, context)
 
 def getdata(request, lat1, lon1, lat2, lon2):
     context = RequestContext(request)
@@ -129,6 +171,7 @@ def getdata(request, lat1, lon1, lat2, lon2):
         data = serializers.serialize("json", data)
         return HttpResponse(data, "application/json")
 
+# Get path of a recording with id in params
 def getroute(request, id):
     context = RequestContext(request)
     if request.method == 'GET':
@@ -136,6 +179,7 @@ def getroute(request, id):
         data = serializers.serialize("json", data)
         return HttpResponse(data, "application/json")
 
+# Get all recordings
 def getRecs(request):
     context = RequestContext(request)
     if request.method == 'GET':
@@ -143,6 +187,7 @@ def getRecs(request):
         data = serializers.serialize("json", data)
         return HttpResponse(data,"application/json")
 
+# Get all images associated by particular id
 def getImagesByID(request, id):
     context = RequestContext(request)
     if request.method == 'GET':
@@ -151,6 +196,7 @@ def getImagesByID(request, id):
         exp = serializers.serialize("json", exp)
         return HttpResponse(exp, "application/json")
 
+# Get specific recording by its id
 def getrecbyid(request, id):
     context = RequestContext(request)
     if request.method == 'GET':
@@ -158,6 +204,7 @@ def getrecbyid(request, id):
         data = serializers.serialize("json", data)
         return HttpResponse(data,"application/json")
 
+# Get all of a specific user's recordings
 def getUserRecs(request, username):
     context = RequestContext(request)
     if request.method == 'GET':
@@ -167,6 +214,7 @@ def getUserRecs(request, username):
         data = serializers.serialize("json", userrecs)
         return HttpResponse(data, "application/json")
 
+# Self-explanitory
 def playSound(request, id):
     context = RequestContext(request)
     if request.method == 'GET':
@@ -174,6 +222,7 @@ def playSound(request, id):
         rec = serializers.serialize("json", rec)
         return HttpResponse(rec, "application/json")
 
+# Delete recording
 def deleteRec(request, id):
     context = RequestContext(request)
     if request.method == 'GET':
@@ -193,6 +242,7 @@ def deleteRec(request, id):
             return HttpResponse("<h1>Recording Deleted</h1>")
         return HttpResponse("<h1>Error, you are not the owner of this file!</h1>")
 
+# Registration
 def register(request):
     context = RequestContext(request)
 
@@ -224,6 +274,7 @@ def register(request):
             {'user_form': user_form, 'registered': registered},
             context)
 
+# User login
 def user_login(request):
     context = RequestContext(request)
 
@@ -246,6 +297,7 @@ def user_login(request):
     else:
         return render_to_response('webapp/login.html', {}, context)
 
+# User logout
 @login_required
 def user_logout(request):
     logout(request)
