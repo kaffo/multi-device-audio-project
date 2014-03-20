@@ -79,40 +79,53 @@ function process_data(recs){
 	sync = [];
 	
 	uRecs = ""; //uRecs -> null
-	
-	//populating the sync array with relevant recording objects
-	for(var i=0;i<recs.length;i++){
-		check_rec = recs[i];
-		check_id = check_rec.pk;
-		check_start = new Date(check_rec.fields.start_time);
-		check_end = new Date(check_rec.fields.end_time);
-		
-		check_name = check_rec.fields.file_name;
-		check_desc = check_rec.fields.description;
-		check_file = check_rec.fields.rec_file;
-	
-		
-		//start-end time comparison check (three different overlap options)
-		if(
-			
-			(curr_start.getTime() <= check_start.getTime() && check_end.getTime()<= curr_end.getTime()) ||
-			
-			(curr_start.getTime()>=check_start.getTime() && curr_start.getTime()<=check_end.getTime()) ||
-			
-			(curr_end.getTime()>=check_start.getTime() && curr_end.getTime()<=check_end.getTime())
-			
-		)
-		
-		{
-			//if the current recording overlaps with any database objects in the Recording relation
-			//add them to the SYNC array for further processing
-			sync.push(check_rec);
-		}
-		
+
+	if(recs.length == 1){
+		sync.push(recs[0]);
 	}
 	
-	//sort the array according to start times
-	sync = sync.sort(compare);
+	else{
+	
+		//populating the sync array with relevant recording objects
+		for(var i=0;i<recs.length;i++){
+			check_rec = recs[i];
+			check_id = check_rec.pk;
+			check_start = new Date(check_rec.fields.start_time);
+			check_end = new Date(check_rec.fields.end_time);
+			
+			check_name = check_rec.fields.file_name;
+			check_desc = check_rec.fields.description;
+			check_file = check_rec.fields.rec_file;
+		
+			
+			//start-end time comparison check (three different overlap options)
+			if(
+				
+				(curr_start.getTime() <= check_start.getTime() && check_end.getTime()<= curr_end.getTime()) ||
+				
+				(curr_start.getTime()>=check_start.getTime() && curr_start.getTime()<=check_end.getTime()) ||
+				
+				(curr_end.getTime()>=check_start.getTime() && curr_end.getTime()<=check_end.getTime())
+				
+			)
+			
+			{
+				//if the current recording overlaps with any database objects in the Recording relation
+				//add them to the SYNC array for further processing
+				sync.push(check_rec);
+			}
+			
+		}
+		
+		//sort the array according to start times
+		sync = sync.sort(compare);
+		
+		if(sync.length == 1){
+			sync = [];
+		}
+	
+	}
+	
 	return sync;
 	
 }
@@ -295,16 +308,22 @@ function syncArray(IDs){
 				//if there are no overlapping recordings in the array selection, notify the user
 				if (toSync.length == 0){
 					alert("The selected recordings do not overlap.");
+					deSelectAll();
+					s_group = null;
 				}
 
-				load_data(toSync);
+				else{
 				
-				s_group = new buzz.group(sync_group); // initialize the s_group using the sync_group array
-				s_group.load(); //load the grouped recording objects
+					load_data(toSync);
+					
+					s_group = new buzz.group(sync_group); // initialize the s_group using the sync_group array
+					s_group.load(); //load the grouped recording objects
 
-				if(mapSrc == 1){
-					mapSrc = 0;
-					s_group.play();
+					if(mapSrc == 1){
+						mapSrc = 0;
+						s_group.play();
+					}
+				
 				}
 				
 			}
