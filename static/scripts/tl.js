@@ -19,11 +19,30 @@ function setSelected(s){
 	selected = s;	
 }
 
+//clear all selections when playback is stopped
+function deSelectAll(){
+
+	var rows = getRecs();
+
+	for(var i=0;i<rows.length;i++){
+		rows[i].checked = false;
+	}
+	
+	all = false;
+	
+}
+
+function getRecs(){
+
+	return document.getElementsByName('rec'); //get the div with id rec
+	
+}
+
 
 //function to add the selected file ids to the array
 function selectRec(){
 	
-	var rows = document.getElementsByName('rec'); //get the div with id rec
+	var rows = getRecs();
 	selected = []; // empty the array
 	
 	//if the select all checkbox is marked, add all recordings to the array
@@ -37,7 +56,7 @@ function selectRec(){
 		//alert(selected.length);
 	}
 	
-	//if the select all checkbox is not marked, remove all recordings to the array
+	//if the select all checkbox is not marked, remove all recordings from the array
 	else if(!rows[0].checked && all){
 	
 		selected = [];
@@ -47,6 +66,7 @@ function selectRec(){
 		}
 		
 		all = false;
+
 		alert("No recordings are selected.");
 	}
 	

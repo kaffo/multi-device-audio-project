@@ -124,6 +124,8 @@ def process(json_file, aac_file, image_file, data, user):
 '''
 
 def export(username):
+
+
 	RECORDINGS = []
 	recs = []
 	if(username == 'all'):
@@ -132,7 +134,20 @@ def export(username):
 		user = User.objects.get(username = username)
 		useracc = UserAcc.objects.filter(user__exact=user)[0]
 		RECORDINGS = useracc.recs.all()
+		
 	for recording in RECORDINGS:
+	
+	
+		image = '/static/images/tl.jpg'
+		images = Image.objects.filter(recording_assoc = recording.file_ID)
+		
+		
+		if(images):
+		
+			image = images.get(file_ID = '1')
+			image = recording.rec_file.url + '/' + image.file_name
+			image = image.replace('media/', '')
+	
 		rec_data = {
 			"startDate":recording.start_time.strftime("%Y,%m,%d %H,%M"),
 			"endDate":recording.end_time.strftime("%Y,%m,%d %H,%M"),
@@ -148,7 +163,7 @@ def export(username):
 				+ "</p>", #HTML + IMG rec. description
 			"asset": {
 
-				"media": "../../static/data/img1.png",
+				"media": image,
 
 				'''
 					"media":"https://maps.google.com/?q="

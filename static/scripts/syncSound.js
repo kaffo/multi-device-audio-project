@@ -16,7 +16,7 @@ var s_group = new buzz.group([]);
 var USER;
 
 //variables to store information for the current recording
-var curr_rec; //rec object
+var curr_rec = null; //rec object
 var curr_start; //start time
 var curr_end; // end time
 var curr_s_obj; // the sound object to be created for buzz to be able to process the data
@@ -143,7 +143,7 @@ function load_data(sync){
 	
 	for(var i=0;i<sync.length;i++){
 		s = new Date(sync[i].fields.start_time);
-		s_obj = new buzz.sound("../../static/data/" + sync[i].fields.rec_file);
+		s_obj = new buzz.sound("../../" + sync[i].fields.file_name);
 		sync_group.push(s_obj);
 		
 		//use start time difference to calibrate synchronisation
@@ -190,7 +190,7 @@ function synchronise(id, user){
 			curr_rec = data;
 			curr_start = new Date(curr_rec[0].fields.start_time);
 			curr_end= new Date(curr_rec[0].fields.end_time);
-			curr_s_obj = new buzz.sound("../../static/data/" + curr_rec[0].fields.rec_file);
+			curr_s_obj = new buzz.sound("../../" + curr_rec[0].fields.file_name);
 		});
 		
 	var request = "";
@@ -265,36 +265,38 @@ function syncArray(IDs){
 			var arrInfo = new Array();
 			var toSync = new Array();
 
-			for(var i=0;i<IDs.length;i++){
-				for(var j=0;j<recs.length;j++){
-					r = recs[j];
-					if(IDs[i] == r.pk){
-						arrInfo.push(r);
+			
+			if (IDs != undefined){
+				for(var i=0;i<IDs.length;i++){
+					for(var j=0;j<recs.length;j++){
+						r = recs[j];
+						if(IDs[i] == r.pk){
+							arrInfo.push(r);
+						}
 					}
 				}
-			}
-			
-			
-			arrInfo = arrInfo.sort(compare);
-			
-			curr_rec = arrInfo[arrInfo.length-1];
-			curr_start = new Date(curr_rec.fields.start_time);
-			curr_end= new Date(curr_rec.fields.end_time);
-			curr_s_obj = new buzz.sound("../../static/data/" + curr_rec.fields.rec_file);
-			
+				
+				arrInfo = arrInfo.sort(compare);
+				curr_rec = arrInfo[arrInfo.length-1];
+				curr_start = new Date(curr_rec.fields.start_time);
+				curr_end= new Date(curr_rec.fields.end_time);
+				curr_s_obj = new buzz.sound("../../" + curr_rec.fields.file_name);
+				
 
-			toSync = process_data(arrInfo);
-			
-			
-			//if there are no overlapping recordings in the array selection, notify the user
-			if (toSync.length == 0){
-				alert("The selected recordings do not overlap.");
-			}
+				toSync = process_data(arrInfo);
+				
+				
+				//if there are no overlapping recordings in the array selection, notify the user
+				if (toSync.length == 0){
+					alert("The selected recordings do not overlap.");
+				}
 
-			load_data(toSync);
-			
-			s_group = new buzz.group(sync_group); // initialize the s_group using the sync_group array
-			s_group.load(); //load the grouped recording objects
+				load_data(toSync);
+				
+				s_group = new buzz.group(sync_group); // initialize the s_group using the sync_group array
+				s_group.load(); //load the grouped recording objects				
+				
+			}
 			
 		});
 
@@ -311,13 +313,20 @@ function syncFileArray(arr){
 }
 
 function play(){
-	//alert(s_group.length);
-	s_group.togglePlay();
+
+	if(s_group!=null){
+		s_group.togglePlay();
+	}
+	
+	else{
+		alert("No recordings are selected.");
+	}
 }
 
 function stop(){
 	s_group.stop();
-	s_group = [];
+	s_group = null;
+	deSelectAll();
 	loaded = 0;
 }
 

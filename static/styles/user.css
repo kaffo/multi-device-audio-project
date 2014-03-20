@@ -140,6 +140,10 @@ audio {
 	z-index:50;
 }
 
+.gallery{
+	margin:0px 40px 0px 40px;
+}
+
 .enlarge{
 position: relative;
 z-index: 0;
