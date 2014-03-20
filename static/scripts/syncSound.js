@@ -143,7 +143,7 @@ function load_data(sync){
 	
 	for(var i=0;i<sync.length;i++){
 		s = new Date(sync[i].fields.start_time);
-		s_obj = new buzz.sound("../../" + sync[i].fields.file_name);
+		s_obj = new buzz.sound("../../" + sync[i].fields.rec_file + "/" + sync[i].fields.file_name + ".ogg");
 		sync_group.push(s_obj);
 		
 		//use start time difference to calibrate synchronisation
@@ -190,7 +190,7 @@ function synchronise(id, user){
 			curr_rec = data;
 			curr_start = new Date(curr_rec[0].fields.start_time);
 			curr_end= new Date(curr_rec[0].fields.end_time);
-			curr_s_obj = new buzz.sound("../../" + curr_rec[0].fields.file_name);
+			curr_s_obj = new buzz.sound("../../static/data/" + curr_rec[0].fields.rec_file);
 		});
 		
 	var request = "";
@@ -280,7 +280,7 @@ function syncArray(IDs){
 				curr_rec = arrInfo[arrInfo.length-1];
 				curr_start = new Date(curr_rec.fields.start_time);
 				curr_end= new Date(curr_rec.fields.end_time);
-				curr_s_obj = new buzz.sound("../../" + curr_rec.fields.file_name);
+				curr_s_obj = new buzz.sound("../../" + curr_rec.fields.rec_file + "/" + curr_rec.fields.file_name + ".ogg");
 				
 
 				toSync = process_data(arrInfo);

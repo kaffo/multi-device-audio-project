@@ -139,12 +139,12 @@ def export(username):
 	
 	
 		image = '/static/images/tl.jpg'
-		images = Image.objects.filter(recording_assoc = recording.file_ID)
+		#images = Image.objects.filter(recording_assoc = recording.file_ID)
 		
 		
 		
-		if(images):
-			image = recording.file_name + '_1'
+		#if(images):
+			#image = recording.file_name + '_1'
 
 		rec_data = {
 			"startDate":recording.start_time.strftime("%Y,%m,%d %H,%M"),
