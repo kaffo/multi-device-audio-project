@@ -109,6 +109,7 @@ def submit_success(request):
     context_dict = {'boldmessage': "I am from context"}
     return render_to_response('webapp/submitsuccess.html', context_dict, context)
 
+@csrf_exempt
 def upload(request):
     context = RequestContext(request)
     if request.method == 'GET':
