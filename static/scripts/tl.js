@@ -179,7 +179,7 @@ function getImages(c_id, c_file){
 
 			for(var i = 0; i < data.length; i++) {
 			
-				imagePath = "../../" + c_file + "/" + data[i].fields.file_name;
+				imagePath = "../../" + data[i].fields.file_name;
 				
 				Rdata += "<a class='enlarge' href='../" + imagePath + "' target='_blank'><img class='userImage' src='../" + imagePath + "' alt='image'><span align='center'><img width='200' height='200' src='../" + imagePath + "' /></span></a>";
 			
