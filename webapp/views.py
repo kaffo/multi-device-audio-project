@@ -11,6 +11,7 @@ from .process_data import process
 from webapp.models import Recording, Location, UserAcc, Image
 from process_data import export
 from process_data import simplifiedConvert
+from django.views.decorators.csrf import csrf_exempt
 import os
 
 def getRecording(lat1, lon1, lat2, lon2):
