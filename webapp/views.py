@@ -117,13 +117,11 @@ def upload(request):
     if request.method == 'POST':
         print("Recieved POST request")
 
-        upload_form = UploadFileForm(data=request.POST)
+        upload_form = UploadFileForm(request.POST, request.FILES)
         print upload_form
         #Checking validity of form and if files are there.
         if upload_form.is_valid():
             print("Upload form is valid")
-
-            upload = upload_form.save(commit=False)
 
             if 'aac_file' in request.FILES:
               print("Audio file detected in POST. Adding to upload_form")
