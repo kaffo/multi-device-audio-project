@@ -116,34 +116,80 @@ function display(){
 function text(recs){
 
 	var Rdata="";
+	var IDs = [];
 	
 	var c_rec, c_id, c_name, c_desc, c_file;
 	
-	for(var i=0;i<recs.length;i++){
-		c_rec = recs[i];
-		c_id = c_rec.pk;
-		c_name = c_rec.fields.file_name;
-		c_desc = c_rec.fields.description;
-		c_file = c_rec.fields.rec_file;
+	if(recs.length>0){
+	
+		var imagePath = "";
+	
+		for(var i=0;i<recs.length;i++){
+			c_rec = recs[i];
+			c_id = c_rec.pk;
+			c_name = c_rec.fields.file_name;
+			c_desc = c_rec.fields.description;
+			c_file = c_rec.fields.rec_file;
+			
+			IDs.push([c_id, c_file]);
+
+			//recording id checkbox
+			Rdata += "<div class='Uinfo'><input type='checkbox' name='rec' id='" + c_id + "' onclick='selectRec();'/>";
+			//single recording playback
+			Rdata += "<div class='comp'><audio controls src='../../" + c_file + "/" + c_name + ".ogg" + "'>Your user agent does not support the HTML5 Audio element.</audio><br><br>";
+			//download button
+			Rdata += "<form target='_blank' action='../../" + c_file + "/" + c_name + ".ogg" + "'><input type='submit' value='Download' class='blue button'></form></div>";
+			//Rdata += "<div style='float:left;'><button class='blue button' onclick='this.firstChild.play()'><audio src='../../static/data/" + c_file + "'></audio>Play</button>";
+			//recording metadata - id, name, description
+			Rdata += "<p><b>ID:</b> " + c_id + "<br><b>Recording:</b> " + c_name + "<br>";
+			Rdata += "<a href='#" + (i+1) + "' title='View on timeline'>View on timeline</a><br><b>Description:</b><br>"  + c_desc + "</p>";
+			
+			
+			Rdata += "<div id='" + c_id +"img'></div>";
+			
+			Rdata += "</div>";
+		}
 		
-		//recording id checkbox
-		Rdata += "<div class='Uinfo'><input type='checkbox' name='rec' id='" + c_id + "' onclick='selectRec();'/>";
-		//single recording playback
-		Rdata += "<div class='comp'><audio controls src='../../" + c_file + "/" + c_name + ".ogg" + "'>Your user agent does not support the HTML5 Audio element.</audio><br><br>";
-		//download button
-		Rdata += "<form target='_blank' action='../../" + c_file + "/" + c_name + ".ogg" + "'><input type='submit' value='Download' class='blue button'></form></div>";
-		//Rdata += "<div style='float:left;'><button class='blue button' onclick='this.firstChild.play()'><audio src='../../static/data/" + c_file + "'></audio>Play</button>";
-		//recording metadata - id, name, description
-		Rdata += "<p><b>ID:</b> " + c_id + "<br><b>Recording:</b> " + c_name + "<br>";
-		Rdata += "<a href='#" + (i+1) + "' title='View on timeline'>View on timeline</a><br><b>Description:</b><br>"  + c_desc + "</p>";
-		
-		Rdata += "</div>";
+	}
+	
+	else{
+	
+		Rdata += "<div class='Uinfo'><b>You currently don't have any uploaded recordings. Please switch to all recordings in order to browse through other people's uploads.</b></div>";
 	}
 	
 	//populate the div with id uRecs with the relevant html code
 	document.getElementById("uRecs").innerHTML=Rdata;
 	
+	//load images as secondary elements;
+	for(var k=0;k<IDs.length;k++){
+		getImages(IDs[k][0], IDs[k][1]);
+	}
+	
 }
+
+
+function getImages(c_id, c_file){
+
+	var Rdata = "";
+	var imagePath = "";
+	
+	$.getJSON("/webapp/getImagesByID:" + c_id,
+
+		function(data) {
+
+			for(var i = 0; i < data.length; i++) {
+			
+				imagePath = "../../" + c_file + "/" + data[i].fields.file_name;
+				
+				Rdata += "<a class='enlarge' href='../" + imagePath + "' target='_blank'><img class='userImage' src='../" + imagePath + "' alt='image'><span align='center'><img width='200' height='200' src='../" + imagePath + "' /></span></a>";
+			
+			}
+			
+			document.getElementById(c_id + "img").innerHTML=Rdata;
+			
+	});
+}
+
 
 function syncSide(selected){
 	syncArray(selected);

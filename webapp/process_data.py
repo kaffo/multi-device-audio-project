@@ -135,13 +135,13 @@ def export(username):
 			"startDate":recording.start_time.strftime("%Y,%m,%d %H,%M"),
 			"endDate":recording.end_time.strftime("%Y,%m,%d %H,%M"),
 			"headline":recording.file_name,
-			"text":"<p>Duration: "
+			"text":"<p><b>Duration:</b> "
 				+ str(recording.end_time - recording.start_time)
 				+ "<br>"
-				+ "Event: "
-				+ str(recording.event_assoc)
-				+ "<br>"
-				+ "Description: "
+				#+ "<b>Event:</b> "
+				#+ str(recording.event_assoc)
+				#+ "<br>"
+				+ "<b>Description:</b> "
 				+ recording.description
 				+ "</p>", #HTML + IMG rec. description
 			"asset": {
