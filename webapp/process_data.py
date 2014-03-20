@@ -144,7 +144,7 @@ def export(username):
 		
 		if(images):
 		
-			image = images.get(file_ID = '1')
+			image = images.get(pk = 1)
 			image = recording.rec_file.url + '/' + image.file_name
 			image = image.replace('media/', '')
 	
