@@ -4,8 +4,8 @@
 /* styles for boxes */ 
 #control_box {
 	position:fixed; 
-	height:360px; 
-	width:360px; 
+	height:370px; 
+	width:370px; 
 	left:160px; 
 	background-color:#232424; 
 	border-radius:12px; 
