@@ -1,7 +1,5 @@
 from webapp.models import UserProfile
 from django.contrib.auth.models import User
-from django import forms
-
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
@@ -15,8 +13,3 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserAcc
         fields = ('website', 'avatar')
-
-class UploadFileForm(forms.Form):
-    aac_file = forms.FileField() #audiofile
-    json_file = forms.FileField() #metadata
-    images_file = forms.FileField() #images folder

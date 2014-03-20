@@ -11,35 +11,35 @@ import subprocess as sp
 
 import os, tarfile
 
-# This method is called by the upload method in views.py
+
 def process(json_file, aac_file, image_file, data, user):
 
-	# Checks the extension is correct for the audio and metadata
 	json_extn = json_file.name.split('.')[-1]
 	aac_extn = aac_file.name.split('.')[-1]
 	if (json_extn != "json"):
 		return HttpResponse("<h1>Please upload an json file!</h1>")
 	if (aac_extn != "aac"):
 		return HttpResponse("<h1>Please upload an aac file!</h1>")
-
-	# Loads the json into the var data
 	data = json.load(json_file)
 
-	# This ensures a filename doesn't cause errors by replacing spaces
-	# with "-" and removing special characters also removes trailing spaces
+	
+
 	special_chars = ["!\"$%^&*()-_=+[];'#,./{}:@~<>/?\\|`"]
 	temp_file_name = str(data[0]["title"])
+
 	for c in special_chars:
 		if c in temp_file_name:
 			temp_file_name = temp_file_name.replace(c, "")
+	
 	temp_file_name = temp_file_name.replace(" ", "-")
 	while temp_file_name.endswith("-"):
 		temp_file_name = temp_file_name[:-1]
+
 	temp_file_name = temp_file_name.lower()
+
 	fn = temp_file_name
 	fn = slugify(fn)
 
-	# This is the recording object that will get stored in the db
 	rec = Recording(
 		file_name = temp_file_name,
 		description = str(data[0]["description"]),
@@ -52,8 +52,7 @@ def process(json_file, aac_file, image_file, data, user):
 		)
 	rec.save()
 
-	# Creates any folders necessary if it does not exist in the file structure
-	# The file structure is explained on the github issue
+	# Creates any folders necessary if it does not exist in the File Tree 
 	date = str(datetime.date.today())
 	path = date.replace("-", "/")
 	path = "static/data/" + path + "/" + str(rec.pk)
@@ -65,12 +64,11 @@ def process(json_file, aac_file, image_file, data, user):
 			os.mkdir(tempPath)
 		tempPath = tempPath + "/"
 	
-	# Saves the file path in the database
+
 	rec.rec_file = path 
 	rec.save()
 
-	# Creates a new entry in the database for each location, and uses the rec object
-	# as the foreign key
+	
 	for i in range(1, len(data[1])):
 		loc = Location(
 			recording_assoc = rec,
@@ -82,31 +80,25 @@ def process(json_file, aac_file, image_file, data, user):
 			)
 		loc.save()
 	
-	# If the user is logged in ties the recording to the user
+
 	if user.is_authenticated():
 		useracc = UserAcc.objects.filter(user__exact=user)[0]
 		useracc.recs.add(rec)
 	
-	# Saves the aac file on the server, before it gets converted
+	
 	aacPath = path + "/" + fn + ".aac"
 	with open(aacPath, 'wb+') as destination:
 		for chunk in aac_file.chunks():
 			destination.write(chunk)
-
-	# This function call converts the file from .aac to .ogg
-	# below the new file name with an ogg extension is saved to the database
+	#this function call converts the file from .aac to .ogg
+	#below the new file name with an ogg extension is saved to the database
 	simplifiedConvert(aacPath)
 
-	# Saves the tar.gz on the server before unpacking
 	imagePath = path + "/" + image_file.name
 	with open(imagePath, 'wb+') as destination:
 		for chunk in image_file.chunks():
 			destination.write(chunk)
-	
-	# extract() unpacks the tar.gz and returns the the number of images unpacked
 	number_of_pictures = extract(imagePath, rec.file_name)
-
-	# The path of each images is then saved in the database with the rec as a foreign key 
 	for i in range(1, number_of_pictures):
 		img = Image(
 		recording_assoc = rec,
@@ -114,7 +106,6 @@ def process(json_file, aac_file, image_file, data, user):
 		)
 		img.save()
 
-	# If it has go this far then success is presumed and submitsuccess page is loaded
 	return HttpResponseRedirect('/webapp/submitsuccess')
 
 
@@ -254,7 +245,6 @@ def convertOGG(fileName):
 
 	audio.astype("int16").tofile(self.proc.stdin)
 
-# this function extracts all the images from the .tar.gz file  
 def extract(tar_url, file_name):
 	item_number = 1
 	tar = tarfile.open(tar_url, 'r')
