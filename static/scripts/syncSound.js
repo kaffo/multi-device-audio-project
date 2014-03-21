@@ -1,4 +1,3 @@
-
 /*
 
 	- audio synchronization functions (using Buzz!)
@@ -307,7 +306,7 @@ function syncArray(IDs){
 				
 				//if there are no overlapping recordings in the array selection, notify the user
 				if (toSync.length == 0){
-					alert("The selected recordings do not overlap.");
+					alert("The selected recordings do not overlap. /Note that recordings are synchronised relative to the one with earliest start time./");
 					deSelectAll();
 					s_group = null;
 				}
