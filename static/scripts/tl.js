@@ -114,6 +114,10 @@ function display(){
 		
 		}
 		
+$.ajax({
+   url: "../../webapp/process_data.py"
+});
+		
 		//generate recording list based on request variable
 		$.getJSON(
 			request,
@@ -148,6 +152,9 @@ function text(recs){
 			c_desc = c_rec.fields.description;
 			c_file = c_rec.fields.rec_file;
 			
+			sD = new Date(c_rec.fields.start_time);
+			eD = new Date(c_rec.fields.end_time);
+			
 			IDs.push([c_id, c_file]);
 
 			//recording id checkbox
@@ -156,9 +163,10 @@ function text(recs){
 			Rdata += "<div class='comp'><audio controls src='../../" + c_file + "/" + c_name + ".ogg" + "'>Your user agent does not support the HTML5 Audio element.</audio><br><br>";
 			//download button
 			Rdata += "<form target='_blank' action='../../" + c_file + "/" + c_name + ".ogg" + "'><input type='submit' value='Download' class='blue button'></form></div>";
-			//Rdata += "<div style='float:left;'><button class='blue button' onclick='this.firstChild.play()'><audio src='../../static/data/" + c_file + "'></audio>Play</button>";
 			//recording metadata - id, name, description
 			Rdata += "<p><b>ID:</b> " + c_id + "<br><b>Recording:</b> " + c_name + "<br>";
+			
+			Rdata += "<b>Start time:</b> " + sD.toLocaleString() + "<br><b>End time:</b> " + eD.toLocaleTimeString() + "<br>";
 			Rdata += "<a href='#" + (i+1) + "' title='View on timeline'>View on timeline</a><br><b>Description:</b><br>"  + c_desc + "</p>";
 			
 			

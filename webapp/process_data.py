@@ -157,10 +157,14 @@ def export(username):
 			image = '/' + image.file_name
 	
 		rec_data = {
-			"startDate":recording.start_time.strftime("%Y,%m,%d %H,%M"),
-			"endDate":recording.end_time.strftime("%Y,%m,%d %H,%M"),
+			"startDate":recording.start_time.strftime("%Y,%m,%d,%H,%M,%S"),
+			"endDate":recording.end_time.strftime("%Y,%m,%d,%H,%M,%S"),
 			"headline":recording.file_name,
-			"text":"<p><b>Duration:</b> "
+			"text":"<p>"
+				+ "<b>Uploaded by:</b> "
+				+ str(username)
+				+ "<br>"
+				+ "<b>Duration:</b> "
 				+ str(recording.end_time - recording.start_time)
 				+ "<br>"
 				#+ "<b>Event:</b> "
@@ -266,3 +270,17 @@ def extract(tar_url, file_name):
 		os.rename(tarPath + "/" + item.name, tarPath + "/" + file_name + "_" + str(item_number) + ".jpg")
 		item_number = item_number + 1
 	return item_number
+	
+all = 0
+	
+def main():
+	#export all recordings
+	if(all == 0):
+		export('all')
+		all = 1
+	elif(all == 1):
+		export(request.user)
+		all = 0
+	
+
+if __name__ == "__main__": main()
